@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.databinding.FragmentLoginBinding
 import com.firebase.ui.auth.AuthMethodPickerLayout
@@ -58,6 +59,7 @@ class LoginFragment : Fragment() {
         if (requestCode == SIGN_IN_REQUEST_CODE) {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
+                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
 // User successfully signed in.
             } else {
 // Sign in failed. If response is null, the user canceled the sign-in flow using the back button. Otherwise, check the error code and handle the error.
