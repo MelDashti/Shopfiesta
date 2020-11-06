@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.ecommerceapp.R
 import com.example.ecommerceapp.adapters.ProductAdapter
 import com.example.ecommerceapp.databinding.FragmentHomeBinding
 import com.example.ecommerceapp.network.Product

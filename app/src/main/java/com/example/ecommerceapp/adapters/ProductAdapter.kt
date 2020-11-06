@@ -1,7 +1,6 @@
 package com.example.ecommerceapp.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -22,7 +21,6 @@ public class ProductAdapter() : ListAdapter<Product, ProductViewHolder>(ProductD
     }
 
 }
-
 
 class ProductDiffUtilCallback : DiffUtil.ItemCallback<Product>() {
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
