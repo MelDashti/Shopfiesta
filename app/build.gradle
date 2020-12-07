@@ -7,6 +7,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'dagger.hilt.android.plugin'
+
 android.buildFeatures.dataBinding = true
 android {
     compileSdkVersion 30
@@ -39,6 +41,13 @@ android {
 }
 
 dependencies {
+
+    //hilt
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02")
+    kapt("androidx.hilt:hilt-compiler:1.0.0-alpha02")
+
 
     //firebase
     implementation platform('com.google.firebase:firebase-bom:25.12.0')
@@ -105,6 +114,9 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference-ktx:1.1.1'
     kapt "androidx.room:room-compiler:2.2.5"
+
+
+
 
 
 }

@@ -7,7 +7,7 @@
 
         <variable
             name="product"
-            type="com.example.ecommerceapp.network.Product" />
+            type="com.example.ecommerceapp.network.EcomProduct" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

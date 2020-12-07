@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerceapp.databinding.CategoryListBinding
-import com.example.ecommerceapp.network.Product
+import com.example.ecommerceapp.network.EcomProduct
 
 
-public class ProductAdapter() : ListAdapter<Product, ProductViewHolder>(ProductDiffUtilCallback()) {
+public class ProductAdapter() :
+    ListAdapter<EcomProduct, ProductViewHolder>(ProductDiffUtilCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         return ProductViewHolder.from(parent)
     }
@@ -22,20 +23,21 @@ public class ProductAdapter() : ListAdapter<Product, ProductViewHolder>(ProductD
 
 }
 
-class ProductDiffUtilCallback : DiffUtil.ItemCallback<Product>() {
-    override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+class ProductDiffUtilCallback : DiffUtil.ItemCallback<EcomProduct>() {
+    override fun areItemsTheSame(oldItem: EcomProduct, newItem: EcomProduct): Boolean {
         return oldItem === newItem
     }
 
-    override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+    override fun areContentsTheSame(oldItem: EcomProduct, newItem: EcomProduct): Boolean {
         return oldItem == newItem
     }
 }
 
 
 class ProductViewHolder(val bind: CategoryListBinding) : RecyclerView.ViewHolder(bind.root) {
-    fun bind(product: Product) {
+    fun bind(product: EcomProduct) {
         bind.product = product
+        bind.textView3.text = product.name
     }
 
 
