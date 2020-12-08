@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.ecommerceapp.adapters.ProductAdapter
 import com.example.ecommerceapp.databinding.FragmentHomeBinding
-import com.example.ecommerceapp.network.EcomProduct
 import dagger.hilt.android.AndroidEntryPoint
 
 
