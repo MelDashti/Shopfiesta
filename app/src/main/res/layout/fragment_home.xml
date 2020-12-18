@@ -4,29 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.example.ecommerceapp.home.HomeViewModel" />
     </data>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/primaryColor">
 
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_constraintTop_toTopOf="parent" />
+        <include
+            android:id="@+id/toolbarRef"
+            layout="@layout/layout_with_toolbar" />
 
         <androidx.core.widget.NestedScrollView
-            android:layout_width="409dp"
-            android:layout_height="753dp"
+            android:id="@+id/nestedScrollView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:layout_marginBottom="16dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout2"
-            tools:context=".ui.home.HomeFragment">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".home.HomeFragment">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="28dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginBottom="28dp"
                     android:text="Categories"
                     android:textColor="@color/primaryTextColor"
@@ -47,8 +51,8 @@
                     android:id="@+id/category_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:orientation="horizontal"
-                    android:padding="8dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/category_list" />
 
@@ -56,8 +60,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="28dp"
-                    android:layout_marginBottom="28dp"
+                    android:layout_marginTop="34dp"
+                    android:layout_marginBottom="20dp"
                     android:text="Popular"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="24sp" />
@@ -66,10 +70,10 @@
                     android:id="@+id/popular_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:orientation="horizontal"
-                    android:padding="8dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/category_list">
+                    tools:listitem="@layout/product_list">
 
                 </androidx.recyclerview.widget.RecyclerView>
 
@@ -78,8 +82,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="28dp"
-                    android:layout_marginBottom="28dp"
+                    android:layout_marginTop="34dp"
+                    android:layout_marginBottom="20dp"
                     android:text="Recently Viewed"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="24sp" />
@@ -88,10 +92,11 @@
                     android:id="@+id/recently_viewed_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="28dp"
                     android:orientation="horizontal"
-                    android:padding="8dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/category_list" />
+                    tools:listitem="@layout/product_list" />
 
 
             </LinearLayout>
@@ -99,11 +104,12 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView2"
-            android:layout_width="match_parent"
+            android:layout_width="411dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:menu="@menu/bottom_navigation_menu"
-            tools:layout_editor_absoluteX="-45dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_navigation_menu" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

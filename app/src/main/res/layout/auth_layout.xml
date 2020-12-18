@@ -37,7 +37,7 @@
         android:layout_marginEnd="8dp"
         android:padding="8dp"
         android:src="@drawable/ic_drawable"
-        app:layout_constraintBottom_toTopOf="@+id/email_button"
+        app:layout_constraintBottom_toTopOf="@+id/favorite_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,13 +47,13 @@
     </ImageView>
 
     <ImageButton
-        android:id="@+id/email_button"
+        android:id="@+id/favorite_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="32dp"
         android:background="@drawable/ic_group_12"
-        app:layout_constraintBottom_toTopOf="@+id/google_button"
+        app:layout_constraintBottom_toTopOf="@+id/add_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +63,7 @@
     </ImageButton>
 
     <ImageButton
-        android:id="@+id/google_button"
+        android:id="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -73,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_button">
+        app:layout_constraintTop_toBottomOf="@+id/favorite_button">
 
     </ImageButton>
 
@@ -89,7 +89,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/google_button"
+        app:layout_constraintTop_toBottomOf="@+id/add_button"
         app:layout_constraintVertical_bias="0.0">
 
     </Button>

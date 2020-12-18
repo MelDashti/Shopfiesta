@@ -15,4 +15,9 @@
     </style>
 
 
+    <style name="Toolbar" parent="ThemeOverlay.AppCompat.Light">
+        <item name="background">@color/primaryColor</item>
+    </style>
+    
+    
 </resources>

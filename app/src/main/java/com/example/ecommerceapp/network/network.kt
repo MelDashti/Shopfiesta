@@ -1,6 +1,7 @@
 package com.example.ecommerceapp.network
 
 import com.example.ecommerceapp.database.DatabaseProduct
+import com.example.ecommerceapp.util.BASE_URL
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Json
 import com.squareup.moshi.Moshi
@@ -9,7 +10,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 
-private const val BASE_URL = "https://my-json-server.typicode.com/meldashti/ecom-products-api/"
 private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 private val retrofit =
     Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi))

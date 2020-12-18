@@ -1,15 +1,18 @@
 package com.example.ecommerceapp.domain
 
-import com.squareup.moshi.Json
+import androidx.room.PrimaryKey
 
-class Models {
+data class Product(
+    val imgSrcUrl: String = "",
+    val id: String = "",
+    val price: Double = 0.0,
+    val name: String = "",
+    val category: String = ""
+)
 
-    data class Products(
-        val imgSrcUrl: String,
-        val id: String,
-        val price: Double,
-        val name: String,
-        val category: String
-    )
-
-}
+data class Category(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
+    val name: String,
+    val drawable: Int
+)

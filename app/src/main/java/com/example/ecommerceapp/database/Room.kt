@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.Room.databaseBuilder
-import com.example.ecommerceapp.domain.Models
+import com.example.ecommerceapp.domain.Product
 
 @Entity(tableName = "product_table")
 data class DatabaseProduct constructor(
@@ -18,6 +18,10 @@ data class DatabaseProduct constructor(
 
 @Dao
 interface ProductDao {
+
+    @Query("select  * from product_table where id = :productId")
+    fun getSpecificProduct(productId: String): DatabaseProduct
+
     @Query("select * from product_table")
     fun getProducts(): LiveData<List<DatabaseProduct>>
 
@@ -54,9 +58,9 @@ abstract class ProductDatabase : RoomDatabase() {
 }
 
 // here we create an extension function to convert database object to domain object. Domain object is used to update or change the ui.
-fun List<DatabaseProduct>.asDomainModel(): List<Models.Products> {
+fun List<DatabaseProduct>.asDomainModel(): List<Product> {
     return map {
-        Models.Products(
+        Product(
             id = it.id,
             imgSrcUrl = it.imgSrcUrl,
             price = it.price,
@@ -65,3 +69,14 @@ fun List<DatabaseProduct>.asDomainModel(): List<Models.Products> {
         )
     }
 }
+
+fun DatabaseProduct.asDomainModel() = Product(
+    imgSrcUrl = imgSrcUrl,
+    id = id,
+    price = price,
+    name = name,
+    category = category
+)
+
+
+
