@@ -62,7 +62,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView">
 
 
-
         <ImageButton
             android:id="@+id/favorite_button"
             android:layout_width="wrap_content"
@@ -74,7 +73,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_button"></ImageButton>
+            app:layout_constraintTop_toBottomOf="@+id/add_button" />
 
         <ImageButton
             android:id="@+id/add_button"
