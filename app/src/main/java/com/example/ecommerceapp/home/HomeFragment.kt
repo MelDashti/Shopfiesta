@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.databinding.FragmentHomeBinding
 import com.example.ecommerceapp.domain.Category
+import com.example.ecommerceapp.domain.Group
 import com.example.ecommerceapp.util.FilterType
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -31,8 +31,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val bind = FragmentHomeBinding.inflate(inflater)
-
-
         //popular list recycler view initialization
         val popularListAdapter = ProductAdapter(ProductListener {
             findNavController().navigate(
@@ -52,42 +50,52 @@ class HomeFragment : Fragment() {
         val categoryListAdapter = CategoryItemAdapter(CategoryListener {
             findNavController().navigate(R.id.action_homeFragment_to_itemFragment)
         })
+
         categoryListAdapter.data =
             listOf(
                 Category(name = "Phones", drawable = R.drawable.ic_phones),
                 Category(name = "Phones", drawable = R.drawable.ic_laptops),
                 Category(name = "Accessories", drawable = R.drawable.ic_accessories)
             )
+        bind.lifecycleOwner = this
 
-        bind.setLifecycleOwner(this)
-
+        //instead of this tiresome process this can be done directly in the xml file using binding adapters
         viewModel.listResult.observe(viewLifecycleOwner, Observer {
             popularListAdapter.submitList(viewModel.applyFiltering(FilterType.POPULAR))
             recentlyViewedAdapter.submitList(viewModel.applyFiltering(FilterType.RECENTLY_VIEWED))
         })
 
-        bind.categoryRecyclerView.adapter = categoryListAdapter
-        bind.popularRecyclerView.adapter = popularListAdapter
-        bind.recentlyViewedRecyclerView.adapter = recentlyViewedAdapter
+        val groupAdapter =
+            GroupAdapter(popularListAdapter,recentlyViewedAdapter,categoryListAdapter)
+
+
+        groupAdapter.submitList(
+            listOf(
+                Group(title = "Category"), Group(title = "Recently Viewed"),
+                Group(title = "Popular"),
+                Group(title = "Trending"),
+                Group(title = "Great")
+            )
+        )
+
+        bind.groupRecyclerView.adapter = groupAdapter
 
         val dividerItemDecoration = DividerItemDecoration(
             context,
-            DividerItemDecoration.HORIZONTAL
+            DividerItemDecoration.VERTICAL
         )
         dividerItemDecoration.setDrawable(
-            ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.divider
-            )!!
+            ContextCompat.getDrawable(requireContext(), R.drawable.divider)!!
         )
 
-        bind.categoryRecyclerView.addItemDecoration(dividerItemDecoration)
-        bind.recentlyViewedRecyclerView.addItemDecoration(dividerItemDecoration)
-        bind.popularRecyclerView.addItemDecoration(dividerItemDecoration)
+        bind.groupRecyclerView.addItemDecoration(dividerItemDecoration)
 
         (activity as AppCompatActivity).setSupportActionBar(bind.toolbarRef.toolbar)
-
         return bind.root
     }
+
+    fun initializeGroupList() {
+    }
+
 
 }

@@ -4,8 +4,7 @@
   <color name="primaryLightColor">#ffffff</color>
   <color name="primaryDarkColor">#bdbec0</color>
   <color name="secondaryColor">#394867</color>
-  <color name="secondaryLightColor">#657395</color>
-  <color name="secondaryDarkColor">#0d213c</color>
+    <color name="secondaryDarkColor">#0d213c</color>
   <color name="primaryTextColor">#000000</color>
   <color name="secondaryTextColor">#ffffff</color>
 </resources>

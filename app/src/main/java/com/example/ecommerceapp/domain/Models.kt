@@ -16,3 +16,14 @@ data class Category(
     val name: String,
     val drawable: Int
 )
+
+data class Group(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
+    val title: String,
+//    val productList: List<Product>,
+//    val categoryList: List<Category>
+)
+
+
+

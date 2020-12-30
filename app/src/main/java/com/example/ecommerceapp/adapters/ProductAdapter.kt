@@ -13,7 +13,6 @@ class ProductAdapter(val clickListener: ProductListener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         return ProductViewHolder.from(parent)
     }
-
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         holder.bind(getItem(position), clickListener)
     }
@@ -36,7 +35,6 @@ class ProductViewHolder(val bind: ProductListBinding) : RecyclerView.ViewHolder(
         bind.textView3.text = product.name
     }
 
-
     companion object {
         fun from(parent: ViewGroup): ProductViewHolder {
             val inflater = LayoutInflater.from(parent.context)
@@ -49,6 +47,3 @@ class ProductViewHolder(val bind: ProductListBinding) : RecyclerView.ViewHolder(
 class ProductListener(val ClickListener: (productId: String) -> Unit) {
     fun onClick(product: Product) = ClickListener(product.id)
 }
-
-
-

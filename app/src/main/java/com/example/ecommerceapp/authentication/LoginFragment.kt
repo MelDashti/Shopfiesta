@@ -53,7 +53,7 @@ class LoginFragment : Fragment() {
                 .build(),
             SIGN_IN_REQUEST_CODE
         )
-
+5
     }
 
     private fun observeAuthenticatoinState() {

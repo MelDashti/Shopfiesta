@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/showHome"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="Home" />
 
     <item
-        android:id="@+id/showCart"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
         android:title="Shopping Cart" />
 
     <item
-        android:id="@+id/showFavorite"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_favorite_24"
         android:title="Favorite" />

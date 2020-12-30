@@ -1,5 +1,4 @@
 package com.example.ecommerceapp.repository
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.ecommerceapp.database.ProductDao
@@ -11,33 +10,24 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-
 class Repository @Inject constructor(private val productDao: ProductDao) {
 
     //ProductDatabase returns a live data so that our database is up to date. Now when we fetch this live data from room database
     // we wanna convert it to domain objects. Now we could have directly used asDomainObject extension function on a list of database products
     // but because it is contained in a live data object we can't.By using transformation maps we convert the DatabaseProduct Live data into Domain Model Live data.
 
-    val product: LiveData<List<Product>> = Transformations.map(productDao.getProducts()) {
-        it.asDomainModel()
-    }
+    val product: LiveData<List<Product>> = Transformations.map(productDao.getProducts()) { it.asDomainModel() }
 
     fun getSpecificProduct() {
-
     }
 
     //this will be the api used to refresh the offline cache
     suspend fun refreshProducts() {
         withContext(Dispatchers.IO) {
             val products = EcomApi.retrofitService.getProperties()
-            productDao.insertProducts(products.asDatabaseModel())
-        }
-    }
+            productDao.insertProducts(products.asDatabaseModel())}}
 
     suspend fun getSpecificProduct(productId: String): Product {
         return withContext(Dispatchers.IO)
         {
-            productDao.getSpecificProduct(productId).asDomainModel()
-        }
-    }
-}
+            productDao.getSpecificProduct(productId).asDomainModel()}}}
