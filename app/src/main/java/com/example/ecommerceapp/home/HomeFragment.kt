@@ -1,9 +1,7 @@
 package com.example.ecommerceapp.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -66,7 +64,7 @@ class HomeFragment : Fragment() {
         })
 
         val groupAdapter =
-            GroupAdapter(popularListAdapter,recentlyViewedAdapter,categoryListAdapter)
+            GroupAdapter(popularListAdapter, recentlyViewedAdapter, categoryListAdapter)
 
 
         groupAdapter.submitList(
@@ -90,8 +88,18 @@ class HomeFragment : Fragment() {
 
         bind.groupRecyclerView.addItemDecoration(dividerItemDecoration)
 
+        // set your custom toolbar as support action bar
         (activity as AppCompatActivity).setSupportActionBar(bind.toolbarRef.toolbar)
+        // show overflow menu
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
+        setHasOptionsMenu(true)
+
         return bind.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.overflow_menu, menu)
     }
 
     fun initializeGroupList() {
