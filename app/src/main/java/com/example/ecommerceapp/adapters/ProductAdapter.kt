@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ecommerceapp.databinding.ProductListBinding
+import com.example.ecommerceapp.databinding.ProductListItemBinding
 import com.example.ecommerceapp.domain.Product
 
 class ProductAdapter(val clickListener: ProductListener) :
@@ -28,7 +28,7 @@ class ProductDiffUtilCallback : DiffUtil.ItemCallback<Product>() {
     }
 }
 
-class ProductViewHolder(val bind: ProductListBinding) : RecyclerView.ViewHolder(bind.root) {
+class ProductViewHolder(val bind: ProductListItemBinding) : RecyclerView.ViewHolder(bind.root) {
     fun bind(product: Product, clickListener: ProductListener) {
         bind.clickListener = clickListener
         bind.product = product
@@ -38,11 +38,9 @@ class ProductViewHolder(val bind: ProductListBinding) : RecyclerView.ViewHolder(
     companion object {
         fun from(parent: ViewGroup): ProductViewHolder {
             val inflater = LayoutInflater.from(parent.context)
-            val binding = ProductListBinding.inflate(inflater, parent, false)
+            val binding = ProductListItemBinding.inflate(inflater, parent, false)
             return ProductViewHolder(binding)
-        }
-    }
-}
+        } } }
 
 class ProductListener(val ClickListener: (productId: String) -> Unit) {
     fun onClick(product: Product) = ClickListener(product.id)

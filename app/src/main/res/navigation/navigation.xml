@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_itemFragment"
             app:destination="@id/itemFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_productSearchFragment"
+            app:destination="@id/productSearchFragment" />
     </fragment>
     <fragment
         android:id="@+id/productInfoFragment"
@@ -36,4 +39,12 @@
         android:name="com.example.ecommerceapp.listview.ItemFragment"
         android:label="fragment_item_list"
         tools:layout="@layout/fragment_item_list" />
+    <fragment
+        android:id="@+id/productSearchFragment"
+        android:name="com.example.ecommerceapp.search.ProductSearchFragment"
+        android:label="ProductSearchFragment" >
+        <action
+            android:id="@+id/action_productSearchFragment_to_productInfoFragment"
+            app:destination="@id/productInfoFragment" />
+    </fragment>
 </navigation>

@@ -2,7 +2,7 @@ package com.example.ecommerceapp.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ecommerceapp.databinding.CategoryListBinding
+import com.example.ecommerceapp.databinding.CategoryListItemBinding
 import com.example.ecommerceapp.domain.Category
 
 class CategoryItemAdapter(val clickListener: CategoryListener) :
@@ -24,8 +24,7 @@ class CategoryItemAdapter(val clickListener: CategoryListener) :
     }
 }
 
-
-class CategoryViewHolder(val bind: CategoryListBinding) : RecyclerView.ViewHolder(bind.root) {
+class CategoryViewHolder(val bind: CategoryListItemBinding) : RecyclerView.ViewHolder(bind.root) {
     fun bind(category: Category, clickListener: CategoryListener) {
         bind.clickListener = clickListener
         bind.category = category
@@ -35,7 +34,7 @@ class CategoryViewHolder(val bind: CategoryListBinding) : RecyclerView.ViewHolde
     companion object {
         fun from(parent: ViewGroup): CategoryViewHolder {
             val inflater = LayoutInflater.from(parent.context)
-            val binding = CategoryListBinding.inflate(inflater, parent, false)
+            val binding = CategoryListItemBinding.inflate(inflater, parent, false)
             return CategoryViewHolder(binding)
         }
     }

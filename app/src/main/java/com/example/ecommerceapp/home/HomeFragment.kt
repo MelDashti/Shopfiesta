@@ -7,7 +7,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.databinding.FragmentHomeBinding
@@ -100,6 +102,14 @@ class HomeFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.overflow_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return NavigationUI.onNavDestinationSelected(
+            item,
+            requireView().findNavController())
+                || super.onOptionsItemSelected(item)
     }
 
     fun initializeGroupList() {

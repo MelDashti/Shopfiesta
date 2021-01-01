@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/search_button"
+        android:id="@+id/productSearchFragment"
         android:icon="@drawable/ic_search"
         android:title="Search"
-        app:showAsAction="always|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/notif_container_button"
         android:enabled="true"

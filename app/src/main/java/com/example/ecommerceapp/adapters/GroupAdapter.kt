@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerceapp.R
-import com.example.ecommerceapp.databinding.GroupItemBinding
+import com.example.ecommerceapp.databinding.GroupListItemBinding
 import com.example.ecommerceapp.domain.Group
 
 class GroupAdapter(
@@ -41,7 +41,7 @@ class GroupAdapter(
         }
     }
 
-    class GroupItemViewHolder(val bind: GroupItemBinding) : RecyclerView.ViewHolder(bind.root) {
+    class GroupItemViewHolder(val bind: GroupListItemBinding) : RecyclerView.ViewHolder(bind.root) {
         fun bind(
             group: Group,
             popularListAdapter: ProductAdapter,
@@ -69,7 +69,7 @@ class GroupAdapter(
         companion object {
             fun from(parent: ViewGroup): GroupItemViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
-                val binding = GroupItemBinding.inflate(inflater, parent, false)
+                val binding = GroupListItemBinding.inflate(inflater, parent, false)
                 return GroupItemViewHolder(binding)
             }
         }
