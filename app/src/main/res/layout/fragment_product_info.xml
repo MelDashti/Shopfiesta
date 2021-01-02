@@ -20,6 +20,7 @@
             android:layout_height="390dp">
 
             <ImageView
+                android:id="@+id/imageView4"
                 android:layout_width="267dp"
                 android:layout_height="311dp"
                 app:imageUrl="@{viewModel.product.imgSrcUrl}"
@@ -34,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
 
             <TextView
                 android:id="@+id/product_name"

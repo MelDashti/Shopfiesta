@@ -1,9 +1,12 @@
 package com.example.ecommerceapp.search
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -16,16 +19,17 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ProductSearchFragment : Fragment() {
     public val viewModel: ProductSearchViewModel by viewModels()
+    lateinit var binding: FragmentProductSearchBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val bind = FragmentProductSearchBinding.inflate(inflater)
+        binding = FragmentProductSearchBinding.inflate(inflater)
 
-        bind.viewModel = viewModel
-        bind.lifecycleOwner = this
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         val searchItemAdapter = SearchItemAdapter(SearchItemListener {
             findNavController().navigate(
@@ -35,14 +39,54 @@ class ProductSearchFragment : Fragment() {
             )
         })
 
-        bind.productList.adapter = searchItemAdapter
-        viewModel.searchList.observe(viewLifecycleOwner, Observer {
-            searchItemAdapter.submitList(it)
 
+        binding.productList.adapter = searchItemAdapter
+
+        viewModel.startSearch.observe(viewLifecycleOwner, Observer {
+            initializeSearch()
         })
 
+        viewModel.searchResultList.observe(viewLifecycleOwner, Observer {
+            searchItemAdapter.submitList(it)
+        })
 
-        return bind.root
+        return binding.root
     }
 
+
+    fun initializeSearch() {
+
+        val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = binding.searchView
+        searchView.queryHint = "Search for Products, Brands and More"
+        searching(searchView)
+    }
+
+    fun searching(search: SearchView) {
+        search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.searchNow(newText)
+                return false
+            }
+        }
+
+
+        )
+
+
+    }
+
+
 }
+
+
+
+
+
+
+
+

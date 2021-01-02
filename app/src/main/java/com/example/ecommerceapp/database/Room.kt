@@ -19,6 +19,9 @@ data class DatabaseProduct constructor(
 @Dao
 interface ProductDao {
 
+    @Query("select*from product_table where name like '%' || :value || '%' ")
+    fun getSearchResult(value: String?): LiveData<List<DatabaseProduct>>
+
     @Query("select  * from product_table where id = :productId")
     fun getSpecificProduct(productId: String): DatabaseProduct
 
