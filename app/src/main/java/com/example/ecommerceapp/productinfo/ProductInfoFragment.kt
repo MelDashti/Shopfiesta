@@ -10,10 +10,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProductInfoFragment : Fragment() {
-
     private val viewModel: ProductInfoViewModel by viewModels()
     lateinit var binding: FragmentProductInfoBinding
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {

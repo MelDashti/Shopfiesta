@@ -90,6 +90,10 @@ class HomeFragment : Fragment() {
 
         bind.groupRecyclerView.addItemDecoration(dividerItemDecoration)
 
+        viewModel.navigateToCart.observe(viewLifecycleOwner, Observer {
+            findNavController().navigate(R.id.action_homeFragment_to_cartFragment)
+        })
+
         // set your custom toolbar as support action bar
         (activity as AppCompatActivity).setSupportActionBar(bind.toolbarRef.toolbar)
         // show overflow menu
@@ -108,7 +112,8 @@ class HomeFragment : Fragment() {
 
         return NavigationUI.onNavDestinationSelected(
             item,
-            requireView().findNavController())
+            requireView().findNavController()
+        )
                 || super.onOptionsItemSelected(item)
     }
 

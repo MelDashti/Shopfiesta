@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_homeFragment_to_productSearchFragment"
             app:destination="@id/productSearchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
     </fragment>
     <fragment
         android:id="@+id/productInfoFragment"
@@ -45,6 +48,14 @@
         android:label="ProductSearchFragment" >
         <action
             android:id="@+id/action_productSearchFragment_to_productInfoFragment"
+            app:destination="@id/productInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.ecommerceapp.cart.CartFragment"
+        android:label="CartFragment" >
+        <action
+            android:id="@+id/action_cartFragment_to_productInfoFragment"
             app:destination="@id/productInfoFragment" />
     </fragment>
 </navigation>

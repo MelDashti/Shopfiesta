@@ -6,10 +6,17 @@ import androidx.room.*
 import androidx.room.Room.databaseBuilder
 import com.example.ecommerceapp.domain.Product
 
+@Entity(tableName = "user_table")
+data class User constructor(
+    @PrimaryKey
+    val userId: Double,
+    val cartItem: Double
+)
+
 @Entity(tableName = "product_table")
 data class DatabaseProduct constructor(
     @PrimaryKey
-    val id: String,
+    val productId: String,
     val imgSrcUrl: String,
     val price: Double,
     val name: String,
@@ -22,7 +29,7 @@ interface ProductDao {
     @Query("select*from product_table where name like '%' || :value || '%' ")
     fun getSearchResult(value: String?): LiveData<List<DatabaseProduct>>
 
-    @Query("select  * from product_table where id = :productId")
+    @Query("select  * from product_table where productId = :productId")
     fun getSpecificProduct(productId: String): DatabaseProduct
 
     @Query("select * from product_table")
@@ -39,7 +46,6 @@ abstract class ProductDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: ProductDatabase? = null
-
         fun getInstance(context: Context): ProductDatabase {
             synchronized(this) {
                 var instance = INSTANCE
@@ -64,7 +70,7 @@ abstract class ProductDatabase : RoomDatabase() {
 fun List<DatabaseProduct>.asDomainModel(): List<Product> {
     return map {
         Product(
-            id = it.id,
+            id = it.productId,
             imgSrcUrl = it.imgSrcUrl,
             price = it.price,
             name = it.name,
@@ -75,7 +81,7 @@ fun List<DatabaseProduct>.asDomainModel(): List<Product> {
 
 fun DatabaseProduct.asDomainModel() = Product(
     imgSrcUrl = imgSrcUrl,
-    id = id,
+    id = productId,
     price = price,
     name = name,
     category = category

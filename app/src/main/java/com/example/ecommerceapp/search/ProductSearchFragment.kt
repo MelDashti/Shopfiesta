@@ -42,12 +42,13 @@ class ProductSearchFragment : Fragment() {
 
         binding.productList.adapter = searchItemAdapter
 
-        viewModel.startSearch.observe(viewLifecycleOwner, Observer {
-            initializeSearch()
-        })
 
         viewModel.searchResultList.observe(viewLifecycleOwner, Observer {
             searchItemAdapter.submitList(it)
+        })
+
+        viewModel.startSearch.observe(viewLifecycleOwner, Observer {
+            initializeSearch()
         })
 
         return binding.root
@@ -55,21 +56,19 @@ class ProductSearchFragment : Fragment() {
 
 
     fun initializeSearch() {
-
         val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = binding.searchView
-        searchView.queryHint = "Search for Products, Brands and More"
         searching(searchView)
     }
 
     fun searching(search: SearchView) {
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                TODO("Not yet implemented")
+                viewModel.searchNow(query)
+                return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.searchNow(newText)
                 return false
             }
         }

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.example.ecommerceapp.productinfo.ProductInfoViewModel" />
@@ -21,13 +20,18 @@
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="267dp"
-                android:layout_height="311dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
                 app:imageUrl="@{viewModel.product.imgSrcUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

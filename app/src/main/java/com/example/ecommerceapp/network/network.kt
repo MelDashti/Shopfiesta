@@ -41,7 +41,7 @@ data class NetworkProduct(
 fun List<NetworkProduct>.asDatabaseModel(): List<DatabaseProduct> {
     return map{
         DatabaseProduct(
-            id = it.id,
+            productId = it.id,
             imgSrcUrl = it.imgSrcUrl,
             price = it.price,
             name = it.name,
