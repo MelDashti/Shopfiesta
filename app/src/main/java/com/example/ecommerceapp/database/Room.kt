@@ -39,7 +39,7 @@ interface ProductDao {
     fun insertProducts(products: List<DatabaseProduct>)
 }
 
-@Database(entities = [DatabaseProduct::class], version = 2, exportSchema = true)
+@Database(entities = [DatabaseProduct::class], version = 3, exportSchema = true)
 abstract class ProductDatabase : RoomDatabase() {
     abstract val productDao: ProductDao
 
