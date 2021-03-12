@@ -7,7 +7,7 @@
 
         <variable
             name="clickListener"
-            type="com.example.ecommerceapp.adapters.SearchItemListener" />
+            type="com.example.ecommerceapp.adapter.SearchItemListener" />
 
         <variable
             name="product"

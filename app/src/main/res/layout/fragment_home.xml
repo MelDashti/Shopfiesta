@@ -80,6 +80,6 @@
 
         <variable
             name="viewModel"
-            type="com.example.ecommerceapp.home.HomeViewModel" />
+            type="com.example.ecommerceapp.ui.main.home.HomeViewModel" />
     </data>
 </layout>

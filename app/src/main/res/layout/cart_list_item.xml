@@ -7,7 +7,7 @@
 
         <variable
             name="clickListener"
-            type="com.example.ecommerceapp.adapters.CartItemListener" />
+            type="com.example.ecommerceapp.adapter.CartItemListener" />
 
         <variable
             name="product"

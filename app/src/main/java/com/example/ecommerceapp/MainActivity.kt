@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
 //    private val SIGN_IN_REQUEST_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.Theme_ECommerceApp)
         super.onCreate(savedInstanceState)
         val binding =
             DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)

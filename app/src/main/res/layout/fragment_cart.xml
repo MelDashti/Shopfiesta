@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.ecommerceapp.cart.CartFragmentViewModel" />
+            type="com.example.ecommerceapp.ui.main.cart.CartFragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

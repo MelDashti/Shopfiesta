@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.ecommerceapp.search.ProductSearchViewModel" />
+            type="com.example.ecommerceapp.ui.main.search.ProductSearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

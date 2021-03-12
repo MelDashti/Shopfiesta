@@ -8,14 +8,12 @@ import com.bumptech.glide.Glide
 import com.example.ecommerceapp.domain.Product
 import com.example.ecommerceapp.home.ProductAdapter
 
-
 //this is for the submit list function every time our list changes.
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, list: List<Product>?) {
     val adapter = recyclerView.adapter as ProductAdapter
     adapter.submitList(list)
 }
-
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
