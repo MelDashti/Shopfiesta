@@ -17,9 +17,19 @@ class RegisterFragmentViewModel @ViewModelInject constructor(val repository: Rep
 //    var email = MutableLiveData<String>()
 //    var password = MutableLiveData<String>()
 
-
     private val _navigateToLoginPage = MutableLiveData<Boolean>()
     val navigateToLoginPage: LiveData<Boolean> = _navigateToLoginPage
+
+    private val _navigateToRegisterPage = MutableLiveData<Boolean>()
+    val navigateToRegisterPage: LiveData<Boolean> = _navigateToRegisterPage
+
+    fun onNavigateToRegister() {
+        _navigateToRegisterPage.value = true
+    }
+
+    fun navigatedToLRegister() {
+        _navigateToRegisterPage.value = false
+    }
 
     fun onNavigateToLogin() {
         _navigateToLoginPage.value = true
@@ -29,13 +39,33 @@ class RegisterFragmentViewModel @ViewModelInject constructor(val repository: Rep
         _navigateToLoginPage.value = false
     }
 
+    fun loginToServer(email: String, password: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val result = repository.login(email, password)
+                if (!result.error!!) {
+                    Log.d("hey", result.message!!)
+                } else Log.d("hey", result.message!!)
+            } catch (e: Exception) {
+                Log.d("hey", e.localizedMessage)
+
+            }
+        }
+    }
+
+
     fun registerOnWebServer(fullname: String, email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Log.d("hey","hdafdadf")
-                val hey = repository.register(fullname, email, password)
+                val result = repository.register(fullname, email, password)
+                if (!result.error!!) {
+                    Log.d("hey", result.message!!)
+                    Log.d("hey", result.customer!!.email!!)
+                } else
+                    Log.d("hey", result.message!!)
 
             } catch (e: Exception) {
+                Log.d("hey", e.localizedMessage)
             }
         }
     }

@@ -1,18 +1,16 @@
 package com.example.ecommerceapp.repository.main
 
-import android.util.Log
-import androidx.annotation.NonNull
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.example.Result
 import com.example.ecommerceapp.api.auth.RegisterApi
+import com.example.ecommerceapp.api.auth.responses.MoshiResult
 import com.example.ecommerceapp.api.main.EcomApi
 import com.example.ecommerceapp.api.main.asDatabaseModel
 import com.example.ecommerceapp.domain.Product
 import com.example.ecommerceapp.persistence.ProductDao
 import com.example.ecommerceapp.persistence.asDomainModel
-import retrofit2.Call
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -31,34 +29,45 @@ class Repository @Inject constructor(private val productDao: ProductDao) {
     }
 
     // register
-    fun register(fullname: String, email: String, password: String){
-        val hey: Call<Result> =
-            RegisterApi.registerApiService.createCustomer("Milad", fullname, email, password)
+//    fun register(fullname: String, email: String, password: String){
+//        val hey: Call<Result> =
+//            RegisterApi.registerApiService.createCustomer("Milad", fullname, email, password)
+//
+//        hey.enqueue(object : retrofit2.Callback<Result> {
+//            override fun onResponse(
+//                call: Call<Result>,
+//                response: Response<Result>
+//            ) {
+//                if (response.isSuccessful && response.body()!!.error==false) {
+//                    Log.d("hey", response.body()!!.message!!)
+//                    Log.d("hey", response.body()!!.customer!!.email!!)
+//                } else
+//                    Log.d("hey", response.body()!!.message!!)
+//            }
+//
+//            override fun onFailure(@NonNull call: Call<Result>, @NonNull t: Throwable) {
+//                Log.d("hey", t.localizedMessage)
+//            }
+//        })
+//    }
 
-        hey.enqueue(object : retrofit2.Callback<Result> {
-            override fun onResponse(
-                call: Call<Result>,
-                response: Response<Result>
-            ) {
-                if (response.isSuccessful && response.body()!!.error==false) {
-                    Log.d("hey", response.body()!!.message!!)
-                    Log.d("hey", response.body()!!.customer!!.email!!)
-                } else
-                    Log.d("hey", response.body()!!.message!!)
-            }
 
-            override fun onFailure(@NonNull call: Call<Result>, @NonNull t: Throwable) {
-                Log.d("hey", t.localizedMessage)
-            }
-        })
+    suspend fun login(email: String, password: String): MoshiResult {
+        return RegisterApi.registerApiService.loginCustomer(email, password)
+    }
+
+
+    suspend fun register(fullname: String, email: String, password: String): MoshiResult {
+        return RegisterApi.registerApiService.createCustomer("Milad", fullname, email, password)
     }
 
     //this will be the api used to refresh the offline cache
     suspend fun refreshProducts() {
         //get back to this one **
-        val products = EcomApi.retrofitService.getProperties()
-        productDao.insertProducts(products.asDatabaseModel())
-
+        withContext(Dispatchers.IO) {
+            val products = EcomApi.retrofitService.getProperties()
+            productDao.insertProducts(products.asDatabaseModel())
+        }
     }
 
     suspend fun fetchProductInfo(productId: String): Product {

@@ -1,6 +1,5 @@
 package com.example.ecommerceapp.api.auth
 
-import com.example.Result
 import com.example.ecommerceapp.api.auth.responses.MoshiResult
 import com.example.ecommerceapp.util.BASE_URL2
 import com.google.gson.GsonBuilder
@@ -8,9 +7,9 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -31,7 +30,11 @@ var gson = GsonBuilder()
 
 private val retrofit2 =
     Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create(gson)).client(client)
+        .addConverterFactory(GsonConverterFactory.create(gson)).addConverterFactory(
+            MoshiConverterFactory.create(
+                moshi
+            )
+        ).client(client)
         .baseUrl(BASE_URL2)
         .build()
 
@@ -55,18 +58,18 @@ object RegisterApi {
 interface RegisterApiService {
     @FormUrlEncoded
     @POST("login.php")
-    fun loginCustomer(
+    suspend fun loginCustomer(
         @Field("email") email: String,
         @Field("password") password: String
     ): MoshiResult
 
     @FormUrlEncoded
     @POST("register.php")
-    fun createCustomer(
+    suspend fun createCustomer(
         @Field("first_name") firstName: String,
         @Field("last_name") lastName: String,
         @Field("email") email: String,
         @Field("password") password: String
-    ): Call<Result>
+    ): MoshiResult
 
 }
