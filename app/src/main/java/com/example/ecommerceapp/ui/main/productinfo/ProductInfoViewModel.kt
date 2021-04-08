@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecommerceapp.domain.Product
-import com.example.ecommerceapp.repository.main.Repository
+import com.example.ecommerceapp.repository.main.ProductRepository
 import kotlinx.coroutines.launch
 
-public class ProductInfoViewModel @ViewModelInject constructor(private val repository: Repository) :
+public class ProductInfoViewModel @ViewModelInject constructor(private val productRepository: ProductRepository) :
     ViewModel() {
     var product = MutableLiveData<Product?>()
 
@@ -19,7 +19,7 @@ public class ProductInfoViewModel @ViewModelInject constructor(private val repos
     fun fetchProductInfo(string: String) {
         viewModelScope.launch {
             try {
-                product.value = repository.fetchProductInfo(string)
+                product.value = productRepository.fetchProductInfo(string)
             } catch (e: Exception) {
 
             }

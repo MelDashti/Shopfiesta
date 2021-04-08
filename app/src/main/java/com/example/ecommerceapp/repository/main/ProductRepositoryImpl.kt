@@ -2,8 +2,6 @@ package com.example.ecommerceapp.repository.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.example.ecommerceapp.api.auth.RegisterApi
-import com.example.ecommerceapp.api.auth.responses.MoshiResult
 import com.example.ecommerceapp.api.main.EcomApi
 import com.example.ecommerceapp.api.main.asDatabaseModel
 import com.example.ecommerceapp.domain.Product
@@ -14,19 +12,15 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
-class Repository @Inject constructor(private val productDao: ProductDao) {
+class ProductRepositoryImpl @Inject constructor(private val productDao: ProductDao) : ProductRepository {
 
 
     //aight team it's been a while time to start coding again
     //ProductDatabase returns a live data so that our database is up to date. Now when we fetch this live data from room database
     // we wanna convert it to domain objects. Now we could have directly used asDomainObject extension function on a list of database products
     // but because it is contained in a live data object we can't.By using transformation maps we convert the DatabaseProduct Live data into Domain Model Live data.
-    val product: LiveData<List<Product>> =
+    override val product: LiveData<List<Product>> =
         Transformations.map(productDao.getProducts()) { it.asDomainModel() }
-
-    fun loginToMySql() {
-
-    }
 
     // register
 //    fun register(fullname: String, email: String, password: String){
@@ -52,17 +46,8 @@ class Repository @Inject constructor(private val productDao: ProductDao) {
 //    }
 
 
-    suspend fun login(email: String, password: String): MoshiResult {
-        return RegisterApi.registerApiService.loginCustomer(email, password)
-    }
-
-
-    suspend fun register(fullname: String, email: String, password: String): MoshiResult {
-        return RegisterApi.registerApiService.createCustomer("Milad", fullname, email, password)
-    }
-
     //this will be the api used to refresh the offline cache
-    suspend fun refreshProducts() {
+    override suspend fun refreshProducts() {
         //get back to this one **
         withContext(Dispatchers.IO) {
             val products = EcomApi.retrofitService.getProperties()
@@ -70,7 +55,7 @@ class Repository @Inject constructor(private val productDao: ProductDao) {
         }
     }
 
-    suspend fun fetchProductInfo(productId: String): Product {
+    override suspend fun fetchProductInfo(productId: String): Product {
         val productInfo: Product
         val cachedProductInfo = productDao.getSpecificProduct(productId)
         if (cachedProductInfo != null) {
@@ -83,7 +68,7 @@ class Repository @Inject constructor(private val productDao: ProductDao) {
         return productInfo
     }
 
-    fun searchProduct(query: String?): LiveData<List<Product>> {
+    override fun searchProduct(query: String?): LiveData<List<Product>> {
         return Transformations.map(productDao.getSearchResult(query)) { it.asDomainModel() }
     }
 }

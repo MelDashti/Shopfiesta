@@ -2,12 +2,13 @@ package com.example.ecommerceapp.ui.main.cart
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import com.example.ecommerceapp.repository.main.Repository
+import com.example.ecommerceapp.repository.main.ProductRepository
 
-class CartFragmentViewModel @ViewModelInject constructor(private val repository: Repository) :
+class CartFragmentViewModel @ViewModelInject constructor(private val productRepository: ProductRepository) :
     ViewModel() {
 
-        var list = repository.product
+
+        var list = productRepository.product
 
         init {
 

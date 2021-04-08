@@ -1,5 +1,4 @@
 package com.example.ecommerceapp.domain
-
 import androidx.room.PrimaryKey
 
 //data class User(
@@ -30,6 +29,3 @@ data class Group(
 //    val productList: List<Product>,
 //    val categoryList: List<Category>
 )
-
-
-

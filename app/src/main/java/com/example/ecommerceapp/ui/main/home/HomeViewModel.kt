@@ -6,24 +6,32 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecommerceapp.domain.Product
-import com.example.ecommerceapp.repository.main.Repository
+import com.example.ecommerceapp.repository.main.ProductRepository
 import com.example.ecommerceapp.util.FilterType
 import kotlinx.coroutines.launch
 
-class HomeViewModel @ViewModelInject constructor(private val repository: Repository) : ViewModel() {
+class HomeViewModel @ViewModelInject constructor(private val productRepository: ProductRepository) :
+    ViewModel() {
+
 
     init {
         refreshEcomProducts()
     }
 
-    val listResult = repository.product
-
-    private val _navigateToCart = MutableLiveData<Boolean>()
-    val navigateToCart: LiveData<Boolean> = _navigateToCart
+    val listResult = productRepository.product
 
 
-    public fun goToCart() {
-        _navigateToCart.value = true
+
+    private val _navigateToUserProfile = MutableLiveData<Boolean>()
+    val navigateToUserProfile: LiveData<Boolean> = _navigateToUserProfile
+
+
+    public fun goToUserProfile() {
+        _navigateToUserProfile.value = true
+    }
+
+    public fun navigatedToUserProfile() {
+        _navigateToUserProfile.value = false
     }
 
     fun applyFiltering(filter: FilterType): List<Product> {
@@ -46,7 +54,7 @@ class HomeViewModel @ViewModelInject constructor(private val repository: Reposit
 
     private fun refreshEcomProducts() {
         viewModelScope.launch {
-            repository.refreshProducts()
+            productRepository.refreshProducts()
         }
     }
 

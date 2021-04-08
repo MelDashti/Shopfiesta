@@ -2,6 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
     app:startDestination="@id/navigation">
 
     <fragment
@@ -20,6 +21,9 @@
         <action
             android:id="@+id/action_homeFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/productInfoFragment"
@@ -50,7 +54,8 @@
             android:id="@+id/action_cartFragment_to_productInfoFragment"
             app:destination="@id/productInfoFragment" />
     </fragment>
-    <navigation android:id="@+id/navigation"
+    <navigation
+        android:id="@+id/navigation"
         app:startDestination="@id/launcherFragment">
         <fragment
             android:id="@+id/loginFragment2"
@@ -58,7 +63,11 @@
             android:label="LoginFragment">
             <action
                 android:id="@+id/action_loginFragment2_to_homeFragment"
-                app:destination="@id/homeFragment" />
+                app:destination="@id/homeFragment"
+                app:popUpTo="@id/launcherFragment"
+                app:popUpToInclusive="true"
+                />
+
         </fragment>
         <fragment
             android:id="@+id/launcherFragment"
@@ -67,6 +76,12 @@
             <action
                 android:id="@+id/action_launcherFragment_to_registerFragment2"
                 app:destination="@id/registerFragment2" />
+            <action
+                android:id="@+id/action_launcherFragment_to_homeFragment"
+                app:destination="@+id/homeFragment"
+                app:popUpTo="@id/launcherFragment"
+                app:popUpToInclusive="true"
+                />
             <action
                 android:id="@+id/action_launcherFragment_to_loginFragment2"
                 app:destination="@id/loginFragment2" />
@@ -80,4 +95,12 @@
                 app:destination="@id/loginFragment2" />
         </fragment>
     </navigation>
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="com.example.ecommerceapp.ui.main.profile.UserProfileFragment"
+        android:label="UserProfileFragment">
+        <action
+            android:id="@+id/action_userProfileFragment_to_navigation"
+            app:destination="@id/navigation" />
+    </fragment>
 </navigation>

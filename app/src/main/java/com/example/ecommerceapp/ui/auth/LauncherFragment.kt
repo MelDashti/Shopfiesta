@@ -11,6 +11,8 @@ import com.example.ecommerceapp.databinding.FragmentLauncherBinding
 
 class LauncherFragment : Fragment() {
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -19,10 +21,14 @@ class LauncherFragment : Fragment() {
         binding.signInButton.setOnClickListener {
             findNavController().navigate(R.id.action_launcherFragment_to_loginFragment2)
         }
+
         binding.signUpButton.setOnClickListener {
             findNavController().navigate(R.id.action_launcherFragment_to_registerFragment2)
         }
 
+        binding.guestButton.setOnClickListener{
+            findNavController().navigate(R.id.action_launcherFragment_to_homeFragment)
+        }
         return binding.root
     }
 

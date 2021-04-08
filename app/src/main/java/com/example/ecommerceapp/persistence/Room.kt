@@ -23,6 +23,7 @@ data class DatabaseProduct constructor(
     val category: String
 )
 
+
 @Dao
 interface ProductDao {
 

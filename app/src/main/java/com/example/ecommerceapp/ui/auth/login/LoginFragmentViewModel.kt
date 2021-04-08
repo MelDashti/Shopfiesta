@@ -6,11 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ecommerceapp.repository.main.Repository
+import com.example.ecommerceapp.repository.auth.AuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LoginFragmentViewModel @ViewModelInject constructor(val repository: Repository) :
+class LoginFragmentViewModel @ViewModelInject constructor(val authRepository: AuthRepository) :
     ViewModel() {
 
 //    var fullname = MutableLiveData<String>()
@@ -33,8 +33,11 @@ class LoginFragmentViewModel @ViewModelInject constructor(val repository: Reposi
     fun loginToServer(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val result = repository.login(email, password)
+                Log.d("hey", "dsfdsf")
+                val result = authRepository.login(email, password)
                 if (!result.error!!) {
+                    Log.d("hey", "dsfdsf")
+//                    Log.d("hey", result.token!!)
                     Log.d("hey", result.message!!)
                 } else Log.d("hey", result.message!!)
             } catch (e: Exception) {

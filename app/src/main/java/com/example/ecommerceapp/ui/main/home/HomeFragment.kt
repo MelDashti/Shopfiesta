@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.ui.main.home
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -17,10 +18,15 @@ import com.example.ecommerceapp.domain.Category
 import com.example.ecommerceapp.domain.Group
 import com.example.ecommerceapp.home.*
 import com.example.ecommerceapp.util.FilterType
+import com.example.ecommerceapp.util.PreferenceKeys
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +38,15 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val bind = FragmentHomeBinding.inflate(inflater)
+
+        bind.lifecycleOwner = this
+        bind.viewModel = viewModel
+
+        bind.toolbarRef.userName.text =
+            sharedPreferences.getString(PreferenceKeys.PREFERENCE_NAME_KEY, "Guest")
         //popular list recycler view initialization
+
+
         val popularListAdapter = ProductAdapter(ProductListener {
             findNavController().navigate(
                 HomeFragmentDirections.actionHomeFragmentToProductInfoFragment(
@@ -58,7 +72,6 @@ class HomeFragment : Fragment() {
                 Category(name = "Phones", drawable = R.drawable.ic_laptops),
                 Category(name = "Accessories", drawable = R.drawable.ic_accessories)
             )
-        bind.lifecycleOwner = this
 
         //instead of this tiresome process this can be done directly in the xml file using binding adapters
         viewModel.listResult.observe(viewLifecycleOwner, Observer {
@@ -91,8 +104,14 @@ class HomeFragment : Fragment() {
 
         bind.groupRecyclerView.addItemDecoration(dividerItemDecoration)
 
-        viewModel.navigateToCart.observe(viewLifecycleOwner, Observer {
-            findNavController().navigate(R.id.action_homeFragment_to_cartFragment)
+        bind.fab.setOnClickListener {
+            navigateToCart()
+        }
+        viewModel.navigateToUserProfile.observe(viewLifecycleOwner, {
+            if (it) {
+                findNavController().navigate(R.id.action_homeFragment_to_userProfileFragment)
+                viewModel.navigatedToUserProfile()
+            }
         })
 
         // set your custom toolbar as support action bar
@@ -102,6 +121,10 @@ class HomeFragment : Fragment() {
         setHasOptionsMenu(true)
 
         return bind.root
+    }
+
+    private fun navigateToCart() {
+        findNavController().navigate(R.id.action_homeFragment_to_cartFragment)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

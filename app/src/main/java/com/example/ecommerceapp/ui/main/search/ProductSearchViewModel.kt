@@ -3,11 +3,11 @@ package com.example.ecommerceapp.ui.main.search
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.example.ecommerceapp.domain.Product
-import com.example.ecommerceapp.repository.main.Repository
+import com.example.ecommerceapp.repository.main.ProductRepository
 import com.example.ecommerceapp.util.FilterType
 import kotlinx.coroutines.launch
 
-class ProductSearchViewModel @ViewModelInject constructor(private val repository: Repository) :
+class ProductSearchViewModel @ViewModelInject constructor(private val productRepository: ProductRepository) :
     ViewModel() {
 
     lateinit var filterType: FilterType
@@ -26,7 +26,7 @@ class ProductSearchViewModel @ViewModelInject constructor(private val repository
     }
 
 
-    private fun filterIt(query: String?) = repository.searchProduct(query)
+    private fun filterIt(query: String?) = productRepository.searchProduct(query)
 
     val searchResultList: LiveData<List<Product>> = Transformations.switchMap(_query, ::filterIt)
 
@@ -39,7 +39,7 @@ class ProductSearchViewModel @ViewModelInject constructor(private val repository
 
     private fun refreshEcomProducts() {
         viewModelScope.launch {
-            repository.refreshProducts()
+            productRepository.refreshProducts()
         }
     }
 
