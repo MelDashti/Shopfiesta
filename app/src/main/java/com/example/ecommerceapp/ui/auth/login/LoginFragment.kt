@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -27,19 +28,48 @@ class LoginFragment : Fragment() {
         bind.viewModel = viewModel
 
         viewModel.navigateToRegisterPage.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                viewModel.loginToServer(
-                    bind.emailEditText.text.toString().trim(),
-                    bind.passwordEditText.text.toString().trim()
-                )
-                findNavController().navigate(R.id.action_loginFragment2_to_homeFragment)
 
+            val email = bind.emailEditText.text.toString().trim()
+            val password = bind.passwordEditText.text.toString().trim()
+            isEmailValid(email)
+            isPasswordValid(password)
+            if (checkIfErrorFree()) {
+                viewModel.loginToServer(email, password)
             }
         })
 
+        viewModel.response.observe(viewLifecycleOwner, Observer {
+            if (!it.error!!) {
+                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_loginFragment2_to_homeFragment)
+            } else {
+                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+            }
+
+        })
 
 
         return bind.root
+    }
+
+    private fun checkIfErrorFree(): Boolean {
+        return bind.emailTextInput.error.isNullOrEmpty() && bind.passwordTextInput.error.isNullOrEmpty()
+    }
+
+    private fun isPasswordValid(password: String?) {
+        bind.passwordTextInput.error = when {
+            password.isNullOrEmpty() -> "Enter password"
+            password.length < 8 -> "Enter a valid password"
+            else -> null
+        }
+    }
+
+    private fun isEmailValid(email: String?) {
+        bind.emailTextInput.error = when {
+            email.isNullOrEmpty() -> "Enter email address"
+            email.length < 8 -> "Enter a valid email address"
+            else -> null
+        }
     }
 
 }

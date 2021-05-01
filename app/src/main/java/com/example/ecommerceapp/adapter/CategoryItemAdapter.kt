@@ -1,9 +1,10 @@
-package com.example.ecommerceapp.home
+package com.example.ecommerceapp.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerceapp.databinding.CategoryListItemBinding
 import com.example.ecommerceapp.domain.Category
+import com.example.ecommerceapp.util.FilterType
 
 class CategoryItemAdapter(val clickListener: CategoryListener) :
     RecyclerView.Adapter<CategoryViewHolder>() {
@@ -40,6 +41,6 @@ class CategoryViewHolder(val bind: CategoryListItemBinding) : RecyclerView.ViewH
     }
 }
 
-class CategoryListener(val ClickListener: (productId: Long) -> Unit) {
-    fun onClick(category: Category) = ClickListener(category.id)
+class CategoryListener(val ClickListener: (categoryType: FilterType) -> Unit) {
+    fun onClick(category: Category) = ClickListener(category.filterType)
 }

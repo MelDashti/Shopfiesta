@@ -7,7 +7,7 @@
 
         <variable
             name="clickListener"
-            type="com.example.ecommerceapp.home.CategoryListener" />
+            type="com.example.ecommerceapp.adapter.CategoryListener" />
 
         <variable
             name="category"
@@ -17,16 +17,16 @@
 
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_marginStart="8dp"
-
         android:layout_width="113dp"
+
         android:layout_height="113.4dp"
+        android:layout_marginStart="8dp"
         app:cardCornerRadius="12dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="@{()-> clickListener.onClick(category)}">
+            android:onClick="@{()->clickListener.onClick(category) }">
 
             <ImageView
                 android:id="@+id/imageView2"

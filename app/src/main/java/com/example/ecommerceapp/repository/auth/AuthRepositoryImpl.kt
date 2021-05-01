@@ -1,7 +1,6 @@
 package com.example.ecommerceapp.repository.auth
 
 import android.content.SharedPreferences
-import android.util.Log
 import com.example.ecommerceapp.api.auth.RegisterApiService
 import com.example.ecommerceapp.api.auth.responses.MoshiResult
 import com.example.ecommerceapp.util.PreferenceKeys
@@ -19,20 +18,27 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun login(email: String, password: String): MoshiResult {
         val result = registerApiService.loginCustomer(email, password)
-        val token = result.token
-        sharedPreferences.edit().putString(PreferenceKeys.PREFERENCE_AUTH_KEY, token).apply()
-        sharedPreferences.edit().putString(PreferenceKeys.PREFERENCE_EMAIL_KEY, result.customer!!.email).apply()
-        sharedPreferences.edit().putString(PreferenceKeys.PREFERENCE_AUTH_KEY, token).apply()
+        if (!result.error!!) {
+            val token = result.token
+            sharedPreferences.edit().putString(PreferenceKeys.PREFERENCE_AUTH_KEY, token).apply()
+            sharedPreferences.edit()
+                .putString(PreferenceKeys.PREFERENCE_EMAIL_KEY, result.customer!!.email).apply()
+            sharedPreferences.edit().putString(PreferenceKeys.PREFERENCE_AUTH_KEY, token).apply()
+        }
         return result
     }
 
     override suspend fun register(fullname: String, email: String, password: String): MoshiResult {
         val result = registerApiService.createCustomer("hey", fullname, email, password)
-        val token = result.token
-        Log.d("hello", token!!)
-        sharedPreferences.edit().putString(PreferenceKeys.PREFERENCE_AUTH_KEY, token).apply()
-        sharedPreferences.edit().putString(PreferenceKeys.PREFERENCE_EMAIL_KEY, result.customer!!.email).apply()
-        sharedPreferences.edit().putString(PreferenceKeys.PREFERENCE_NAME_KEY, result.customer!!.lastName).apply()
+
+        if (!result.error!!) {
+            val token = result.token
+            sharedPreferences.edit().putString(PreferenceKeys.PREFERENCE_AUTH_KEY, token).apply()
+            sharedPreferences.edit()
+                .putString(PreferenceKeys.PREFERENCE_EMAIL_KEY, result.customer!!.email).apply()
+            sharedPreferences.edit()
+                .putString(PreferenceKeys.PREFERENCE_NAME_KEY, result.customer!!.lastName).apply()
+        }
         return result
     }
 

@@ -17,38 +17,51 @@
         android:background="@drawable/ic_pixel4xl">
 
 
-        <ImageView
+        <ImageButton
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/ic_arrow_back_24px__1_" />
+            app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
+
+
+        <TextView
+            style="?attr/textAppearanceHeadline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:text="My Profile"
+            android:textColor="@color/secondaryTextColor"
+            app:layout_constraintStart_toEndOf="@+id/back_button"
+            app:layout_constraintTop_toTopOf="@+id/back_button" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_text_input"
             style="@style/Widget.ShopFiesta.TextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/secondaryTextColor"
-            android:hint="Full Name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/back_button"
             app:layout_constraintTop_toBottomOf="@+id/profile_image"
-            app:layout_constraintVertical_bias="0.22000003">
+            app:layout_constraintVertical_bias="0.3">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name_edit_text"
+                android:hint="Full Name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
@@ -61,7 +74,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/secondaryTextColor"
-            android:hint="Email"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/name_text_input"
             app:layout_constraintStart_toStartOf="@+id/name_text_input"
@@ -71,6 +83,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_edit_text"
                 android:layout_width="match_parent"
+                android:hint="Email"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:maxLines="1" />
@@ -83,7 +96,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:hint="Enter your address here"
             app:errorEnabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/email_text_input"
@@ -93,43 +105,45 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/address_edit_text"
+                android:hint="House Address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <com.google.android.material.button.MaterialButton
+        <ImageButton
             android:id="@+id/update_button"
-            style="@style/Widget.ShopFiesta.Button"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
             android:layout_marginBottom="16dp"
+            android:background="@drawable/ic_update1"
+            android:clickable="true"
             android:text="Update"
-            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/logout_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
 
-        <com.google.android.material.button.MaterialButton
+        <ImageButton
             android:id="@+id/logout_button"
-            style="@style/Widget.ShopFiesta.Button"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="24dp"
-            android:onClick="@{()->viewModel.onNavigateToLauncherFragment()}"
-            android:text="Logout"
-            android:textSize="18sp"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:onClick="@{()-> viewModel.onNavigateToLauncherFragment()}"
+            android:clickable="true"
+            android:background="@drawable/ic_logout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            android:focusable="true" />
 
         <ImageView
             android:id="@+id/profile_image"
@@ -139,30 +153,31 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
+            android:src="@drawable/ic_man_2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.09"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/back_button"
-            app:layout_constraintVertical_bias="0.07999998"
-            tools:src="@tools:sample/avatars" />
+            app:layout_constraintVertical_bias="0.110000014" />
 
         <TextView
             android:id="@+id/fullname"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="69dp"
             android:fontFamily="@font/roboto"
             android:textColor="@color/secondaryTextColor"
-            android:textSize="26sp"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/profile_image"
             app:layout_constraintTop_toTopOf="@+id/profile_image"
-            app:layout_constraintVertical_bias="0.019" />
+            app:layout_constraintVertical_bias="0.01999998"
+            tools:text="Milad Dashti" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

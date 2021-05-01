@@ -33,6 +33,16 @@ class CartItemViewHolder(val bind: CartListItemBinding) : RecyclerView.ViewHolde
     fun bind(product: Product, clickListener: CartItemListener) {
         bind.product = product
         bind.clickListener = clickListener
+        bind.increase.setOnClickListener{
+            val r = bind.integerNumber.text.toString().toInt()
+            bind.integerNumber.text= (r+1).toString()
+        }
+        bind.decrease.setOnClickListener{
+            val r = bind.integerNumber.text.toString().toInt()
+            if (r>0)
+            bind.integerNumber.text= (r-1).toString()
+        }
+
     }
 
     companion object {

@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.ui.main.productinfo
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,8 @@ import kotlinx.coroutines.launch
 
 public class ProductInfoViewModel @ViewModelInject constructor(private val productRepository: ProductRepository) :
     ViewModel() {
+
+
     var product = MutableLiveData<Product?>()
 
     init {
@@ -18,11 +21,9 @@ public class ProductInfoViewModel @ViewModelInject constructor(private val produ
 
     fun fetchProductInfo(string: String) {
         viewModelScope.launch {
-            try {
                 product.value = productRepository.fetchProductInfo(string)
-            } catch (e: Exception) {
-
-            }
+                Log.d("nooo","hey")
+                Log.d("ha",product.value!!.name)
         }
     }
 

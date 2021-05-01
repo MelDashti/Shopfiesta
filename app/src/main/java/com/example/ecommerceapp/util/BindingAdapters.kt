@@ -6,7 +6,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.ecommerceapp.domain.Product
-import com.example.ecommerceapp.home.ProductAdapter
+import com.example.ecommerceapp.adapter.ProductAdapter
 
 //this is for the submit list function every time our list changes.
 @BindingAdapter("listData")
@@ -20,9 +20,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
         val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(imgView.context)
-            .load(imgUri).into(imgView)
-    }
-}
+            .load(imgUri).into(imgView) }}
 
 // here we set drawable resource id which is an integer in android:src for image view using data binding
 @BindingAdapter("android:src")

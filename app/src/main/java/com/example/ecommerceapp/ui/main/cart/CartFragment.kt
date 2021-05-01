@@ -36,7 +36,6 @@ class CartFragment : Fragment() {
                 )
             )
         })
-
         binding.cartList.adapter = adapter
 
         val dividerItemDecoration = DividerItemDecoration(
@@ -50,6 +49,7 @@ class CartFragment : Fragment() {
 
         viewModel.list.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
+            binding.cartList.scheduleLayoutAnimation()
         })
 
 

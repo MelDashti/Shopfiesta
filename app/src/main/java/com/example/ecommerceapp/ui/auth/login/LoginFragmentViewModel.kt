@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ecommerceapp.api.auth.responses.MoshiResult
 import com.example.ecommerceapp.repository.auth.AuthRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoginFragmentViewModel @ViewModelInject constructor(val authRepository: AuthRepository) :
@@ -17,6 +17,10 @@ class LoginFragmentViewModel @ViewModelInject constructor(val authRepository: Au
 //    var email = MutableLiveData<String>()
 //    var password = MutableLiveData<String>()
 
+
+    private val _response = MutableLiveData<MoshiResult>()
+    val response: LiveData<MoshiResult>
+        get() = _response
 
     private val _navigateToRegisterPage = MutableLiveData<Boolean>()
     val navigateToRegisterPage: LiveData<Boolean> = _navigateToRegisterPage
@@ -31,18 +35,11 @@ class LoginFragmentViewModel @ViewModelInject constructor(val authRepository: Au
 
 
     fun loginToServer(email: String, password: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             try {
-                Log.d("hey", "dsfdsf")
-                val result = authRepository.login(email, password)
-                if (!result.error!!) {
-                    Log.d("hey", "dsfdsf")
-//                    Log.d("hey", result.token!!)
-                    Log.d("hey", result.message!!)
-                } else Log.d("hey", result.message!!)
+                _response.value = authRepository.login(email, password)
             } catch (e: Exception) {
                 Log.d("hey", e.localizedMessage)
-
             }
         }
     }

@@ -2,7 +2,8 @@
     <string name="app_name">ECommerceApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="search_title">Search</string>
-
+    <string name="transition_image">name %d</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="product_price">Price: %s</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

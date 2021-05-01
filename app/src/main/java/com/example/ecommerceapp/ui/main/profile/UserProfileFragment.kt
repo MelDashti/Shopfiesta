@@ -21,7 +21,7 @@ class UserProfileFragment : Fragment() {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
-     private val viewModel : UserProfileViewModel by viewModels()
+    private val viewModel: UserProfileViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +40,10 @@ class UserProfileFragment : Fragment() {
         viewModel.navigateToLauncherFragment.observe(viewLifecycleOwner, Observer {
             findNavController().navigate(R.id.action_userProfileFragment_to_navigation)
         })
+
+        bind.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
         return bind.root
     }

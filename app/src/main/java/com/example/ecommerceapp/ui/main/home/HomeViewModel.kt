@@ -21,7 +21,6 @@ class HomeViewModel @ViewModelInject constructor(private val productRepository: 
     val listResult = productRepository.product
 
 
-
     private val _navigateToUserProfile = MutableLiveData<Boolean>()
     val navigateToUserProfile: LiveData<Boolean> = _navigateToUserProfile
 
@@ -35,20 +34,7 @@ class HomeViewModel @ViewModelInject constructor(private val productRepository: 
     }
 
     fun applyFiltering(filter: FilterType): List<Product> {
-        var list1 = listOf<Product>()
-        list1 = listResult.value!!
-        val list2 = mutableListOf<Product>()
-        if (filter == FilterType.RECENTLY_VIEWED)
-            list1.forEach {
-                if (it.price < 700.0)
-                    list2 += it
-            }
-        if (filter == FilterType.POPULAR)
-            list1.forEach {
-                if (it.price >= 700.0)
-                    list2 += it
-            }
-        return list2
+        return productRepository.applyFiltering(filter)
     }
 
 

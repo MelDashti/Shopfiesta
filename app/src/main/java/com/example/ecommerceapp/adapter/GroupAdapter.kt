@@ -1,4 +1,4 @@
-package com.example.ecommerceapp.home
+package com.example.ecommerceapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.databinding.GroupListItemBinding
 import com.example.ecommerceapp.domain.Group
+import com.example.ecommerceapp.util.FilterType
 
 class GroupAdapter(
+    val clickListener: GroupItemListener,
     val popularListAdapter: ProductAdapter,
     val recentlyViewedAdapter: ProductAdapter,
     val categoryListAdapter: CategoryItemAdapter
@@ -26,7 +28,7 @@ class GroupAdapter(
             getItem(position),
             popularListAdapter,
             recentlyViewedAdapter,
-            categoryListAdapter
+            categoryListAdapter, clickListener
         )
     }
 
@@ -46,15 +48,18 @@ class GroupAdapter(
             group: Group,
             popularListAdapter: ProductAdapter,
             recentlyViewedAdapter: ProductAdapter,
-            categoryListAdapter: CategoryItemAdapter
+            categoryListAdapter: CategoryItemAdapter,
+            clickListener: GroupItemListener
         ) {
             bind.group = group
+            bind.clickListener = clickListener
             bind.groupItemRecyclerView.adapter = when (group.title) {
                 "Category" -> categoryListAdapter
                 "Recently Viewed" -> recentlyViewedAdapter
                 else -> popularListAdapter
             }
 
+            bind.groupItemRecyclerView.scheduleLayoutAnimation()
             val dividerItemDecoration = DividerItemDecoration(
                 bind.root.context,
                 DividerItemDecoration.HORIZONTAL
@@ -70,11 +75,20 @@ class GroupAdapter(
             fun from(parent: ViewGroup): GroupItemViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = GroupListItemBinding.inflate(inflater, parent, false)
+                binding.viewAllButton.setOnClickListener {
+                }
                 return GroupItemViewHolder(binding)
             }
         }
     }
 }
+
+class GroupItemListener(
+    val ClickListener: (filterType: FilterType) -> Unit
+) {
+    fun onClick(group: Group) = ClickListener(group.filterType)
+}
+
 
 //    private fun setPopularList(): ProductAdapter {
 //            val productAdapter = ProductAdapter{ProductListener{

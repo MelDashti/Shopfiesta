@@ -19,6 +19,7 @@ class SearchItemAdapter(val clickListener: SearchItemListener) :
     }
 }
 
+
 class SearchItemDiffUtilCallback : DiffUtil.ItemCallback<Product>() {
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
         return oldItem === newItem

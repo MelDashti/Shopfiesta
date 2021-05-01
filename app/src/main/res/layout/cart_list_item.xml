@@ -25,7 +25,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="144dp"
+            android:layout_height="128dp"
             android:onClick="@{()-> clickListener.onClick(product)}">
 
             <ImageView
@@ -45,11 +45,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:maxLines="1"
                 android:text="@{product.name}"
-                android:textAppearance="?attr/textAppearanceHeadline5"
                 android:textColor="@color/primaryTextColor"
-                app:layout_constraintBottom_toTopOf="@+id/item_price"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/item_image"
@@ -61,73 +61,60 @@
                 android:id="@+id/item_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
                 android:maxLines="1"
+                android:text="@{`Price:`+Double.toString(product.price)+`$`}"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/item_title"
-                app:layout_constraintTop_toBottomOf="@+id/item_title"
-                tools:text="@tools:sample/us_phones" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_marginBottom="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="16sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/item_price">
+                app:layout_constraintStart_toStartOf="@+id/item_title"
+                tools:text="Price: 400$" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    tools:layout_editor_absoluteX="160dp">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/decrease"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="48dp"
-                        android:layout_height="wrap_content"
-                        android:onClick="decreaseInteger"
-                        android:text="-"
-                        android:textColor="@color/secondaryColor"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/integer_number"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+            <ImageButton
+                android:id="@+id/decrease"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:textColor="@color/secondaryColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/integer_number"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/ic_remove_circle_black_24dp__1__1" />
 
-                    <TextView
-                        android:id="@+id/integer_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="1"
-                        android:textColor="@color/secondaryColor"
-                        android:textSize="24sp"
-                        app:layout_constraintEnd_toStartOf="@+id/increase"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/decrease"
-                        tools:layout_editor_absoluteY="8dp" />
+            <TextView
+                android:id="@+id/integer_number"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:clickable="false"
+                android:text="1"
+                android:textColor="@color/secondaryColor"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@+id/increase"
+                app:layout_constraintEnd_toStartOf="@+id/increase"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/decrease" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/increase"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="48dp"
-                        android:layout_height="wrap_content"
-                        android:onClick="increaseInteger"
-                        android:text="+"
-                        android:textColor="@color/secondaryColor"
-                        android:textSize="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/integer_number"
-                        app:layout_constraintTop_toTopOf="parent" />
+            <ImageButton
+                android:id="@+id/increase"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/integer_number"
+                app:layout_constraintTop_toTopOf="@+id/decrease"
+                app:srcCompat="@drawable/ic_add1" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
