@@ -141,6 +141,10 @@ class HomeFragment : Fragment() {
             }
         })
 
+        bind.bottomNavigation.setOnNavigationItemSelectedListener {
+            NavigationUI.onNavDestinationSelected(it,findNavController()) || onOptionsItemSelected(it)
+        }
+
         // set your custom toolbar as support action bar
         (activity as AppCompatActivity).setSupportActionBar(bind.toolbarRef.toolbar)
         // show overflow menu

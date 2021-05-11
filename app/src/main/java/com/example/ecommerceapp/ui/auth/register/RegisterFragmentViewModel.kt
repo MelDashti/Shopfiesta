@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ecommerceapp.api.auth.responses.MoshiResult
+import com.example.ecommerceapp.api.auth.responses.AuthResult
 import com.example.ecommerceapp.repository.auth.AuthRepository
 import kotlinx.coroutines.launch
 
@@ -24,9 +24,9 @@ class RegisterFragmentViewModel @ViewModelInject constructor(
 
     val navigateToLoginPage: LiveData<Boolean> = _navigateToLoginPage
 
-    private val _response = MutableLiveData<MoshiResult>()
+    private val _response = MutableLiveData<AuthResult>()
 
-    val response: LiveData<MoshiResult>
+    val response: LiveData<AuthResult>
         get() = _response
 
 

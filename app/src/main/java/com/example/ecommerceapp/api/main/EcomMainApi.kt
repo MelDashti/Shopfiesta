@@ -1,53 +1,38 @@
 package com.example.ecommerceapp.api.main
 
+import com.example.ecommerceapp.api.main.responses.GetCartItemResponse
+import com.example.ecommerceapp.api.main.responses.NetworkProduct
+import com.example.ecommerceapp.api.main.responses.PostCartItemResponse
+import com.example.ecommerceapp.api.main.responses.ProductResponse
 import com.example.ecommerceapp.persistence.DatabaseProduct
-import com.example.ecommerceapp.util.BASE_URL
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.squareup.moshi.Json
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.POST
 
-
-private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-
-private val retrofit =
-    Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi))
-        .addCallAdapterFactory(CoroutineCallAdapterFactory()).baseUrl(
-            BASE_URL
-        ).build()
 
 interface EcomApiService {
-    @GET("products")
-    suspend fun getProperties(): List<NetworkProduct>
+    @GET("getproductinfo.php")
+    suspend fun getProperties(): ProductResponse
+
+    @GET("getcartitems.php")
+    suspend fun fetchCartItems(): GetCartItemResponse
+
+    @FormUrlEncoded
+    @POST("postcartitem.php")
+    suspend fun postCartItem(@Field("product_id") productID: String): PostCartItemResponse
 }
 
-object EcomApi {
-    val retrofitService: EcomApiService by lazy {
-        retrofit.create(EcomApiService::class.java)
-    }
-}
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MODULES FOR NETWORK CALLS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-data class NetworkProduct(
-    val id: String,
-    val price: Double,
-    @Json(name = "img_src")
-    val imgSrcUrl: String,
-    val name: String,
-    val category: String
-)
-
-fun List<NetworkProduct>.asDatabaseModel(): List<DatabaseProduct> {
-    return map {
+fun List<NetworkProduct>?.asDatabaseModel(): List<DatabaseProduct> {
+    return this!!.map {
         DatabaseProduct(
             productId = it.id,
             imgSrcUrl = it.imgSrcUrl,
             price = it.price,
             name = it.name,
-            category = it.category
+            category = it.category,
+            description = it.description
         )
     }
 }

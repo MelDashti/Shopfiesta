@@ -47,14 +47,12 @@ class CartFragment : Fragment() {
         )
         binding.cartList.addItemDecoration(dividerItemDecoration)
 
-        viewModel.list.observe(viewLifecycleOwner, Observer {
+        viewModel.fetchCartItem()
+        viewModel.product.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
             binding.cartList.scheduleLayoutAnimation()
         })
-
-
         binding.cartList.adapter
-
         return binding.root
 
     }

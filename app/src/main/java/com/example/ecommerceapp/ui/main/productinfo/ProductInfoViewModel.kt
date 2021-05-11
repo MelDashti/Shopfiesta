@@ -21,9 +21,16 @@ public class ProductInfoViewModel @ViewModelInject constructor(private val produ
 
     fun fetchProductInfo(string: String) {
         viewModelScope.launch {
-                product.value = productRepository.fetchProductInfo(string)
-                Log.d("nooo","hey")
-                Log.d("ha",product.value!!.name)
+            product.value = productRepository.fetchProductInfo(string)
+            Log.d("nooo", "hey")
+            Log.d("ha", product.value!!.name)
+        }
+    }
+
+    fun addToCart() {
+        viewModelScope.launch {
+            val result = productRepository.addToCart(product.value!!.id)
+
         }
     }
 

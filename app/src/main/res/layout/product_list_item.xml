@@ -21,6 +21,7 @@
         app:cardCornerRadius="29dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:onClick="@{(view)-> clickListener.onClick(product,view)}">

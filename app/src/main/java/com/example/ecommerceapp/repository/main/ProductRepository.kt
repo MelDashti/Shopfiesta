@@ -7,6 +7,8 @@ import com.example.ecommerceapp.util.FilterType
 interface ProductRepository {
     val product: LiveData<List<Product>>
     suspend fun fetchProductInfo(productId: String): Product
+    suspend fun fetchCartItems(): List<Product>
+    suspend fun addToCart(token: String): Unit
     fun searchProduct(query: String?): LiveData<List<Product>>
     suspend fun refreshProducts(): Unit
     fun applyFiltering(filterType: FilterType): List<Product>

@@ -1,4 +1,5 @@
 package com.example.ecommerceapp.domain
+
 import androidx.room.PrimaryKey
 import com.example.ecommerceapp.util.FilterType
 
@@ -13,7 +14,8 @@ data class Product(
     val id: String = "",
     val price: Double = 0.0,
     val name: String = "",
-    val category: String = ""
+    val category: String = "",
+    val description: String = ""
 )
 
 data class Category(

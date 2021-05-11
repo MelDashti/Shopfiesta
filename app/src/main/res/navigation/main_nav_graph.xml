@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_homeFragment_to_listFragment"
             app:destination="@id/listFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/productInfoFragment"
@@ -149,4 +152,8 @@
             android:id="@+id/action_listFragment_to_productInfoFragment"
             app:destination="@id/productInfoFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.ecommerceapp.ui.main.favorite.FavoriteFragment"
+        android:label="FavoriteFragment" />
 </navigation>

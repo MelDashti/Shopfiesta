@@ -16,8 +16,7 @@
         android:title=""
         app:showAsAction="always" />
     <item
-        android:id="@+id/sign_in_button"
-
+        android:id="@+id/favoriteFragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_favorite_24"
         android:title="Favorite"

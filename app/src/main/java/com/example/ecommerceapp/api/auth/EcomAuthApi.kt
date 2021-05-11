@@ -1,6 +1,6 @@
 package com.example.ecommerceapp.api.auth
 
-import com.example.ecommerceapp.api.auth.responses.MoshiResult
+import com.example.ecommerceapp.api.auth.responses.AuthResult
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -11,7 +11,7 @@ interface RegisterApiService {
     suspend fun loginCustomer(
         @Field("email") email: String,
         @Field("password") password: String
-    ): MoshiResult
+    ): AuthResult
 
     @FormUrlEncoded
     @POST("register.php")
@@ -20,7 +20,7 @@ interface RegisterApiService {
         @Field("last_name") lastName: String,
         @Field("email") email: String,
         @Field("password") password: String
-    ): MoshiResult
+    ): AuthResult
 
 
 }

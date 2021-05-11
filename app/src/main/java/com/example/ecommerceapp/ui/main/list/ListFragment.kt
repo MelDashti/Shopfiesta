@@ -66,9 +66,7 @@ class ListFragment : Fragment() {
         dividerItemDecoration.setDrawable(
             ContextCompat.getDrawable(requireContext(), R.drawable.divider)!!
         )
-
         binding.list.addItemDecoration(dividerItemDecoration)
-
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }

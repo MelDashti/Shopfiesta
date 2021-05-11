@@ -5,8 +5,8 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.ecommerceapp.domain.Product
 import com.example.ecommerceapp.adapter.ProductAdapter
+import com.example.ecommerceapp.domain.Product
 
 //this is for the submit list function every time our list changes.
 @BindingAdapter("listData")

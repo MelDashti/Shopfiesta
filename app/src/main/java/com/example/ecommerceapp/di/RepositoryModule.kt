@@ -2,6 +2,7 @@ package com.example.ecommerceapp.di
 
 import android.content.SharedPreferences
 import com.example.ecommerceapp.api.auth.RegisterApiService
+import com.example.ecommerceapp.api.main.EcomApiService
 import com.example.ecommerceapp.persistence.ProductDao
 import com.example.ecommerceapp.repository.auth.AuthRepository
 import com.example.ecommerceapp.repository.auth.AuthRepositoryImpl
@@ -19,8 +20,12 @@ object RepositoryModule {
 
     @Provides
     @ActivityRetainedScoped
-    fun provideProductRepository(productDao: ProductDao): ProductRepository {
-        return ProductRepositoryImpl(productDao)
+    fun provideProductRepository(
+        ecomApiService: EcomApiService,
+        productDao: ProductDao,
+        sharedPreferences: SharedPreferences
+    ): ProductRepository {
+        return ProductRepositoryImpl(ecomApiService, productDao, sharedPreferences)
     }
 
     @Provides
