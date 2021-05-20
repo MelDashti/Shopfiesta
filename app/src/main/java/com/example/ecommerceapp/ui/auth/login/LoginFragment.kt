@@ -48,6 +48,15 @@ class LoginFragment : Fragment() {
 
         })
 
+        bind.registerText.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment2_to_registerFragment2)
+        }
+
+        bind.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+
 
         return bind.root
     }

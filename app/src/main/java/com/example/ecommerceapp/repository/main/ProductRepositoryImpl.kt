@@ -3,9 +3,14 @@ package com.example.ecommerceapp.repository.main
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.example.ecommerceapp.api.main.EcomApiService
 import com.example.ecommerceapp.api.main.asDatabaseModel
+import com.example.ecommerceapp.api.main.responses.CartProduct
+import com.example.ecommerceapp.api.main.responses.NetworkProduct
+import com.example.ecommerceapp.api.main.responses.PostCartItemResponse
+import com.example.ecommerceapp.api.main.responses.PostFavoriteItemResponse
 import com.example.ecommerceapp.domain.Product
 import com.example.ecommerceapp.persistence.ProductDao
 import com.example.ecommerceapp.persistence.asDomainModel
@@ -87,23 +92,50 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fetchCartItems(): List<Product> {
+    override suspend fun fetchFavoriteItems(): LiveData<List<Product>> {
+        val result = ecomApiService.fetchFavoriteItems()
+        val favItemLiveData: MutableLiveData<List<NetworkProduct>> = MutableLiveData()
+        favItemLiveData.value = result.product
+        val cartItems: LiveData<List<Product>> =
+            Transformations.map(favItemLiveData) { it.asDomainModel2() }
+//        Log.d("cart", result.product!!.asDomainModel2()[1].name)
+        return cartItems
+    }
+
+    override suspend fun addToFavorite(productId: String): PostFavoriteItemResponse {
+        val result = ecomApiService.postFavoriteItem(productId)
+        Log.d("favorite", result.message.toString())
+        return result
+    }
+
+    override suspend fun fetchCartItems(): List<CartProduct> {
         val result = ecomApiService.fetchCartItems()
-        Log.d("cart", result.message.toString())
-        Log.d("cart", result.product!![0].name)
-        Log.d("cart", result.authentication.toString())
-        Log.d("cart", result.error.toString())
 //        val cartItemLiveData: MutableLiveData<List<NetworkProduct>> = MutableLiveData()
 //        cartItemLiveData.value = result.product
 //        val cartItems: LiveData<List<Product>> =
 //            Transformations.map(cartItemLiveData) { it.asDomainModel2() }
-        Log.d("cart", result.product!!.asDomainModel2()[1].name)
-        return result.product!!.asDomainModel2()
+//        Log.d("cart", result.product!!.asDomainModel2()[1].name)
+        return if (result.product.isNullOrEmpty()) emptyList()
+        else result.product!!
     }
 
-    override suspend fun addToCart(productId: String) {
+    override suspend fun fetchNoOfCartItems(): Int {
+        val result = ecomApiService.fetchCartItems()
+        return if (result.product.isNullOrEmpty()) 0 else {
+            var quantity: Int = 0
+            result.product!!.forEach {
+                quantity += it.quantity
+            }
+            quantity
+        }
+
+    }
+
+
+    override suspend fun addToCart(productId: String): PostCartItemResponse {
         val result = ecomApiService.postCartItem(productId)
         Log.d("cart", result.message.toString())
+        return result
     }
 
     override fun searchProduct(query: String?): LiveData<List<Product>> {

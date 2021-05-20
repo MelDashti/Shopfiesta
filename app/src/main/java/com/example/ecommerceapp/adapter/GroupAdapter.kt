@@ -3,6 +3,7 @@ package com.example.ecommerceapp.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ListAdapter
@@ -54,7 +55,10 @@ class GroupAdapter(
             bind.group = group
             bind.clickListener = clickListener
             bind.groupItemRecyclerView.adapter = when (group.title) {
-                "Category" -> categoryListAdapter
+                "Category" -> {
+                    bind.constraintLayout.isVisible = false
+                    categoryListAdapter
+                }
                 "Recently Viewed" -> recentlyViewedAdapter
                 else -> popularListAdapter
             }

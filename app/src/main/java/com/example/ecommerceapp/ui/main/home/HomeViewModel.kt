@@ -6,11 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecommerceapp.domain.Product
+import com.example.ecommerceapp.repository.auth.AuthRepository
 import com.example.ecommerceapp.repository.main.ProductRepository
 import com.example.ecommerceapp.util.FilterType
 import kotlinx.coroutines.launch
 
-class HomeViewModel @ViewModelInject constructor(private val productRepository: ProductRepository) :
+class HomeViewModel @ViewModelInject constructor(
+    private val productRepository: ProductRepository,
+    private val authRepository: AuthRepository
+) :
     ViewModel() {
 
 
@@ -24,6 +28,10 @@ class HomeViewModel @ViewModelInject constructor(private val productRepository: 
     private val _navigateToUserProfile = MutableLiveData<Boolean>()
     val navigateToUserProfile: LiveData<Boolean> = _navigateToUserProfile
 
+
+    public fun checkIfAuthenticated():Boolean {
+        return authRepository.checkIfAuthenticated()
+    }
 
     public fun goToUserProfile() {
         _navigateToUserProfile.value = true

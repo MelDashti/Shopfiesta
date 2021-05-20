@@ -11,7 +11,7 @@
 
         <variable
             name="product"
-            type="com.example.ecommerceapp.domain.Product" />
+            type="com.example.ecommerceapp.api.main.responses.CartProduct" />
 
     </data>
 
@@ -90,9 +90,9 @@
                 android:id="@+id/integer_number"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:gravity="center"
                 android:clickable="false"
-                android:text="1"
+                android:gravity="center"
+                android:text="@{Integer.toString(product.quantity)}"
                 android:textColor="@color/secondaryColor"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="@+id/increase"
@@ -114,7 +114,6 @@
                 app:layout_constraintStart_toEndOf="@+id/integer_number"
                 app:layout_constraintTop_toTopOf="@+id/decrease"
                 app:srcCompat="@drawable/ic_add1" />
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

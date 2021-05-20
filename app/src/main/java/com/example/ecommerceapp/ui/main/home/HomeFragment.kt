@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -30,9 +29,7 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+
 
     private val viewModel: HomeViewModel by viewModels()
     override fun onCreateView(
@@ -99,7 +96,7 @@ class HomeFragment : Fragment() {
 
 
         //instead of this tiresome process this can be done directly in the xml file using binding adapters
-        viewModel.listResult.observe(viewLifecycleOwner, Observer {
+        viewModel.listResult.observe(viewLifecycleOwner, {
             popularListAdapter.submitList(viewModel.applyFiltering(FilterType.POPULAR))
             recentlyViewedAdapter.submitList(viewModel.applyFiltering(FilterType.RECENTLY_VIEWED))
         })
@@ -136,8 +133,10 @@ class HomeFragment : Fragment() {
         }
         viewModel.navigateToUserProfile.observe(viewLifecycleOwner, {
             if (it) {
+                if(viewModel.checkIfAuthenticated()){
                 findNavController().navigate(R.id.action_homeFragment_to_userProfileFragment)
-                viewModel.navigatedToUserProfile()
+                viewModel.navigatedToUserProfile()}
+                else findNavController().navigate(R.id.action_homeFragment_to_navigation)
             }
         })
 
@@ -172,8 +171,6 @@ class HomeFragment : Fragment() {
                 || super.onOptionsItemSelected(item)
     }
 
-    fun initializeGroupList() {
-    }
 
 
 }

@@ -8,7 +8,7 @@ class GetCartItemResponse() {
     var message: String? = null
     var error: Boolean? = null
     @Json(name = "product")
-    var product: List<NetworkProduct>? = null
+    var product: List<CartProduct>? = null
 }
 
 class PostCartItemResponse() {

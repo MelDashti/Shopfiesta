@@ -1,9 +1,6 @@
 package com.example.ecommerceapp.api.main
 
-import com.example.ecommerceapp.api.main.responses.GetCartItemResponse
-import com.example.ecommerceapp.api.main.responses.NetworkProduct
-import com.example.ecommerceapp.api.main.responses.PostCartItemResponse
-import com.example.ecommerceapp.api.main.responses.ProductResponse
+import com.example.ecommerceapp.api.main.responses.*
 import com.example.ecommerceapp.persistence.DatabaseProduct
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -15,8 +12,15 @@ interface EcomApiService {
     @GET("getproductinfo.php")
     suspend fun getProperties(): ProductResponse
 
+    @GET("getfavoriteitems.php")
+    suspend fun fetchFavoriteItems(): FavoritesResponse
+
     @GET("getcartitems.php")
     suspend fun fetchCartItems(): GetCartItemResponse
+
+    @FormUrlEncoded
+    @POST("postfavoriteitem.php")
+    suspend fun postFavoriteItem(@Field("product_id") productID: String): PostFavoriteItemResponse
 
     @FormUrlEncoded
     @POST("postcartitem.php")

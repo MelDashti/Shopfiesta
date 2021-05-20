@@ -1,30 +1,33 @@
 package com.example.ecommerceapp.ui.main.cart
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ecommerceapp.domain.Product
+import com.example.ecommerceapp.api.main.responses.CartProduct
+import com.example.ecommerceapp.repository.auth.AuthRepository
 import com.example.ecommerceapp.repository.main.ProductRepository
 import kotlinx.coroutines.launch
 
-class CartFragmentViewModel @ViewModelInject constructor(private val productRepository: ProductRepository) :
+class CartFragmentViewModel @ViewModelInject constructor(
+    private val productRepository: ProductRepository,
+     authRepository: AuthRepository
+) :
     ViewModel() {
 
-    var product = MutableLiveData<List<Product>>()
+    var product = MutableLiveData<List<CartProduct>>()
+    var token = MutableLiveData<Boolean>()
 
     init {
+        token.value = authRepository.checkIfAuthenticated()
         fetchCartItem()
     }
 
-     fun fetchCartItem() {
+    fun fetchCartItem() {
         viewModelScope.launch {
             val result = productRepository.fetchCartItems()
             product.value = result
-            Log.d("cart", product.value!![0].id)
         }
     }
-
 
 }

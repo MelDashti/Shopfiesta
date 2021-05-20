@@ -106,6 +106,21 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             tools:listitem="@layout/search_list_item" />
 
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:padding="88dp"
+            android:src="@drawable/ic_nosearchfound"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:showOnlyWhenEmpty2="@{viewModel.searchResultList}"
+            tools:visibility="gone" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

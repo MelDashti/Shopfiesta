@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.databinding.FragmentRegisterBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,14 +43,18 @@ class RegisterFragment : Fragment() {
         viewModel.response.observe(viewLifecycleOwner, Observer {
 
             if (!it.error!!) {
-                findNavController().navigate(R.id.action_registerFragment2_to_loginFragment2)
-                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_registerFragment2_to_homeFragment)
             }
-
+            Snackbar.make(requireView(), it.message.toString(), Snackbar.LENGTH_SHORT).show()
         })
 
+        bind.loginText.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment2_to_loginFragment2)
+        }
+
+        bind.backButton2.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
 
         return bind.root

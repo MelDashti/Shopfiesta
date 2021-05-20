@@ -13,15 +13,16 @@ class AuthRepositoryImpl @Inject constructor(
 ) :
     AuthRepository {
 
-    override suspend fun checkAuthenticationState(): String? {
-        TODO("Not yet implemented")
+    override fun checkIfAuthenticated(): Boolean {
+        val token = sharedPreferences.getString(PreferenceKeys.PREFERENCE_AUTH_KEY, "empty")
+        return !(token == null || token == "empty")
     }
 
     override suspend fun login(email: String, password: String): AuthResult {
         val result = registerApiService.loginCustomer(email, password)
         if (!result.error!!) {
             val token = result.token
-            Log.d("name",result.customer!!.lastName.toString())
+            Log.d("name", result.customer!!.lastName.toString())
             sharedPreferences.edit().putString(PreferenceKeys.PREFERENCE_AUTH_KEY, token).apply()
             sharedPreferences.edit()
                 .putString(PreferenceKeys.PREFERENCE_EMAIL_KEY, result.customer!!.email).apply()
