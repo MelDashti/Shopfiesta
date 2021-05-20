@@ -15,9 +15,38 @@
     </style>
 
 
+    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+
+    <style name="Widget.ShopFiesta.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="hintTextAppearance">@style/TextAppearance.ShopFiesta.TextInputLayout.HintText</item>
+        <item name="hintTextColor">@color/primaryTextColor</item>
+        <item name="boxBackgroundColor">@color/secondaryTextColor</item>
+        <item name="boxStrokeColor">@color/primaryDarkColor</item>
+    </style>
+
+    <style name="TextAppearance.ShopFiesta.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="Widget.ShopFiesta.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="backgroundTint">?attr/colorSecondary</item>
+    </style>
+
+    <style name="Widget.ShopFiesta.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/secondaryDarkColor</item>
+    </style>
+
     <style name="Toolbar" parent="ThemeOverlay.AppCompat.Light">
         <item name="background">@color/primaryColor</item>
     </style>
-    
-    
+
+
 </resources>

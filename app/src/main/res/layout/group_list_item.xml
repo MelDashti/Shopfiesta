@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="clickListener"
+            type="com.example.ecommerceapp.adapter.GroupItemListener" />
+
+        <variable
             name="group"
             type="com.example.ecommerceapp.domain.Group" />
     </data>
@@ -25,13 +29,13 @@
 
             <TextView
                 android:id="@+id/groupTitle"
+                style="?attr/textAppearanceHeadline6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:lines="1"
                 android:text="@{group.title}"
-                android:textAllCaps="true"
-                android:textColor="@color/primaryTextColor"
+                android:textColor="@color/secondaryColor"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/viewAllButton"
@@ -45,6 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                android:onClick="@{()->clickListener.onClick(group)}"
                 android:text="View All"
                 android:textColor="@color/secondaryColor"
                 android:textSize="12dp"
@@ -57,14 +62,16 @@
             android:id="@+id/groupItemRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:layoutAnimation="@anim/layout_animation"
             android:orientation="horizontal"
-            tools:listitem="@layout/category_list_item"
+            android:padding="8dp"
+            android:transitionName="@{}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            tools:listitem="@layout/category_list_item" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.ecommerceapp.ui.main.home.HomeViewModel" />
+    </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coord"
         android:layout_width="match_parent"
@@ -18,13 +22,16 @@
                 layout="@layout/layout_with_toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:secondaryViewModel="@{viewModel}" />
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/group_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layoutAnimation="@anim/layout_animation"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -35,7 +42,6 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"
@@ -48,16 +54,14 @@
             app:fabAlignmentMode="center"
             app:fabCradleMargin="10dp"
             app:fabCradleRoundedCornerRadius="10dp"
-            app:hideOnScroll="true"
-
-            >
+            app:hideOnScroll="true">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_navigation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:clickable="false"
+                android:clickable="true"
                 android:outlineAmbientShadowColor="@android:color/transparent"
                 android:outlineSpotShadowColor="@android:color/transparent"
                 app:menu="@menu/bottom_navigation_menu" />
@@ -69,17 +73,11 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()-> viewModel.goToCart()}"
             android:src="@drawable/ic_baseline_shopping_cart_24"
             app:layout_anchor="@id/bottomAppBar" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <data>
 
-        <variable
-            name="viewModel"
-            type="com.example.ecommerceapp.home.HomeViewModel" />
-    </data>
 </layout>
