@@ -29,15 +29,15 @@ class HomeViewModel @ViewModelInject constructor(
     val navigateToUserProfile: LiveData<Boolean> = _navigateToUserProfile
 
 
-    public fun checkIfAuthenticated():Boolean {
+    fun checkIfAuthenticated():Boolean {
         return authRepository.checkIfAuthenticated()
     }
 
-    public fun goToUserProfile() {
+    fun goToUserProfile() {
         _navigateToUserProfile.value = true
     }
 
-    public fun navigatedToUserProfile() {
+    fun navigatedToUserProfile() {
         _navigateToUserProfile.value = false
     }
 
@@ -52,7 +52,4 @@ class HomeViewModel @ViewModelInject constructor(
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-    }
 }

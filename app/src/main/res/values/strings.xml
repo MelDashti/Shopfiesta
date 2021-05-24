@@ -6,5 +6,23 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="product_price">Price: %s</string>
     <string name="waiting_for_location_and_network">Your Cart Is Empty Add Products</string>
+    <string name="total_amount">Total Amount: 0</string>
+    <string name="check_out_button_text">Check Out</string>
+    <string name="favorite_products">FAVORITE PRODUCTS</string>
+    <string name="app_title">shopify</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="as_guest">Browse As Guest</string>
+    <string name="electronics">ELECTRONICS</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="register">Register</string>
+    <string name="filters">Filters</string>
+    <string name="create_account">Create Account</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="house_address">House Address</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

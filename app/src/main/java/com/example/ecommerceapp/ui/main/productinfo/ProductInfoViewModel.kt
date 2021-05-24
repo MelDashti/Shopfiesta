@@ -11,7 +11,7 @@ import com.example.ecommerceapp.repository.auth.AuthRepository
 import com.example.ecommerceapp.repository.main.ProductRepository
 import kotlinx.coroutines.launch
 
-public class ProductInfoViewModel @ViewModelInject constructor(
+class ProductInfoViewModel @ViewModelInject constructor(
     private val productRepository: ProductRepository,
     private val authRepository: AuthRepository
 ) :
@@ -73,14 +73,10 @@ public class ProductInfoViewModel @ViewModelInject constructor(
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-    }
-
     fun addToFavorite() {
         if (authRepository.checkIfAuthenticated()) {
             viewModelScope.launch {
-                val result = productRepository.addToFavorite(product.value!!.id)
+                productRepository.addToFavorite(product.value!!.id)
             }
 
         } else {

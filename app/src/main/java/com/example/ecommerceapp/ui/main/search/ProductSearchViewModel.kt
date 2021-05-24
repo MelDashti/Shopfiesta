@@ -21,7 +21,7 @@ class ProductSearchViewModel @ViewModelInject constructor(private val productRep
         _startSearch.value = false
     }
 
-    public fun startSearch() {
+    fun startSearch() {
         _startSearch.value = true
     }
 
@@ -34,17 +34,10 @@ class ProductSearchViewModel @ViewModelInject constructor(private val productRep
         _query.value = query
     }
 
-    init {
-    }
-
     private fun refreshEcomProducts() {
         viewModelScope.launch {
             productRepository.refreshProducts()
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
     }
 
 

@@ -32,7 +32,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/ic_arrow_back_24px__1_" />
+            app:srcCompat="@drawable/ic_arrow_back_24px__1_"
+            android:focusable="true" />
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -43,7 +44,7 @@
             android:layout_marginTop="48dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/secondaryTextColor"
-            android:hint="Email"
+            android:hint="@string/email"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/backButton"
@@ -66,7 +67,7 @@
 
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:hint="Password"
+            android:hint="@string/password"
             app:errorEnabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/login_button"
@@ -92,7 +93,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="24dp"
             android:onClick="@{()->viewModel.onNavigateToRegister()}"
-            android:text="Login"
+            android:text="@string/login"
             android:textSize="17sp"
             app:layout_constraintBottom_toTopOf="@+id/register_text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -109,7 +110,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="32dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="Sign In"
+            android:text="@string/sign_in"
             android:textColor="@color/secondaryDarkColor"
             android:textSize="28sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -126,7 +127,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Forgot your password?"
+            android:text="@string/forgot_your_password"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -150,14 +151,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Don't have an account?" />
+                android:text="@string/don_t_have_an_account" />
 
             <TextView
                 android:id="@+id/idk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:text="Register"
+                android:text="@string/register"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />

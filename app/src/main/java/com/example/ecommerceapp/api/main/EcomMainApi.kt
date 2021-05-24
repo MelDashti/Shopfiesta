@@ -27,7 +27,6 @@ interface EcomApiService {
     suspend fun postCartItem(@Field("product_id") productID: String): PostCartItemResponse
 }
 
-
 fun List<NetworkProduct>?.asDatabaseModel(): List<DatabaseProduct> {
     return this!!.map {
         DatabaseProduct(

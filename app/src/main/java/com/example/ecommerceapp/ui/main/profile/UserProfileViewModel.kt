@@ -22,11 +22,8 @@ class UserProfileViewModel @ViewModelInject constructor(
 
     }
 
-    fun getUserInfo() {
 
-    }
-
-    suspend fun logout() {
+    fun logout() {
 
     }
 

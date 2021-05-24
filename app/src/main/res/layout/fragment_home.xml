@@ -64,7 +64,8 @@
                 android:clickable="true"
                 android:outlineAmbientShadowColor="@android:color/transparent"
                 android:outlineSpotShadowColor="@android:color/transparent"
-                app:menu="@menu/bottom_navigation_menu" />
+                app:menu="@menu/bottom_navigation_menu"
+                android:focusable="true" />
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <!--            app:fabCradleVerticalOffset="10dp"-->

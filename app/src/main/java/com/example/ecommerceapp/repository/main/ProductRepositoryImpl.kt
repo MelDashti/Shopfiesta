@@ -3,12 +3,10 @@ package com.example.ecommerceapp.repository.main
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.example.ecommerceapp.api.main.EcomApiService
 import com.example.ecommerceapp.api.main.asDatabaseModel
 import com.example.ecommerceapp.api.main.responses.CartProduct
-import com.example.ecommerceapp.api.main.responses.NetworkProduct
 import com.example.ecommerceapp.api.main.responses.PostCartItemResponse
 import com.example.ecommerceapp.api.main.responses.PostFavoriteItemResponse
 import com.example.ecommerceapp.domain.Product
@@ -92,14 +90,9 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun fetchFavoriteItems(): LiveData<List<Product>> {
+    override suspend fun fetchFavoriteItems(): List<Product> {
         val result = ecomApiService.fetchFavoriteItems()
-        val favItemLiveData: MutableLiveData<List<NetworkProduct>> = MutableLiveData()
-        favItemLiveData.value = result.product
-        val cartItems: LiveData<List<Product>> =
-            Transformations.map(favItemLiveData) { it.asDomainModel2() }
-//        Log.d("cart", result.product!!.asDomainModel2()[1].name)
-        return cartItems
+        return result.product!!.asDomainModel2()
     }
 
     override suspend fun addToFavorite(productId: String): PostFavoriteItemResponse {
@@ -114,7 +107,7 @@ class ProductRepositoryImpl @Inject constructor(
 //        cartItemLiveData.value = result.product
 //        val cartItems: LiveData<List<Product>> =
 //            Transformations.map(cartItemLiveData) { it.asDomainModel2() }
-//        Log.d("cart", result.product!!.asDomainModel2()[1].name)
+
         return if (result.product.isNullOrEmpty()) emptyList()
         else result.product!!
     }

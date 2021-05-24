@@ -1,7 +1,6 @@
 package com.example.ecommerceapp.ui.main.profile
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,39 +23,44 @@ class UserProfileFragment : Fragment() {
 
     private val viewModel: UserProfileViewModel by viewModels()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View?{
+    ): View {
 
-        val bind = FragmentUserProfileBinding.inflate(inflater)
-        bind.lifecycleOwner = this
-        bind.viewModel = viewModel
+        val binding = FragmentUserProfileBinding.inflate(inflater)
+        binding.viewModel=viewModel
+        binding.lifecycleOwner=this.viewLifecycleOwner
         val name = sharedPreferences.getString(PreferenceKeys.PREFERENCE_NAME_KEY, "NAME")!!
         val email = sharedPreferences.getString(PreferenceKeys.PREFERENCE_EMAIL_KEY, "Email")!!
-        bind.fullname.text = name
-        bind.nameEditText.setText(name)
-        bind.emailEditText.setText(email)
+        binding.fullname.text = name
+        binding.nameEditText.setText(name)
+        binding.emailEditText.setText(email)
 
-        bind.logoutButton.setOnClickListener {
-            val builder = AlertDialog.Builder(context, R.style.AlertDialogTheme);
-            //titles
-            builder.setTitle("Confirm Logout")
-            builder.setMessage("Are you sure you want log out?")
-            //buttons
-            builder.setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
-                viewModel.onNavigateToLauncherFragment()
-                findNavController().navigate(R.id.action_userProfileFragment_to_navigation)
-            })
-            builder.setNegativeButton("No", null)
-            builder.show()
+        binding.logoutButton.setOnClickListener {
+            showAlertDialog(it)
         }
 
-        bind.backButton.setOnClickListener {
+        binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        return bind.root
+        return binding.root
+    }
+
+    private fun showAlertDialog(it: View?) {
+        val builder = AlertDialog.Builder(context, R.style.AlertDialogTheme)
+        //titles
+        builder.setTitle("Confirm Logout")
+        builder.setMessage("Are you sure you want log out?")
+        //buttons
+        builder.setPositiveButton("Yes") { _, _ ->
+            viewModel.onNavigateToLauncherFragment()
+            findNavController().navigate(R.id.action_userProfileFragment_to_navigation)
+        }
+        builder.setNegativeButton("No", null)
+        builder.show()
     }
 
 }

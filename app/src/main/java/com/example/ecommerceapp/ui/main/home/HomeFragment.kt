@@ -2,7 +2,6 @@ package com.example.ecommerceapp.ui.main.home
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -28,72 +27,35 @@ class HomeFragment : Fragment() {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
-
-
-
+    lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val bind = FragmentHomeBinding.inflate(inflater)
 
-        bind.lifecycleOwner = this
-        bind.viewModel = viewModel
+        binding = FragmentHomeBinding.inflate(inflater)
 
-        bind.toolbarRef.userName.text =
+        binding.viewModel=viewModel
+        binding.lifecycleOwner=this.viewLifecycleOwner
+
+        binding.toolbarRef.userName.text =
             sharedPreferences.getString(PreferenceKeys.PREFERENCE_NAME_KEY, "Guest")
+
         //popular list recycler view initialization
 
-        val popularListAdapter =
-            ProductAdapter(ProductListener { productID: String, view: View ->
-                Log.d("hello1", productID)
-                val extraInfoForSharedElement =
-                    FragmentNavigatorExtras(view to productID)
-                // this is the same as writing pair(imageView, imageView.transitionName)
-                val action =
-                    HomeFragmentDirections.actionHomeFragmentToProductInfoFragment(productID)
-                findNavController().navigate(action, extraInfoForSharedElement)
-                // now we have to let the destination fragment know that there's an element to transition.
-                // We can define the kind of transition we want.
 
-            })
+        val popularListAdapter = initializeProductAdapter()
 
-
-        val recentlyViewedAdapter =
-            ProductAdapter(ProductListener { productID: String, view: View ->
-                val extraInfoForSharedElement =
-                    FragmentNavigatorExtras(view to productID)
-                // this is the same as writing pair(imageView, imageView.transitionName)
-                val action =
-                    HomeFragmentDirections.actionHomeFragmentToProductInfoFragment(productID)
-                findNavController().navigate(action, extraInfoForSharedElement)
-            })
-
+        val recentlyViewedAdapter = initializeProductAdapter()
 
         // Category recycler view initialization
         val categoryListAdapter = CategoryItemAdapter(CategoryListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToListFragment(it))
         })
-        categoryListAdapter.data =
-            listOf(
-                Category(
-                    name = "Phones",
-                    drawable = R.drawable.ic_phones,
-                    filterType = FilterType.PHONES
-                ),
-                Category(
-                    name = "Laptops",
-                    drawable = R.drawable.ic_laptops,
-                    filterType = FilterType.LAPTOPS
-                ),
-                Category(
-                    name = "Accessories",
-                    drawable = R.drawable.ic_accessories,
-                    filterType = FilterType.ACCESSORIES
-                )
-            )
 
+        categoryListAdapter.data = createCategoryData()
 
         //instead of this tiresome process this can be done directly in the xml file using binding adapters
         viewModel.listResult.observe(viewLifecycleOwner, {
@@ -102,22 +64,57 @@ class HomeFragment : Fragment() {
         })
 
         val groupAdapter =
-            GroupAdapter(GroupItemListener {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToListFragment(it))
-            }, popularListAdapter, recentlyViewedAdapter, categoryListAdapter)
+            initializeGroupAdapter(popularListAdapter, recentlyViewedAdapter, categoryListAdapter)
 
 
         groupAdapter.submitList(
             listOf(
-                Group(title = "Category",filterType = FilterType.CATEGORY), Group(title = "Recently Viewed",filterType = FilterType.RECENTLY_VIEWED),
-                Group(title = "Popular",filterType = FilterType.POPULAR),
-                Group(title = "Trending",filterType = FilterType.TRENDING),
-                Group(title = "Great",filterType = FilterType.GREAT)
+                Group(title = "Category", filterType = FilterType.CATEGORY),
+                Group(title = "Recently Viewed", filterType = FilterType.RECENTLY_VIEWED),
+                Group(title = "Popular", filterType = FilterType.POPULAR),
+                Group(title = "Trending", filterType = FilterType.TRENDING),
+                Group(title = "Great", filterType = FilterType.GREAT)
             )
         )
 
-        bind.groupRecyclerView.adapter = groupAdapter
+        binding.groupRecyclerView.adapter = groupAdapter
 
+        addDecorationToGroupRecyclerView()
+
+        binding.fab.setOnClickListener {
+            navigateToCart()
+        }
+
+        viewModel.navigateToUserProfile.observe(viewLifecycleOwner, {
+            navigateToUserProfile(it)
+        })
+
+        binding.bottomNavigation.setOnNavigationItemSelectedListener {
+            NavigationUI.onNavDestinationSelected(it, findNavController()) || onOptionsItemSelected(
+                it
+            )
+        }
+
+        // set your custom toolbar as support action bar
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbarRef.toolbar)
+        // show overflow menu
+        (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
+        setHasOptionsMenu(true)
+
+        return binding.root
+    }
+
+    private fun navigateToUserProfile(it: Boolean) {
+        if (it) {
+            if (viewModel.checkIfAuthenticated()) {
+                findNavController().navigate(R.id.action_homeFragment_to_userProfileFragment)
+                viewModel.navigatedToUserProfile()
+            } else findNavController().navigate(R.id.action_homeFragment_to_navigation)
+        }
+    }
+
+
+    private fun addDecorationToGroupRecyclerView() {
         val dividerItemDecoration = DividerItemDecoration(
             context,
             DividerItemDecoration.VERTICAL
@@ -126,31 +123,57 @@ class HomeFragment : Fragment() {
             ContextCompat.getDrawable(requireContext(), R.drawable.divider)!!
         )
 
-        bind.groupRecyclerView.addItemDecoration(dividerItemDecoration)
+        binding.groupRecyclerView.addItemDecoration(dividerItemDecoration)
+    }
 
-        bind.fab.setOnClickListener {
-            navigateToCart()
-        }
-        viewModel.navigateToUserProfile.observe(viewLifecycleOwner, {
-            if (it) {
-                if(viewModel.checkIfAuthenticated()){
-                findNavController().navigate(R.id.action_homeFragment_to_userProfileFragment)
-                viewModel.navigatedToUserProfile()}
-                else findNavController().navigate(R.id.action_homeFragment_to_navigation)
-            }
+
+    private fun initializeGroupAdapter(
+        popularListAdapter: ProductAdapter,
+        recentlyViewedAdapter: ProductAdapter,
+        categoryListAdapter: CategoryItemAdapter
+    ): GroupAdapter {
+        return GroupAdapter(GroupItemListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToListFragment(
+                    it
+                )
+            )
+        }, popularListAdapter, recentlyViewedAdapter, categoryListAdapter)
+    }
+
+
+    private fun createCategoryData(): List<Category> {
+        return listOf(
+            Category(
+                name = "Phones",
+                drawable = R.drawable.ic_phones,
+                filterType = FilterType.PHONES
+            ),
+            Category(
+                name = "Laptops",
+                drawable = R.drawable.ic_laptops,
+                filterType = FilterType.LAPTOPS
+            ),
+            Category(
+                name = "Accessories",
+                drawable = R.drawable.ic_accessories,
+                filterType = FilterType.ACCESSORIES
+            )
+        )
+    }
+
+
+    private fun initializeProductAdapter(): ProductAdapter {
+        return ProductAdapter(ProductListener { productID: String, view: View ->
+            val extraInfoForSharedElement =
+                FragmentNavigatorExtras(view to productID)
+            // this is the same as writing pair(imageView, imageView.transitionName)
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToProductInfoFragment(productID)
+            findNavController().navigate(action, extraInfoForSharedElement)
+            // now we have to let the destination fragment know that there's an element to transition.
+            // We can define the kind of transition we want.
         })
-
-        bind.bottomNavigation.setOnNavigationItemSelectedListener {
-            NavigationUI.onNavDestinationSelected(it,findNavController()) || onOptionsItemSelected(it)
-        }
-
-        // set your custom toolbar as support action bar
-        (activity as AppCompatActivity).setSupportActionBar(bind.toolbarRef.toolbar)
-        // show overflow menu
-        (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
-        setHasOptionsMenu(true)
-
-        return bind.root
     }
 
     private fun navigateToCart() {
@@ -170,7 +193,6 @@ class HomeFragment : Fragment() {
         )
                 || super.onOptionsItemSelected(item)
     }
-
 
 
 }

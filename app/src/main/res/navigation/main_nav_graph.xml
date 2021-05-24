@@ -174,5 +174,9 @@
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.ecommerceapp.ui.main.favorite.FavoriteFragment"
-        android:label="FavoriteFragment" />
+        android:label="FavoriteFragment" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_productInfoFragment"
+            app:destination="@id/productInfoFragment" />
+    </fragment>
 </navigation>

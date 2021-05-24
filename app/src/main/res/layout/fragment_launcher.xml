@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="shopify"
+            android:text="@string/app_title"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textSize="36sp"
@@ -75,7 +75,7 @@
                 android:textSize="17sp"
                 android:textAllCaps="false"
                 android:textColor="@color/secondaryDarkColor"
-                android:text="Sign In"
+                android:text="@string/sign_in"
                 app:layout_constraintBottom_toTopOf="@+id/guest_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -90,7 +90,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:textAllCaps="false"
-                android:text="Sign Up"
+                android:text="@string/sign_up"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toTopOf="@+id/sign_in_button"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -109,9 +109,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="8dp"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
-                android:text="Browse As Guest"
+                android:text="@string/as_guest"
                 android:textColor="#CC000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

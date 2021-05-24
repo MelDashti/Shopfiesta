@@ -17,5 +17,5 @@ interface ProductRepository {
     suspend fun refreshProducts(): Unit
     fun applyFiltering(filterType: FilterType): List<Product>
     suspend fun addToFavorite(productId: String): PostFavoriteItemResponse
-    suspend fun fetchFavoriteItems(): LiveData<List<Product>>
+    suspend fun fetchFavoriteItems(): List<Product>
 }

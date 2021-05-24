@@ -23,7 +23,8 @@
             android:clickable="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_arrow_back_24px__1_" />
+            app:srcCompat="@drawable/ic_arrow_back_24px__1_"
+            android:focusable="true" />
 
         <TextView
             android:id="@+id/header_text"
@@ -85,10 +86,10 @@
             <TextView
                 android:id="@+id/totalAmount"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Total Ammount: 0"
+                android:text="@string/total_amount"
                 android:textAlignment="textStart"
                 android:textColor="@color/primaryTextColor" />
 
@@ -99,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
                 android:backgroundTint="@color/secondaryColor"
-                android:text="Check Out"
+                android:text="@string/check_out_button_text"
                 android:textColor="@color/secondaryTextColor" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

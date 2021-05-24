@@ -2,13 +2,11 @@ package com.example.ecommerceapp.ui.main.productinfo
 
 import android.os.Bundle
 import android.transition.TransitionInflater
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.databinding.FragmentProductInfoBinding
@@ -26,7 +24,6 @@ class ProductInfoFragment : Fragment() {
         val productId = ProductInfoFragmentArgs.fromBundle(requireArguments()).product
         // Now with the above method used the animation is not ruined because the image is yet to be loaded.
         binding.viewModel = viewModel
-        Log.d("hello1", productId)
         binding.imageView4.transitionName = productId
         viewModel.fetchProductInfo(productId)
         binding.lifecycleOwner = this.viewLifecycleOwner
@@ -39,26 +36,26 @@ class ProductInfoFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        viewModel.onClickCartButton.observe(viewLifecycleOwner, Observer {
+        viewModel.onClickCartButton.observe(viewLifecycleOwner,  {
             if (it) {
                 if (!viewModel.checkIfAuthenticated())
                     showLoginSnackBar()
                 else findNavController().navigate(R.id.action_productInfoFragment_to_cartFragment)
             }
         })
-        viewModel.onClickAddedToCart.observe(viewLifecycleOwner, Observer {
+        viewModel.onClickAddedToCart.observe(viewLifecycleOwner,  {
             if (!it)
                 showLoginSnackBar()
         })
 
-        viewModel.networkResponse.observe(viewLifecycleOwner, Observer {
+        viewModel.networkResponse.observe(viewLifecycleOwner,  {
             if (!it.error!!) {
 
             }
             Snackbar.make(requireView(), it.message.toString(), Snackbar.LENGTH_LONG).show()
         })
 
-        viewModel.noOfCartItems.observe(viewLifecycleOwner, Observer {
+        viewModel.noOfCartItems.observe(viewLifecycleOwner,  {
             binding.cartButton.badgeValue = it
 
         })
@@ -68,14 +65,10 @@ class ProductInfoFragment : Fragment() {
         }
 
 
-
-
-
-
-
-
         return binding.root
     }
+
+
 
     fun showLoginSnackBar() {
         Snackbar.make(requireView(), "You are not logged in", Snackbar.LENGTH_LONG)
