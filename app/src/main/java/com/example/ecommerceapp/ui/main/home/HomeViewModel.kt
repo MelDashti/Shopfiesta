@@ -1,6 +1,5 @@
 package com.example.ecommerceapp.ui.main.home
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,9 +8,12 @@ import com.example.ecommerceapp.domain.Product
 import com.example.ecommerceapp.repository.auth.AuthRepository
 import com.example.ecommerceapp.repository.main.ProductRepository
 import com.example.ecommerceapp.util.FilterType
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel @ViewModelInject constructor(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val productRepository: ProductRepository,
     private val authRepository: AuthRepository
 ) :

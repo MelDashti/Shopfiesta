@@ -24,5 +24,7 @@
     <string name="create_account">Create Account</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="house_address">House Address</string>
+    <string name="email_address_hint">Email Address</string>
+    <string name="name_hint">Name</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

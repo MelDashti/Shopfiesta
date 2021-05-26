@@ -28,6 +28,7 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
     lateinit var binding: FragmentHomeBinding
+
     private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(

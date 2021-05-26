@@ -160,7 +160,7 @@
                 android:layout_marginStart="3dp"
                 android:text="@string/register"
                 android:textAllCaps="true"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/secondaryDarkColor"
                 android:textStyle="bold" />
 
         </LinearLayout>

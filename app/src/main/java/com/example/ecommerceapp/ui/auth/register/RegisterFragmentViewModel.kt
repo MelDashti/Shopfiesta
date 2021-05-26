@@ -1,17 +1,19 @@
 package com.example.ecommerceapp.ui.auth.register
 
 import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecommerceapp.api.auth.responses.AuthResult
 import com.example.ecommerceapp.repository.auth.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class RegisterFragmentViewModel @ViewModelInject constructor(
+@HiltViewModel
+class RegisterFragmentViewModel @Inject constructor(
     val authRepository: AuthRepository
 ) :
     ViewModel() {

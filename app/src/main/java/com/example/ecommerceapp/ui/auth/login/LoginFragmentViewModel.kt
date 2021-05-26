@@ -1,16 +1,18 @@
 package com.example.ecommerceapp.ui.auth.login
 
 import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecommerceapp.api.auth.responses.AuthResult
 import com.example.ecommerceapp.repository.auth.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginFragmentViewModel @ViewModelInject constructor(val authRepository: AuthRepository) :
+@HiltViewModel
+class LoginFragmentViewModel @Inject constructor(val authRepository: AuthRepository) :
     ViewModel() {
 
 //    var fullname = MutableLiveData<String>()

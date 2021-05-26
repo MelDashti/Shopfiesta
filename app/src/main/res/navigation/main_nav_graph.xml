@@ -20,13 +20,6 @@
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
         <action
-            android:id="@+id/action_homeFragment_to_itemFragment"
-            app:destination="@id/itemFragment"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
-        <action
             android:id="@+id/action_homeFragment_to_productSearchFragment"
             app:destination="@id/productSearchFragment"
             app:enterAnim="@anim/fade_in"
@@ -72,11 +65,6 @@
             android:id="@+id/action_productInfoFragment_to_navigation"
             app:destination="@id/navigation" />
     </fragment>
-    <fragment
-        android:id="@+id/itemFragment"
-        android:name="com.example.ecommerceapp.listview.ItemFragment"
-        android:label="fragment_item_list"
-        tools:layout="@layout/fragment_item_list" />
     <fragment
         android:id="@+id/productSearchFragment"
         android:name="com.example.ecommerceapp.ui.main.search.ProductSearchFragment"

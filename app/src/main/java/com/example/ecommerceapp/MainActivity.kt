@@ -25,10 +25,10 @@ class MainActivity : AppCompatActivity() {
         val token = sharedPreferences.getString(PreferenceKeys.PREFERENCE_AUTH_KEY, defaultValue)
 
         if (token == null || token == "empty") {
-            graph.startDestination = R.id.navigation
+            graph.setStartDestination(R.id.navigation)
         } else {
             Log.d("token ", token)
-            graph.startDestination = R.id.homeFragment
+            graph.setStartDestination(R.id.homeFragment)
         }
         navController.graph = graph
 

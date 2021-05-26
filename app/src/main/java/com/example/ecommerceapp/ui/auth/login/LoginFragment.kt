@@ -56,8 +56,6 @@ class LoginFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-
-
         return bind.root
     }
 

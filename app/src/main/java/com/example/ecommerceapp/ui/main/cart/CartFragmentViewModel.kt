@@ -1,15 +1,17 @@
 package com.example.ecommerceapp.ui.main.cart
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ecommerceapp.api.main.responses.CartProduct
 import com.example.ecommerceapp.repository.auth.AuthRepository
 import com.example.ecommerceapp.repository.main.ProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CartFragmentViewModel @ViewModelInject constructor(
+@HiltViewModel
+class CartFragmentViewModel @Inject constructor(
     private val productRepository: ProductRepository,
      authRepository: AuthRepository
 ) :
