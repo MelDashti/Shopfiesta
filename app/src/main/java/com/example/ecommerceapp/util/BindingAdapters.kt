@@ -32,29 +32,43 @@ fun setImageResource(imageView: ImageView, resource: Int) {
     imageView.setImageResource(resource)
 }
 
+@BindingAdapter("noInternet")
+fun View.showOnlyWhenNoInternet(networkCon: Boolean) {
+    visibility = when {
+        !networkCon -> View.VISIBLE
+        else -> View.GONE
+    }
+}
+
 @BindingAdapter(value = ["token", "data"])
-fun showOnlyWhenEmpty(view: ImageView, token: Boolean, data: List<CartProduct>?) {
+fun showOnlyWhenEmpty(
+    view: ImageView,
+    token: Boolean,
+    data: List<CartProduct>?
+) {
     if (token) {
         view.visibility = when {
             data == null || data.isEmpty() -> View.VISIBLE
             else -> View.GONE
-        }}else view.visibility = View.GONE
+        }
+    } else view.visibility = View.GONE
 
 }
 
 @BindingAdapter("showOnlyWhenEmpty2")
-fun View.showOnlyWhenEmpty2(data: List<Product>?) {
+fun View.showOnlyWhenSearchResultIsEmpty(data: List<Product>?) {
     visibility = when {
         data == null || data.isEmpty() -> View.VISIBLE
         else -> View.GONE
     }
 }
 
-@BindingAdapter("onlyWhenNotAuthenticated")
-fun View.onlyWhenNotAuthenticated(token: Boolean) {
-    visibility = when {
-        !token -> View.VISIBLE
-        else -> View.GONE
+@BindingAdapter(value=["networkcon","token"])
+fun View.onlyWhenNotAuthenticated(token: Boolean, networkCon: Boolean) {
+    if (networkCon) {
+        visibility = when {
+            !token -> View.VISIBLE
+            else -> View.GONE
+        }
     }
-
 }

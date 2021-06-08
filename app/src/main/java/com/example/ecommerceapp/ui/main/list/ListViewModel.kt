@@ -1,12 +1,14 @@
 package com.example.ecommerceapp.ui.main.list
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.example.ecommerceapp.domain.Product
 import com.example.ecommerceapp.repository.main.ProductRepository
 import com.example.ecommerceapp.util.FilterType
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ListViewModel @ViewModelInject constructor(private val productRepository: ProductRepository) :
+@HiltViewModel
+class ListViewModel @Inject constructor(private val productRepository: ProductRepository) :
     ViewModel() {
 
 

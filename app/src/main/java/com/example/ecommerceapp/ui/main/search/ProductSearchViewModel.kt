@@ -1,6 +1,5 @@
 package com.example.ecommerceapp.ui.main.search
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.example.ecommerceapp.domain.Product
 import com.example.ecommerceapp.repository.main.ProductRepository
@@ -19,9 +18,11 @@ class ProductSearchViewModel @Inject constructor(private val productRepository: 
 
     private val _startSearch = MutableLiveData<Boolean>()
     val startSearch: LiveData<Boolean> = _startSearch
+    val searchResultList: LiveData<List<Product>> = Transformations.switchMap(_query, ::filterIt)
 
     init {
         _startSearch.value = false
+        searchNow("")
     }
 
     fun startSearch() {
@@ -31,10 +32,9 @@ class ProductSearchViewModel @Inject constructor(private val productRepository: 
 
     private fun filterIt(query: String?) = productRepository.searchProduct(query)
 
-    val searchResultList: LiveData<List<Product>> = Transformations.switchMap(_query, ::filterIt)
 
     fun searchNow(query: String?) {
-        _query.value = query
+        _query.value = query!!
     }
 
     private fun refreshEcomProducts() {

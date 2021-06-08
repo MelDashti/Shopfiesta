@@ -18,7 +18,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="161.19dp"
         android:layout_height="167dp"
-        app:cardCornerRadius="29dp">
+        app:cardCornerRadius="24dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
 
@@ -28,12 +28,11 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="125dp"
-                android:layout_height="127dp"
+                android:layout_width="match_parent"
+                android:layout_height="134dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
-                android:scaleType="centerCrop"
+                android:scaleType="fitXY"
                 android:transitionName="@{product.id}"
                 app:imageUrl="@{product.imgSrcUrl}"
                 app:layout_constraintBottom_toTopOf="@+id/textView3"

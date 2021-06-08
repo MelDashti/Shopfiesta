@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.ui.main.productinfo
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,8 +9,10 @@ import com.example.ecommerceapp.api.main.responses.PostCartItemResponse
 import com.example.ecommerceapp.domain.Product
 import com.example.ecommerceapp.repository.auth.AuthRepository
 import com.example.ecommerceapp.repository.main.ProductRepository
+import com.example.ecommerceapp.util.NetworkConnectionInterceptor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,7 +21,6 @@ class ProductInfoViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) :
     ViewModel() {
-
     private val _noOfCartItems = MutableLiveData<Int>()
     val noOfCartItems: LiveData<Int>
         get() = _noOfCartItems
@@ -58,7 +60,12 @@ class ProductInfoViewModel @Inject constructor(
 
     private fun fetchNoOfCartItems() {
         viewModelScope.launch {
-            _noOfCartItems.value = productRepository.fetchNoOfCartItems()
+            try {
+                _noOfCartItems.value = productRepository.fetchNoOfCartItems()
+            } catch (e: IOException) {
+                if (e is NetworkConnectionInterceptor.NoConnectionException)
+                    Log.d("Nooo", "No internet  connection")
+            }
         }
     }
 

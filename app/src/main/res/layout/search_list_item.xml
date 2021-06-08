@@ -18,13 +18,13 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="?attr/listPreferredItemHeightLarge"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="4dp"
         app:contentPadding="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="128dp"
             android:onClick="@{()-> clickListener.onClick(product)}">
 
             <ImageView
@@ -32,6 +32,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
+                android:transitionName="@{product.id}"
                 app:imageUrl="@{product.imgSrcUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
@@ -42,13 +43,14 @@
             <TextView
                 android:id="@+id/item_title"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:maxLines="1"
+                android:paddingEnd="16dp"
                 android:text="@{product.name}"
-                android:textAppearance="?attr/textAppearanceBody1"
                 android:textColor="@color/primaryTextColor"
-                app:layout_constraintBottom_toTopOf="@+id/item_price"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/item_image"
@@ -57,16 +59,37 @@
                 tools:text="@tools:sample/lorem/random" />
 
             <TextView
+                android:id="@+id/item_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:maxLines="3"
+                android:paddingEnd="16dp"
+                android:text="@{product.description}"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/item_image"
+                app:layout_constraintTop_toBottomOf="@id/item_title"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="@tools:sample/lorem/random" />
+
+            <TextView
                 android:id="@+id/item_price"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 android:maxLines="1"
-                android:textAppearance="?attr/textAppearanceBody2"
+                android:text="@{`Price:`+Double.toString(product.price)+`$`}"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/item_title"
-                app:layout_constraintTop_toBottomOf="@+id/item_title"
-                tools:text="@tools:sample/us_phones" />
+                app:layout_constraintStart_toStartOf="@+id/item_description"
+                tools:text="Price: 400$" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

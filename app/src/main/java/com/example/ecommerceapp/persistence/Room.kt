@@ -4,15 +4,10 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.Room.databaseBuilder
+import com.example.ecommerceapp.api.main.responses.CartProduct
 import com.example.ecommerceapp.api.main.responses.NetworkProduct
 import com.example.ecommerceapp.domain.Product
 
-//@Entity(tableName = "user_table")
-//data class User constructor(
-//    @PrimaryKey
-//    val userId: Double,
-//    val cartItem: Double
-//)
 
 @Entity(tableName = "product_table")
 data class DatabaseProduct constructor(
@@ -24,6 +19,18 @@ data class DatabaseProduct constructor(
     val category: String,
     val description: String
 )
+
+@Dao
+interface CartProductDao {
+    @Query("select * from cart_table")
+    fun getProducts(): LiveData<List<CartProduct>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCartProducts(products: List<CartProduct>?)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCartProduct(product: CartProduct)
+}
 
 
 @Dao
@@ -43,11 +50,13 @@ interface ProductDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertProduct(product: DatabaseProduct)
+
 }
 
-@Database(entities = [DatabaseProduct::class], version = 8, exportSchema = true)
+@Database(entities = [DatabaseProduct::class, CartProduct::class], version = 9, exportSchema = true)
 abstract class ProductDatabase : RoomDatabase() {
     abstract val productDao: ProductDao
+    abstract val cartProductDao: CartProductDao
 
     companion object {
         @Volatile
@@ -59,7 +68,7 @@ abstract class ProductDatabase : RoomDatabase() {
                     instance = databaseBuilder(
                         context.applicationContext,
                         ProductDatabase::class.java,
-                        "sleep_history_database"
+                        "shopfiesta_database"
                     )
                         .fallbackToDestructiveMigration()
                         .build()

@@ -40,8 +40,9 @@
             style="?attr/textAppearanceHeadline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginStart="16dp"
             android:text="My Profile"
+            android:textSize="18sp"
             android:textColor="@color/secondaryTextColor"
             app:layout_constraintStart_toEndOf="@+id/back_button"
             app:layout_constraintTop_toTopOf="@+id/back_button" />
@@ -158,10 +159,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.09"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/back_button"
-            app:layout_constraintVertical_bias="0.110000014" />
+            app:layout_constraintVertical_bias="0.060000002" />
 
         <TextView
             android:id="@+id/fullname"
@@ -177,8 +178,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/profile_image"
             app:layout_constraintTop_toTopOf="@+id/profile_image"
-            app:layout_constraintVertical_bias="0.01999998"
-            tools:text="Milad Dashti" />
+            app:layout_constraintVertical_bias="0.0"
+                tools:text="Milad Dashti" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

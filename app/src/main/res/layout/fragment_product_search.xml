@@ -15,36 +15,23 @@
         android:layout_height="match_parent"
         android:background="@color/primaryColor">
 
-        <TextView
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/secondaryColor"
-            android:gravity="center"
-            android:text="@string/app_title"
-            android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            android:textColor="@color/secondaryTextColor"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:layout_height="64dp"
             android:background="@color/secondaryColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipChildren="false"
                 android:clipToPadding="false"
-                tools:layout_editor_absoluteX="16dp">
+                tools:layout_editor_absoluteX="8dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/filter_button"
@@ -79,21 +66,8 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </androidx.appcompat.widget.Toolbar>
 
-
-<!--        <TextView-->
-<!--            android:id="@+id/stats"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="16dp"-->
-<!--            android:text="Search Query"-->
-<!--            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/toolbar"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/product_list"
@@ -112,7 +86,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:padding="88dp"
+            android:padding="120dp"
             android:src="@drawable/ic_nosearchfound"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

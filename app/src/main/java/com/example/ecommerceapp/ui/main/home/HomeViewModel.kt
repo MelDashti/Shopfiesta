@@ -19,13 +19,10 @@ class HomeViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-
     init {
         refreshEcomProducts()
     }
-
     val listResult = productRepository.product
-
 
     private val _navigateToUserProfile = MutableLiveData<Boolean>()
     val navigateToUserProfile: LiveData<Boolean> = _navigateToUserProfile

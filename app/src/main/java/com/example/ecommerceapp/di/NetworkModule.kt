@@ -5,18 +5,17 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.example.ecommerceapp.api.auth.RegisterApiService
 import com.example.ecommerceapp.api.main.EcomApiService
-import com.example.ecommerceapp.util.AuthInterceptor
-import com.example.ecommerceapp.util.BASE_URL
-import com.example.ecommerceapp.util.PreferenceKeys
+import com.example.ecommerceapp.util.*
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -35,11 +34,22 @@ object NetworkModule {
     }
 
     @Singleton
-    @Provides
-    fun provideCustomInterceptor(sharedPreferences: SharedPreferences): Interceptor {
+    @Provides()
+    fun provideAuthInterceptor(sharedPreferences: SharedPreferences): AuthInterceptor {
         return AuthInterceptor(sharedPreferences)
     }
 
+    @Singleton
+    @Provides()
+    fun provideNetworkInterceptor(@ApplicationContext context: Context): NetworkConnectionInterceptor {
+        return NetworkConnectionInterceptor(context)
+    }
+
+    @Singleton
+    @Provides
+    fun provideLoggingInterceptor(): LoggingInterceptor {
+        return LoggingInterceptor()
+    }
 
     @Singleton
     @Provides
@@ -66,21 +76,25 @@ object NetworkModule {
 
     //For debugging purpose.
     // When using this interceptor add @header("Authorization") token: String to your get request
-//    @Singleton
-//    @Provides
-//    fun provideInterceptor(): Interceptor {
-//        return HttpLoggingInterceptor().apply {
-//            this.level = HttpLoggingInterceptor.Level.BODY
-//        }
-//    }
+    @Singleton
+    @Provides
+    fun provideInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().apply {
+            this.level = HttpLoggingInterceptor.Level.BODY
+        }
+    }
 
     //As soon as we move to production, it is recommended to turn off the logging, completely.
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
+    fun provideOkHttpClient(
+        networkConnectionInterceptor: NetworkConnectionInterceptor,
+        authInterceptor: AuthInterceptor, interceptor: HttpLoggingInterceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder().apply {
-            this.addInterceptor(interceptor)
+            this.addInterceptor(networkConnectionInterceptor).addInterceptor(authInterceptor)
+                .addInterceptor(interceptor)
         }.build()
     }
 

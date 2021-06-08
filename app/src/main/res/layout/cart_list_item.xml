@@ -33,6 +33,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
+                android:transitionName="@{product.id}"
                 app:imageUrl="@{product.imgSrcUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
@@ -78,14 +79,14 @@
                 android:layout_marginBottom="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
+                android:focusable="true"
                 android:textColor="@color/secondaryColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/integer_number"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/ic_remove_circle_black_24dp__1__1"
-                android:focusable="true" />
+                app:srcCompat="@drawable/ic_remove_circle_black_24dp__1__1" />
 
             <TextView
                 android:id="@+id/integer_number"
@@ -109,13 +110,13 @@
                 android:layout_marginBottom="16dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
+                android:focusable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/integer_number"
                 app:layout_constraintTop_toTopOf="@+id/decrease"
-                app:srcCompat="@drawable/ic_add1"
-                android:focusable="true" />
+                app:srcCompat="@drawable/ic_add1" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

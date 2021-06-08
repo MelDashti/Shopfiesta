@@ -44,9 +44,9 @@ class CartFragment : Fragment() {
         //check if you can add decoration in the adapter class
         addDecorationsToAdapter()
 
-        viewModel.fetchCartItem()
+//        viewModel.fetchCartItem()
 
-        viewModel.product.observe(viewLifecycleOwner, {
+        viewModel.cartProducts.observe(viewLifecycleOwner, {
             adapter.submitList(it)
             calculateTotalAmount(it)
             binding.cartList.scheduleLayoutAnimation()

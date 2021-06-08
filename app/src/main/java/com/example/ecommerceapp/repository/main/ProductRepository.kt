@@ -18,4 +18,6 @@ interface ProductRepository {
     fun applyFiltering(filterType: FilterType): List<Product>
     suspend fun addToFavorite(productId: String): PostFavoriteItemResponse
     suspend fun fetchFavoriteItems(): List<Product>
+    val cartProducts: LiveData<List<CartProduct>>
+    suspend fun refreshCartProducts()
 }

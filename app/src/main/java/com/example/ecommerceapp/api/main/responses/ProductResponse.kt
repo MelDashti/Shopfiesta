@@ -1,5 +1,7 @@
 package com.example.ecommerceapp.api.main.responses
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
 class ProductResponse {
@@ -28,10 +30,26 @@ class ProductResponse {
 //    }
 
 
-
+@Entity(tableName = "cart_table")
 data class CartProduct(
     @Json(name = "quantity")
     val quantity: Int,
+    @Json(name = "product_name")
+    val name: String,
+    @Json(name = "unit_price")
+    val price: Double,
+    @Json(name = "product_id")
+    @PrimaryKey
+    val id: String,
+    @Json(name = "img_src_url")
+    val imgSrcUrl: String,
+    @Json(name = "category")
+    val category: String,
+    @Json(name = "description")
+    val description: String
+)
+
+data class NetworkProduct(
     @Json(name = "product_name")
     val name: String,
     @Json(name = "unit_price")
@@ -45,18 +63,3 @@ data class CartProduct(
     @Json(name = "description")
     val description: String
 )
-
-    data class NetworkProduct(
-        @Json(name = "product_name")
-        val name: String,
-        @Json(name = "unit_price")
-        val price: Double,
-        @Json(name = "product_id")
-        val id: String,
-        @Json(name = "img_src_url")
-        val imgSrcUrl: String,
-        @Json(name = "category")
-        val category: String,
-        @Json(name = "description")
-        val description: String
-    )

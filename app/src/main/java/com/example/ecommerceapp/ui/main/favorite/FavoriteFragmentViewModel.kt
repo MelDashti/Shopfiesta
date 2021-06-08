@@ -17,13 +17,8 @@ class FavoriteFragmentViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    init {
-        fetchFavoriteItem()
-    }
-
     var list = MutableLiveData<List<Product>>()
     var token = MutableLiveData<Boolean>()
-
 
     init {
         token.value = authRepository.checkIfAuthenticated()
@@ -33,7 +28,7 @@ class FavoriteFragmentViewModel @Inject constructor(
     private fun fetchFavoriteItem() {
         viewModelScope.launch {
             val result = productRepository.fetchFavoriteItems()
-            list.value= result
+            list.value = result
         }
     }
 }

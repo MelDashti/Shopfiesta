@@ -26,5 +26,6 @@
     <string name="house_address">House Address</string>
     <string name="email_address_hint">Email Address</string>
     <string name="name_hint">Name</string>
+    <string name="notification">Notifications</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

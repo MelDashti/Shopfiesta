@@ -1,7 +1,5 @@
 package com.example.ecommerceapp.ui.main.search
 
-import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -51,7 +49,6 @@ class ProductSearchFragment : Fragment() {
 
 
     private fun initializeSearch() {
-        val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = binding.searchView
         searching(searchView)
     }
@@ -59,11 +56,11 @@ class ProductSearchFragment : Fragment() {
     private fun searching(search: SearchView) {
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.searchNow(query)
                 return false
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
+            override fun onQueryTextChange(query: String?): Boolean {
+                viewModel.searchNow(query)
                 return false
             }
         }

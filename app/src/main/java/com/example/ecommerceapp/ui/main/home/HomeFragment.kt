@@ -38,8 +38,8 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater)
 
-        binding.viewModel=viewModel
-        binding.lifecycleOwner=this.viewLifecycleOwner
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
         binding.toolbarRef.userName.text =
             sharedPreferences.getString(PreferenceKeys.PREFERENCE_NAME_KEY, "Guest")
@@ -48,7 +48,6 @@ class HomeFragment : Fragment() {
 
 
         val popularListAdapter = initializeProductAdapter()
-
         val recentlyViewedAdapter = initializeProductAdapter()
 
         // Category recycler view initialization
@@ -69,14 +68,7 @@ class HomeFragment : Fragment() {
 
 
         groupAdapter.submitList(
-            listOf(
-                Group(title = "Category", filterType = FilterType.CATEGORY),
-                Group(title = "Recently Viewed", filterType = FilterType.RECENTLY_VIEWED),
-                Group(title = "Popular", filterType = FilterType.POPULAR),
-                Group(title = "Trending", filterType = FilterType.TRENDING),
-                Group(title = "Great", filterType = FilterType.GREAT)
-            )
-        )
+            listOf(Group(title = "Category", filterType = FilterType.CATEGORY), Group(title = "Recently Viewed", filterType = FilterType.RECENTLY_VIEWED), Group(title = "Popular", filterType = FilterType.POPULAR), Group(title = "Trending", filterType = FilterType.TRENDING), Group(title = "Great", filterType = FilterType.GREAT)))
 
         binding.groupRecyclerView.adapter = groupAdapter
 
@@ -101,9 +93,15 @@ class HomeFragment : Fragment() {
         // show overflow menu
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
         setHasOptionsMenu(true)
+        bottomNavigationSettings()
 
         return binding.root
     }
+
+    private fun bottomNavigationSettings() {
+        binding.bottomNavigation.selectedItemId = R.id.homeFragment
+    }
+
 
     private fun navigateToUserProfile(it: Boolean) {
         if (it) {
