@@ -30,9 +30,23 @@ class CartFragmentViewModel @Inject constructor(
     var cartProducts = productRepository.cartProducts
 
 
+     fun removeCartItem(productId: String){
+        viewModelScope.launch {
+            productRepository.removeCartProduct(productId)
+        }
+    }
+
+
     private fun refreshCartProducts() {
         viewModelScope.launch {
             productRepository.refreshCartProducts()
+        }
+    }
+
+
+    fun updateProductQuantity(productId: String) {
+        viewModelScope.launch {
+            productRepository.updateCartProductQuantity(productId)
         }
     }
 

@@ -29,8 +29,8 @@ class CartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCartBinding.inflate(inflater)
-        binding.viewModel=viewModel
-        binding.lifecycleOwner=this.viewLifecycleOwner
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
         val adapter = CartItemAdapter(CartItemListener {
             findNavController().navigate(
@@ -38,7 +38,8 @@ class CartFragment : Fragment() {
                     it
                 )
             )
-        })
+        }, viewModel)
+
 
         binding.cartList.adapter = adapter
         //check if you can add decoration in the adapter class

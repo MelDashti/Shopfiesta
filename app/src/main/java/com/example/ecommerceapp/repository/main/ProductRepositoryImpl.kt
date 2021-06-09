@@ -81,6 +81,29 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun updateCartProductQuantity(productId: String) {
+        withContext(Dispatchers.IO){
+            try {
+                cartProductDao.updateQuantity(productId)
+
+            }catch (e:IOException){
+
+            }
+
+        }
+
+    }
+
+    override suspend fun removeCartProduct(productId: String){
+        withContext(Dispatchers.IO){
+            try {
+                cartProductDao.delete(productId)
+            }catch (e:IOException){
+
+            }
+        }
+    }
+
 
     //this will be the api used to refresh the offline cache
     override suspend fun refreshProducts() {
@@ -145,6 +168,7 @@ class ProductRepositoryImpl @Inject constructor(
         }
 
     }
+
 
 
     override suspend fun addToCart(productId: String): PostCartItemResponse {

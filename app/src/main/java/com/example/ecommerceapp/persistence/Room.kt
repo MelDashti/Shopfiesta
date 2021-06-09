@@ -30,8 +30,17 @@ interface CartProductDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCartProduct(product: CartProduct)
-}
 
+    @Query("delete from cart_table where id = :productId")
+    fun delete(productId: String)
+
+    @Query("update cart_table set quantity = quantity - 1 where id = :productId")
+    fun updateQuantity(productId: String)
+
+    @Query("delete from cart_table ")
+    fun clear()
+
+}
 
 @Dao
 interface ProductDao {
@@ -50,6 +59,14 @@ interface ProductDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertProduct(product: DatabaseProduct)
+
+    // for favorite products
+    @Query("select * from product_table")
+    fun getFavProducts(): LiveData<List<DatabaseProduct>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertFavProducts(products: List<DatabaseProduct>?)
+
 
 }
 

@@ -57,12 +57,14 @@ class ProductInfoFragment : Fragment() {
 
         viewModel.noOfCartItems.observe(viewLifecycleOwner,  {
             binding.cartButton.badgeValue = it
-
         })
 
         binding.favoriteButton.setOnCheckedChangeListener { buttonView, isChecked ->
+//            if (isChecked)
             viewModel.addToFavorite()
+
         }
+
 
 
         return binding.root

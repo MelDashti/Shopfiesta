@@ -10,6 +10,7 @@ import com.example.ecommerceapp.util.FilterType
 interface ProductRepository {
     val product: LiveData<List<Product>>
     suspend fun fetchProductInfo(productId: String): Product
+    suspend fun removeCartProduct(productId: String)
     suspend fun fetchCartItems(): List<CartProduct>
     suspend fun fetchNoOfCartItems(): Int
     suspend fun addToCart(token: String): PostCartItemResponse
@@ -20,4 +21,5 @@ interface ProductRepository {
     suspend fun fetchFavoriteItems(): List<Product>
     val cartProducts: LiveData<List<CartProduct>>
     suspend fun refreshCartProducts()
+   suspend fun updateCartProductQuantity(productId: String)
 }

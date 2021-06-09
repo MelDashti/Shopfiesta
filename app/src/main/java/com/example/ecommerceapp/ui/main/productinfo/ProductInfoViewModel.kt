@@ -39,9 +39,16 @@ class ProductInfoViewModel @Inject constructor(
     val onClickAddedToCart: LiveData<Boolean>
         get() = _onClickAddedToCart
 
+    private val _favoriteButtonFilled = MutableLiveData<Boolean>()
+    val favoriteButtonFilled: LiveData<Boolean>
+        get() = _favoriteButtonFilled
+
     init {
+        _favoriteButtonFilled.value = true
         product.value = Product()
         fetchNoOfCartItems()
+
+
     }
 
     fun onClickCart() {
@@ -55,6 +62,7 @@ class ProductInfoViewModel @Inject constructor(
     fun fetchProductInfo(string: String) {
         viewModelScope.launch {
             product.value = productRepository.fetchProductInfo(string)
+//            productRepository.checkIfProductIsFavorite(string)
         }
     }
 
@@ -74,9 +82,9 @@ class ProductInfoViewModel @Inject constructor(
             viewModelScope.launch {
                 val result = productRepository.addToCart(product.value!!.id)
                 _networkResponse.value = result
-
             }
             _onClickAddedToCart.value = true
+            _noOfCartItems.value = _noOfCartItems.value!! + 1
         } else {
             _onClickAddedToCart.value = false
         }
