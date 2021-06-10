@@ -14,11 +14,24 @@ class CartItemAdapter(val clickListener: CartItemListener, val viewModel: CartFr
 
     companion object DiffCallback : DiffUtil.ItemCallback<CartProduct>() {
         override fun areItemsTheSame(oldItem: CartProduct, newItem: CartProduct): Boolean {
-            return oldItem === newItem
+            //  the id is a string not an integer ughhhhhhhh
+            return oldItem.id.toInt() == newItem.id.toInt()
         }
 
         override fun areContentsTheSame(oldItem: CartProduct, newItem: CartProduct): Boolean {
+            // this is where the problem lies -_-, the wrong approach is writing oldItem == newItem because this just checks if both variables
+            // reference the same object and it will always return false. The reason why whole list was refreshing when only one item was either inserted
+            //or deleted is because the new item will never be the same as the old item, it's always the same object.
+            // The flash animation indicates all items  have been updated because the value returned is false, only the changed item should flash up.
+//            return oldItem.description.equals(newItem.description) &&
+//                    oldItem.price.toInt() == newItem.price.toInt() &&
+//                    oldItem.imgSrcUrl.equals(newItem.imgSrcUrl) &&
+//                    oldItem.category.equals(newItem.category) &&
+//                    oldItem.name.equals(newItem.name)
+            // if you wanna remove the flash when a single object is updated add the above code
+
             return oldItem == newItem
+
         }
     }
 
@@ -32,12 +45,15 @@ class CartItemAdapter(val clickListener: CartItemListener, val viewModel: CartFr
         holder.bind(getItem(position), position)
     }
 
+    fun insertItem(productId: String) {
+        viewModel.insertItem(productId)
+    }
+
     fun removeItem(position: Int, productId: String) {
-        notifyItemRemoved(position)
         viewModel.removeCartItem(productId)
     }
 
-     fun updateQuantity(productId: String){
+    fun updateQuantity(productId: String) {
         viewModel.updateProductQuantity(productId)
     }
 
@@ -51,6 +67,7 @@ class CartItemAdapter(val clickListener: CartItemListener, val viewModel: CartFr
             bind.increase.setOnClickListener {
                 val r = bind.integerNumber.text.toString().toInt()
                 bind.integerNumber.text = (r + 1).toString()
+                insertItem(product.id)
             }
 
             bind.decrease.setOnClickListener {

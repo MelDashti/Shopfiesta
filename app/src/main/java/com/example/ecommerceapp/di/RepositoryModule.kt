@@ -33,10 +33,11 @@ object RepositoryModule {
     @Provides
     @ActivityRetainedScoped
     fun provideAuthRepository(
+        cartProductDao: CartProductDao,
         registerApiService: RegisterApiService,
         sharedPreferences: SharedPreferences
     ): AuthRepository {
-        return AuthRepositoryImpl(registerApiService, sharedPreferences)
+        return AuthRepositoryImpl(cartProductDao, registerApiService, sharedPreferences)
     }
 
 

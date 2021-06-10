@@ -31,4 +31,12 @@ class FavoriteFragmentViewModel @Inject constructor(
             list.value = result
         }
     }
+
+    fun removeFavItem(productId: String) {
+        viewModelScope.launch {
+           productRepository.removeFavProduct(productId)
+        }
+
+
+    }
 }

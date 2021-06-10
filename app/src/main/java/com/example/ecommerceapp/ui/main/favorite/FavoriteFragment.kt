@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.ecommerceapp.adapter.FavoriteButtonListener
 import com.example.ecommerceapp.adapter.FavoriteItemAdapter
 import com.example.ecommerceapp.adapter.FavoriteItemListener
 import com.example.ecommerceapp.databinding.FragmentFavoriteBinding
@@ -21,7 +22,7 @@ class FavoriteFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
+    ): View {
         bind = FragmentFavoriteBinding.inflate(inflater)
         bind.lifecycleOwner = this
         bind.viewModel = viewModel
@@ -31,11 +32,9 @@ class FavoriteFragment : Fragment() {
         }
 
         val adapter = FavoriteItemAdapter(FavoriteItemListener {
-            findNavController().navigate(
-                FavoriteFragmentDirections.actionFavoriteFragmentToProductInfoFragment(
-                    it
-                )
-            )
+            viewModel.removeFavItem(it)
+        }, FavoriteButtonListener {
+            viewModel.removeFavItem(it)
         })
         viewModel.list.observe(viewLifecycleOwner, {
             adapter.submitList(it)

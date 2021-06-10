@@ -52,7 +52,7 @@ class ProductInfoFragment : Fragment() {
             if (!it.error!!) {
 
             }
-            Snackbar.make(requireView(), it.message.toString(), Snackbar.LENGTH_LONG).show()
+            Snackbar.make(requireView(), it.message.toString(), Snackbar.LENGTH_SHORT).show()
         })
 
         viewModel.noOfCartItems.observe(viewLifecycleOwner,  {

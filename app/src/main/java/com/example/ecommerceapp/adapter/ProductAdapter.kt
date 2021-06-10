@@ -24,11 +24,13 @@ class ProductAdapter(val clickListener: ProductListener) :
 
 class ProductDiffUtilCallback : DiffUtil.ItemCallback<Product>() {
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-        return oldItem === newItem
+        // you dumb fuck, the id is a string not an integer ughhhhhhhh
+        return oldItem.id.toInt() == newItem.id.toInt()
     }
 
     override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
-        return oldItem == newItem
+                return oldItem == newItem
+    //        return true
     }
 }
 
@@ -50,8 +52,8 @@ class ProductViewHolder(val bind: ProductListItemBinding) : RecyclerView.ViewHol
 }
 
 class ProductListener(
-    val ClickListener: (productId: String, imageView: ImageView ) -> Unit
+    val ClickListener: (productId: String, imageView: ImageView) -> Unit
 ) {
-    fun onClick(product: Product, view: View) = ClickListener(product.id, view.imageView )
+    fun onClick(product: Product, view: View) = ClickListener(product.id, view.imageView)
 
 }

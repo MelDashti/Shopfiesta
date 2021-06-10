@@ -48,6 +48,9 @@ android {
 
 dependencies {
 
+
+    implementation("androidx.paging:paging-runtime:$paging_version")
+    
     // badge with counter for cart icon
     implementation 'com.github.nikartm:image-support:1.0.5'
 

@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.api.main
 
+import com.example.ecommerceapp.api.GenericResponse
 import com.example.ecommerceapp.api.main.responses.*
 import com.example.ecommerceapp.persistence.DatabaseProduct
 import retrofit2.http.Field
@@ -25,6 +26,19 @@ interface EcomApiService {
     @FormUrlEncoded
     @POST("postcartitem.php")
     suspend fun postCartItem(@Field("product_id") productID: String): PostCartItemResponse
+
+    @FormUrlEncoded
+    @POST("updatequantity.php")
+    suspend fun updateQuantity(@Field("product_id") productID: String): GenericResponse
+
+    @FormUrlEncoded
+    @POST("removecartitem.php")
+    suspend fun removeCartItem(@Field("product_id") productID: String): GenericResponse
+
+    @FormUrlEncoded
+    @POST("removefavitem.php")
+    suspend fun removeFavItem(@Field("product_id") productID: String): GenericResponse
+
 }
 
 fun List<NetworkProduct>?.asDatabaseModel(): List<DatabaseProduct> {

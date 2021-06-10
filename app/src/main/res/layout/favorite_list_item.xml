@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="favbuttonlistener"
+            type="com.example.ecommerceapp.adapter.FavoriteButtonListener" />
+
+        <variable
             name="clickListener"
             type="com.example.ecommerceapp.adapter.FavoriteItemListener" />
 
@@ -77,6 +81,7 @@
                 android:layout_height="28dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
+                android:onClick="@{()->clickListener.onClick(product)}"
                 android:checked="true"
                 android:button="@drawable/sl_favourite_24dp"
                 app:buttonTint="@android:color/holo_red_dark"

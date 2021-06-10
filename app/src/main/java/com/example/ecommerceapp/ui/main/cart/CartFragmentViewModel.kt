@@ -15,10 +15,10 @@ class CartFragmentViewModel @Inject constructor(
     authRepository: AuthRepository
 ) :
     ViewModel() {
-
     //    var product = MutableLiveData<List<CartProduct>>()
     var token = MutableLiveData<Boolean>()
     var netWorkStatus = MutableLiveData<Boolean>()
+    var cartProducts = productRepository.cartProducts
 
     init {
         refreshCartProducts()
@@ -27,10 +27,9 @@ class CartFragmentViewModel @Inject constructor(
 //        fetchCartItem()
 
     }
-    var cartProducts = productRepository.cartProducts
 
 
-     fun removeCartItem(productId: String){
+    fun removeCartItem(productId: String) {
         viewModelScope.launch {
             productRepository.removeCartProduct(productId)
         }
@@ -47,6 +46,12 @@ class CartFragmentViewModel @Inject constructor(
     fun updateProductQuantity(productId: String) {
         viewModelScope.launch {
             productRepository.updateCartProductQuantity(productId)
+        }
+    }
+
+    fun insertItem(productId: String) {
+        viewModelScope.launch {
+            productRepository.addToCart(productId)
         }
     }
 

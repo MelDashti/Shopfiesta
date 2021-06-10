@@ -72,7 +72,6 @@ class ProductRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             try {
                 val cartproducts = ecomApiService.fetchCartItems()
-                Log.d("haha", cartproducts.product!![0].toString())
                 cartProductDao.insertCartProducts(cartproducts.product)
             } catch (e: IOException) {
                 if (e is NetworkConnectionInterceptor.NoConnectionException) {
@@ -82,24 +81,36 @@ class ProductRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateCartProductQuantity(productId: String) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             try {
-                cartProductDao.updateQuantity(productId)
+                //we have to make a api call to update the server first, after it is updated successfully we can update the local database!
+                val response = ecomApiService.updateQuantity(productId)
+                if (response.error == false) {
+                    cartProductDao.updateQuantity(productId)
+                } else Log.d("message", response.message.toString())
 
-            }catch (e:IOException){
-
+            } catch (e: IOException) {
+                Log.d("exception", "fdsafsa")
             }
-
         }
-
     }
 
-    override suspend fun removeCartProduct(productId: String){
-        withContext(Dispatchers.IO){
-            try {
-                cartProductDao.delete(productId)
-            }catch (e:IOException){
+    override suspend fun removeFavProduct(productId: String) {
+        withContext(Dispatchers.IO) {
+           ecomApiService.removeFavItem(productId)
+        }
+    }
 
+
+    override suspend fun removeCartProduct(productId: String) {
+        withContext(Dispatchers.IO) {
+            try {
+                val response = ecomApiService.removeCartItem(productId)
+                if (response.error == false) {
+                    cartProductDao.delete(productId)
+                } else Log.d("message", response.message.toString())
+            } catch (e: IOException) {
+                Log.d("exception", "fsdfsdf")
             }
         }
     }
@@ -149,11 +160,6 @@ class ProductRepositoryImpl @Inject constructor(
 
     override suspend fun fetchCartItems(): List<CartProduct> {
         val result = ecomApiService.fetchCartItems()
-//        val cartItemLiveData: MutableLiveData<List<NetworkProduct>> = MutableLiveData()
-//        cartItemLiveData.value = result.product
-//        val cartItems: LiveData<List<Product>> =
-//            Transformations.map(cartItemLiveData) { it.asDomainModel2() }
-
         return if (result.product.isNullOrEmpty()) emptyList()
         else result.product!!
     }
@@ -168,7 +174,6 @@ class ProductRepositoryImpl @Inject constructor(
         }
 
     }
-
 
 
     override suspend fun addToCart(productId: String): PostCartItemResponse {

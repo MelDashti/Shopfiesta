@@ -48,9 +48,9 @@ class CartFragment : Fragment() {
 //        viewModel.fetchCartItem()
 
         viewModel.cartProducts.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
             calculateTotalAmount(it)
-            binding.cartList.scheduleLayoutAnimation()
+            adapter.submitList(it)
+            adapter.notifyDataSetChanged()
         })
 
         binding.checkOutButton.setOnClickListener {

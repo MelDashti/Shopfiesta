@@ -11,6 +11,7 @@ interface ProductRepository {
     val product: LiveData<List<Product>>
     suspend fun fetchProductInfo(productId: String): Product
     suspend fun removeCartProduct(productId: String)
+    suspend fun removeFavProduct(productId: String)
     suspend fun fetchCartItems(): List<CartProduct>
     suspend fun fetchNoOfCartItems(): Int
     suspend fun addToCart(token: String): PostCartItemResponse
@@ -22,4 +23,5 @@ interface ProductRepository {
     val cartProducts: LiveData<List<CartProduct>>
     suspend fun refreshCartProducts()
    suspend fun updateCartProductQuantity(productId: String)
+
 }
