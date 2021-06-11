@@ -21,6 +21,8 @@ class ProductInfoViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) :
     ViewModel() {
+
+
     private val _noOfCartItems = MutableLiveData<Int>()
     val noOfCartItems: LiveData<Int>
         get() = _noOfCartItems
@@ -59,6 +61,7 @@ class ProductInfoViewModel @Inject constructor(
         return authRepository.checkIfAuthenticated()
     }
 
+
     fun fetchProductInfo(string: String) {
         viewModelScope.launch {
             product.value = productRepository.fetchProductInfo(string)
@@ -90,15 +93,25 @@ class ProductInfoViewModel @Inject constructor(
         }
     }
 
-    fun addToFavorite() {
+    fun addToFavorite(productId: String) {
         if (authRepository.checkIfAuthenticated()) {
             viewModelScope.launch {
-                productRepository.addToFavorite(product.value!!.id)
+                productRepository.addToFavorite(productId)
             }
 
         } else {
             _onClickAddedToCart.value = false
         }
+    }
+
+    fun removeFavorite(productId: String) {
+        viewModelScope.launch {
+            productRepository.removeFavProduct(productId)
+        }
+    }
+
+    fun checkIfFavorite(productId: String): Boolean {
+        return productRepository.checkIfFav(productId.toInt())
     }
 }
 

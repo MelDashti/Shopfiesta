@@ -22,6 +22,9 @@ interface ProductRepository {
     suspend fun fetchFavoriteItems(): List<Product>
     val cartProducts: LiveData<List<CartProduct>>
     suspend fun refreshCartProducts()
-   suspend fun updateCartProductQuantity(productId: String)
+    suspend fun refreshFavProducts()
+    suspend fun updateCartProductQuantity(productId: String)
+     fun checkIfFav(productId: Int) : Boolean
 
+    val favProduct: LiveData<List<Product>>
 }

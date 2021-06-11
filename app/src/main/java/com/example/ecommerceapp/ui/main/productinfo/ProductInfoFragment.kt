@@ -59,10 +59,13 @@ class ProductInfoFragment : Fragment() {
             binding.cartButton.badgeValue = it
         })
 
-        binding.favoriteButton.setOnCheckedChangeListener { buttonView, isChecked ->
-//            if (isChecked)
-            viewModel.addToFavorite()
+        binding.favoriteButton.isChecked = viewModel.checkIfFavorite(productId)
 
+        binding.favoriteButton.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked)
+            viewModel.addToFavorite(productId)
+            else
+                viewModel.removeFavorite(productId)
         }
 
 

@@ -49,7 +49,8 @@ fun List<NetworkProduct>?.asDatabaseModel(): List<DatabaseProduct> {
             price = it.price,
             name = it.name,
             category = it.category,
-            description = it.description
+            description = it.description,
+            favorite = it.favorite
         )
     }
 }

@@ -17,7 +17,8 @@ data class DatabaseProduct constructor(
     val price: Double,
     val name: String,
     val category: String,
-    val description: String
+    val description: String,
+    var favorite: Int?
 )
 
 @Dao
@@ -61,16 +62,26 @@ interface ProductDao {
     fun insertProduct(product: DatabaseProduct)
 
     // for favorite products
-    @Query("select * from product_table")
+    @Query("select * from product_table where favorite=1")
     fun getFavProducts(): LiveData<List<DatabaseProduct>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFavProducts(products: List<DatabaseProduct>?)
+    @Query("update product_table set favorite = 1 where productId = :productId")
+    fun insertFavProduct(productId: String)
 
+    @Query("UPDATE product_table SET favorite = 1 WHERE productId IN (:ids)")
+    fun updateItemPlaces(ids: List<Int>)
+//    But keep in mind if your list of ids contains more than 999 items SQLite will throw an exception:
+
+    @Query("update product_table set favorite = 0 where productId = :productId")
+    fun removeFavProduct(productId: String)
 
 }
 
-@Database(entities = [DatabaseProduct::class, CartProduct::class], version = 9, exportSchema = true)
+@Database(
+    entities = [DatabaseProduct::class, CartProduct::class],
+    version = 11,
+    exportSchema = true
+)
 abstract class ProductDatabase : RoomDatabase() {
     abstract val productDao: ProductDao
     abstract val cartProductDao: CartProductDao

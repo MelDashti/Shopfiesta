@@ -19,16 +19,12 @@ class CartItemAdapter(val clickListener: CartItemListener, val viewModel: CartFr
         }
 
         override fun areContentsTheSame(oldItem: CartProduct, newItem: CartProduct): Boolean {
-            // this is where the problem lies -_-, the wrong approach is writing oldItem == newItem because this just checks if both variables
-            // reference the same object and it will always return false. The reason why whole list was refreshing when only one item was either inserted
-            //or deleted is because the new item will never be the same as the old item, it's always the same object.
-            // The flash animation indicates all items  have been updated because the value returned is false, only the changed item should flash up.
+
 //            return oldItem.description.equals(newItem.description) &&
 //                    oldItem.price.toInt() == newItem.price.toInt() &&
 //                    oldItem.imgSrcUrl.equals(newItem.imgSrcUrl) &&
 //                    oldItem.category.equals(newItem.category) &&
 //                    oldItem.name.equals(newItem.name)
-            // if you wanna remove the flash when a single object is updated add the above code
 
             return oldItem == newItem
 

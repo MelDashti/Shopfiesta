@@ -3,7 +3,6 @@ package com.example.ecommerceapp.ui.main.favorite
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ecommerceapp.domain.Product
 import com.example.ecommerceapp.repository.auth.AuthRepository
 import com.example.ecommerceapp.repository.main.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,24 +16,23 @@ class FavoriteFragmentViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    var list = MutableLiveData<List<Product>>()
+    var list = productRepository.favProduct
     var token = MutableLiveData<Boolean>()
 
     init {
+        refreshFavoriteItems()
         token.value = authRepository.checkIfAuthenticated()
-        fetchFavoriteItem()
     }
 
-    private fun fetchFavoriteItem() {
+    private fun refreshFavoriteItems() {
         viewModelScope.launch {
-            val result = productRepository.fetchFavoriteItems()
-            list.value = result
+            productRepository.refreshFavProducts()
         }
     }
 
     fun removeFavItem(productId: String) {
         viewModelScope.launch {
-           productRepository.removeFavProduct(productId)
+            productRepository.removeFavProduct(productId)
         }
 
 

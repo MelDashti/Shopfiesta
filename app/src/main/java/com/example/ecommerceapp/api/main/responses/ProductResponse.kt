@@ -61,5 +61,7 @@ data class NetworkProduct(
     @Json(name = "category")
     val category: String,
     @Json(name = "description")
-    val description: String
+    val description: String,
+    @Json(name = "favorite")
+    val favorite: Int = 0
 )

@@ -33,6 +33,10 @@ class ProductRepositoryImpl @Inject constructor(
     override val product: LiveData<List<Product>> =
         Transformations.map(productDao.getProducts()) { it.asDomainModel() }
 
+    override val favProduct: LiveData<List<Product>> =
+        Transformations.map(productDao.getFavProducts()) { it.asDomainModel() }
+
+
     override val cartProducts: LiveData<List<CartProduct>> = cartProductDao.getProducts()
 
     override fun applyFiltering(filterType: FilterType): List<Product> {
@@ -67,12 +71,58 @@ class ProductRepositoryImpl @Inject constructor(
         return list2
     }
 
+    override suspend fun refreshFavProducts() {
+        withContext(Dispatchers.IO) {
+            try {
+                var favProducts = ecomApiService.fetchFavoriteItems()
+                productDao.insertProducts(favProducts.product.asDatabaseModel())
+            } catch (e: IOException) {
+                if (e is NetworkConnectionInterceptor.NoConnectionException) {
+                }
+            }
+        }
+    }
+
+    //this will be the api used to refresh the offline cache
+    override suspend fun refreshProducts() {
+        //get back to this one **
+        withContext(Dispatchers.IO) {
+            try {
+                val response = ecomApiService.getProperties()
+                val products = response.product.asDatabaseModel()
+                if (response.error == false) {
+                    productDao.insertProducts(products)
+                }
+
+            } catch (e: IOException) {
+                if (e is NetworkConnectionInterceptor.NoConnectionException) {
+                    // show No Connectivity message to user or do whatever you want.
+                    Log.d("dasfasf", "fdasf")
+                }
+            }
+        }
+    }
+
+
+    override fun checkIfFav(productId: Int): Boolean {
+        var flag = false
+        favProduct.value?.forEach {
+            Log.d("fav", it.id)
+            Log.d("fav", productId.toString())
+            if (it.id.toInt() == productId)
+                flag = true
+        }
+        return flag
+    }
+
+
     override suspend fun refreshCartProducts() {
         //get back to this one **
         withContext(Dispatchers.IO) {
             try {
                 val cartproducts = ecomApiService.fetchCartItems()
                 cartProductDao.insertCartProducts(cartproducts.product)
+
             } catch (e: IOException) {
                 if (e is NetworkConnectionInterceptor.NoConnectionException) {
                 }
@@ -95,9 +145,32 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun addToFavorite(productId: String): PostFavoriteItemResponse {
+        withContext(Dispatchers.IO) {
+            try {
+                val response = ecomApiService.postFavoriteItem(productId)
+                if (response.error == false) {
+                    productDao.insertFavProduct(productId)
+                } else Log.d("e", response.message.toString())
+            } catch (e: IOException) {
+                Log.d("r", e.message.toString())
+            }
+        }
+        val result = ecomApiService.postFavoriteItem(productId)
+        Log.d("favorite", result.message.toString())
+        return result
+    }
+
     override suspend fun removeFavProduct(productId: String) {
         withContext(Dispatchers.IO) {
-           ecomApiService.removeFavItem(productId)
+            try {
+                val response = ecomApiService.removeFavItem(productId)
+                if (response.error == false) {
+                    productDao.removeFavProduct(productId)
+                } else Log.d("e", response.message.toString())
+            } catch (e: IOException) {
+                Log.d("r", e.message.toString())
+            }
         }
     }
 
@@ -115,22 +188,6 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
-
-    //this will be the api used to refresh the offline cache
-    override suspend fun refreshProducts() {
-        //get back to this one **
-        withContext(Dispatchers.IO) {
-            try {
-                val products = ecomApiService.getProperties()
-                productDao.insertProducts(products.product.asDatabaseModel())
-            } catch (e: IOException) {
-                if (e is NetworkConnectionInterceptor.NoConnectionException) {
-                    // show No Connectivity message to user or do whatever you want.
-                    Log.d("dasfasf", "fdasf")
-                }
-            }
-        }
-    }
 
     override suspend fun fetchProductInfo(productId: String): Product {
         val productInfo: Product
@@ -152,11 +209,6 @@ class ProductRepositoryImpl @Inject constructor(
         return result.product!!.asDomainModel2()
     }
 
-    override suspend fun addToFavorite(productId: String): PostFavoriteItemResponse {
-        val result = ecomApiService.postFavoriteItem(productId)
-        Log.d("favorite", result.message.toString())
-        return result
-    }
 
     override suspend fun fetchCartItems(): List<CartProduct> {
         val result = ecomApiService.fetchCartItems()

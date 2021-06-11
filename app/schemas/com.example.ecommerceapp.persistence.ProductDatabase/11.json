@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 9,
-    "identityHash": "c669f271a655cff25576d08ac092a6c9",
+    "version": 11,
+    "identityHash": "e19b6aa5edaec70596041ae197dc2221",
     "entities": [
       {
         "tableName": "product_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`productId` TEXT NOT NULL, `imgSrcUrl` TEXT NOT NULL, `price` REAL NOT NULL, `name` TEXT NOT NULL, `category` TEXT NOT NULL, `description` TEXT NOT NULL, `favorite` INTEGER NOT NULL, PRIMARY KEY(`productId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`productId` TEXT NOT NULL, `imgSrcUrl` TEXT NOT NULL, `price` REAL NOT NULL, `name` TEXT NOT NULL, `category` TEXT NOT NULL, `description` TEXT NOT NULL, `favorite` INTEGER, PRIMARY KEY(`productId`))",
         "fields": [
           {
             "fieldPath": "productId",
@@ -48,7 +48,7 @@
             "fieldPath": "favorite",
             "columnName": "favorite",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -120,7 +120,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c669f271a655cff25576d08ac092a6c9')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e19b6aa5edaec70596041ae197dc2221')"
     ]
   }
 }
