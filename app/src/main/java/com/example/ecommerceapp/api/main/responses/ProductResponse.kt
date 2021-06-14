@@ -50,6 +50,24 @@ data class CartItem constructor(
     val quantity: Int
 )
 
+@Entity(
+    tableName = "fav_item_table",
+    foreignKeys = [
+        ForeignKey(
+            entity = FavItem::class,
+            parentColumns = ["productId"],
+            childColumns = ["productId"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.NO_ACTION
+        )]
+)
+data class FavItem constructor(
+    @Json(name = "product_id")
+    @PrimaryKey
+    val productId: String,
+)
+
+
 @Entity
 data class CartProduct(
     @Json(name = "quantity")

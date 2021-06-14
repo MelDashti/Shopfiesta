@@ -6,6 +6,7 @@ import androidx.room.*
 import androidx.room.Room.databaseBuilder
 import com.example.ecommerceapp.api.main.responses.CartItem
 import com.example.ecommerceapp.api.main.responses.CartProduct
+import com.example.ecommerceapp.api.main.responses.FavItem
 import com.example.ecommerceapp.api.main.responses.NetworkProduct
 import com.example.ecommerceapp.domain.Product
 
@@ -18,8 +19,7 @@ data class DatabaseProduct constructor(
     val price: Double,
     val name: String,
     val category: String,
-    val description: String,
-    var favorite: Int?
+    val description: String
 )
 
 @Dao
@@ -63,32 +63,31 @@ interface ProductDao {
     fun deleteCartItem(productId: String)
 
 
-
     // favorite products
-    @Query("select * from product_table where favorite=1")
+    @Query("select*from product_table join fav_item_table on fav_item_table.productId = product_table.productId")
     fun getFavProducts(): LiveData<List<DatabaseProduct>>
 
-    @Query("update product_table set favorite = 1 where productId = :productId")
-    fun insertFavProduct(productId: String)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertFavProduct(favItem: FavItem)
 
-    @Query("UPDATE product_table SET favorite = 1 WHERE productId IN (:ids)")
-    fun updateItemPlaces(ids: List<Int>)
-//    But keep in mind if your list of ids contains more than 999 items SQLite will throw an exception:
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertFavProducts(favItemList: List<FavItem>?)
 
-    @Query("update product_table set favorite = 0 where productId = :productId")
+    @Query("delete from fav_item_table where productId = :productId")
     fun removeFavProduct(productId: String)
 
+    @Query("delete from fav_item_table")
+    fun clearFavItems()
+
     @Query("delete from cart_item_table")
-    fun clearUserRelatedProductInfo() {
-        TODO("Not yet implemented")
-    }
+    fun clearCartItems()
 
 
 }
 
 @Database(
-    entities = [DatabaseProduct::class, CartProduct::class, CartItem::class],
-    version = 16,
+    entities = [DatabaseProduct::class, CartProduct::class, CartItem::class, FavItem::class],
+    version = 17,
     exportSchema = true
 )
 abstract class ProductDatabase : RoomDatabase() {

@@ -49,7 +49,11 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun logout() {
-        productDao.clearUserRelatedProductInfo()
+        productDao.let {
+            it.clearCartItems()
+            it.clearFavItems()
+        }
+
         sharedPreferences.edit().clear().apply()
 
     }

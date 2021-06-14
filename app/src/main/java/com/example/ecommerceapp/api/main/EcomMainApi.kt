@@ -50,7 +50,6 @@ fun List<NetworkProduct>?.asDatabaseModel(): List<DatabaseProduct> {
             name = it.name,
             category = it.category,
             description = it.description,
-            favorite = it.favorite
         )
     }
 }

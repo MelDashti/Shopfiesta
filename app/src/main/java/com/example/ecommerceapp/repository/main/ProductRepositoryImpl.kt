@@ -6,14 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.ecommerceapp.api.main.EcomApiService
 import com.example.ecommerceapp.api.main.asDatabaseModel
-import com.example.ecommerceapp.api.main.responses.CartItem
-import com.example.ecommerceapp.api.main.responses.CartProduct
-import com.example.ecommerceapp.api.main.responses.PostCartItemResponse
-import com.example.ecommerceapp.api.main.responses.PostFavoriteItemResponse
+import com.example.ecommerceapp.api.main.responses.*
 import com.example.ecommerceapp.domain.Product
 import com.example.ecommerceapp.persistence.ProductDao
 import com.example.ecommerceapp.persistence.asDomainModel
-import com.example.ecommerceapp.persistence.asDomainModel2
 import com.example.ecommerceapp.util.FilterType
 import com.example.ecommerceapp.util.NetworkConnectionInterceptor
 import kotlinx.coroutines.Dispatchers
@@ -86,6 +82,21 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun fetchProductInfo(productId: String): Product {
+        val productInfo: Product
+        return withContext(Dispatchers.IO) {
+            val cachedProductInfo = productDao.getSpecificProduct(productId)
+            if (cachedProductInfo != null) {
+                productInfo = cachedProductInfo.asDomainModel()
+            } else {
+                val product = productDao.getSpecificProduct(productId)
+                productInfo = product.asDomainModel()
+                productDao.insertProduct(product)
+            }
+            productInfo
+        }
+    }
+
 
     override fun searchProduct(query: String?): LiveData<List<Product>> {
         return Transformations.map(productDao.getSearchResult(query)) { it.asDomainModel() }
@@ -131,7 +142,7 @@ class ProductRepositoryImpl @Inject constructor(
             }
             if (temp == 1) {
                 productDao.incQuantity(productId)
-                Log.d("hee","1")
+                Log.d("hee", "1")
             } else {
                 Log.d("hee", "0")
                 productDao.insertCartItem(
@@ -144,7 +155,6 @@ class ProductRepositoryImpl @Inject constructor(
             result
         }
     }
-
 
 
     override suspend fun removeCartProduct(productId: String) {
@@ -184,7 +194,7 @@ class ProductRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             try {
                 var favProducts = ecomApiService.fetchFavoriteItems()
-                productDao.insertProducts(favProducts.product.asDatabaseModel())
+                productDao.insertFavProducts(favProducts.product)
             } catch (e: IOException) {
                 if (e is NetworkConnectionInterceptor.NoConnectionException) {
                 }
@@ -210,7 +220,7 @@ class ProductRepositoryImpl @Inject constructor(
             try {
                 val response = ecomApiService.postFavoriteItem(productId)
                 if (response.error == false) {
-                    productDao.insertFavProduct(productId)
+                    productDao.insertFavProduct(FavItem(productId))
                 } else Log.d("e", response.message.toString())
             } catch (e: IOException) {
                 Log.d("r", e.message.toString())
@@ -232,27 +242,6 @@ class ProductRepositoryImpl @Inject constructor(
                 Log.d("r", e.message.toString())
             }
         }
-    }
-
-
-    override suspend fun fetchProductInfo(productId: String): Product {
-        val productInfo: Product
-        return withContext(Dispatchers.IO) {
-            val cachedProductInfo = productDao.getSpecificProduct(productId)
-            if (cachedProductInfo != null) {
-                productInfo = cachedProductInfo.asDomainModel()
-            } else {
-                val product = productDao.getSpecificProduct(productId)
-                productInfo = product.asDomainModel()
-                productDao.insertProduct(product)
-            }
-            productInfo
-        }
-    }
-
-    override suspend fun fetchFavoriteItems(): List<Product> {
-        val result = ecomApiService.fetchFavoriteItems()
-        return result.product!!.asDomainModel2()
     }
 
 
