@@ -1,7 +1,6 @@
 package com.example.ecommerceapp.di
 
 import android.app.Application
-import com.example.ecommerceapp.persistence.CartProductDao
 import com.example.ecommerceapp.persistence.ProductDao
 import com.example.ecommerceapp.persistence.ProductDatabase
 import dagger.Module
@@ -19,12 +18,6 @@ object DatabaseModule {
     fun provideProductDao(database: ProductDatabase): ProductDao {
         return database.productDao
     }
-
-    @Provides
-    fun provideCartProductDao(database: ProductDatabase): CartProductDao {
-        return database.cartProductDao
-    }
-
     @Provides
     @Singleton
     fun provideDatabase(application: Application): ProductDatabase {

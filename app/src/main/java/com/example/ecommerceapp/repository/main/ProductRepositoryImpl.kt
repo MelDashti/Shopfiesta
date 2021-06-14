@@ -6,11 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.ecommerceapp.api.main.EcomApiService
 import com.example.ecommerceapp.api.main.asDatabaseModel
+import com.example.ecommerceapp.api.main.responses.CartItem
 import com.example.ecommerceapp.api.main.responses.CartProduct
 import com.example.ecommerceapp.api.main.responses.PostCartItemResponse
 import com.example.ecommerceapp.api.main.responses.PostFavoriteItemResponse
 import com.example.ecommerceapp.domain.Product
-import com.example.ecommerceapp.persistence.CartProductDao
 import com.example.ecommerceapp.persistence.ProductDao
 import com.example.ecommerceapp.persistence.asDomainModel
 import com.example.ecommerceapp.persistence.asDomainModel2
@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
     private val ecomApiService: EcomApiService,
-    private val productDao: ProductDao, private val cartProductDao: CartProductDao,
+    private val productDao: ProductDao,
     private val sharedPreferences: SharedPreferences
 ) :
     ProductRepository {
@@ -32,12 +32,6 @@ class ProductRepositoryImpl @Inject constructor(
     // but because it is contained in a live data object we can't.By using transformation maps we convert the DatabaseProduct Live data into Domain Model Live data.
     override val product: LiveData<List<Product>> =
         Transformations.map(productDao.getProducts()) { it.asDomainModel() }
-
-    override val favProduct: LiveData<List<Product>> =
-        Transformations.map(productDao.getFavProducts()) { it.asDomainModel() }
-
-
-    override val cartProducts: LiveData<List<CartProduct>> = cartProductDao.getProducts()
 
     override fun applyFiltering(filterType: FilterType): List<Product> {
         var list1 = listOf<Product>()
@@ -71,17 +65,6 @@ class ProductRepositoryImpl @Inject constructor(
         return list2
     }
 
-    override suspend fun refreshFavProducts() {
-        withContext(Dispatchers.IO) {
-            try {
-                var favProducts = ecomApiService.fetchFavoriteItems()
-                productDao.insertProducts(favProducts.product.asDatabaseModel())
-            } catch (e: IOException) {
-                if (e is NetworkConnectionInterceptor.NoConnectionException) {
-                }
-            }
-        }
-    }
 
     //this will be the api used to refresh the offline cache
     override suspend fun refreshProducts() {
@@ -104,6 +87,112 @@ class ProductRepositoryImpl @Inject constructor(
     }
 
 
+    override fun searchProduct(query: String?): LiveData<List<Product>> {
+        return Transformations.map(productDao.getSearchResult(query)) { it.asDomainModel() }
+    }
+
+
+// CartItem related
+
+    //    override val cartProducts: LiveData<List<CartProduct>> = cartProductDao.getProducts()
+    override val cartProducts: LiveData<List<CartProduct>> = productDao.getCartItems()
+
+    override suspend fun refreshCartProducts() {
+        //get back to this one **
+        withContext(Dispatchers.IO) {
+            try {
+                val cartproducts = ecomApiService.fetchCartItems()
+                productDao.insertCartItems(cartproducts.product)
+
+            } catch (e: IOException) {
+                if (e is NetworkConnectionInterceptor.NoConnectionException) {
+                }
+            }
+        }
+    }
+
+
+    override suspend fun increaseProductQuantity(productId: String): PostCartItemResponse {
+        return withContext(Dispatchers.IO) {
+            val result = ecomApiService.postCartItem(productId)
+            productDao.incQuantity(productId)
+            result
+        }
+    }
+
+    override suspend fun addToCart(productId: String): PostCartItemResponse {
+        return withContext(Dispatchers.IO) {
+            var temp = 0
+            val result = ecomApiService.postCartItem(productId)
+            cartProducts.value!!.forEach {
+                if (it.productId == productId) {
+                    temp = 1
+                }
+            }
+            if (temp == 1) {
+                productDao.incQuantity(productId)
+                Log.d("hee","1")
+            } else {
+                Log.d("hee", "0")
+                productDao.insertCartItem(
+                    CartItem(
+                        productId,
+                        1
+                    )
+                )
+            }
+            result
+        }
+    }
+
+
+
+    override suspend fun removeCartProduct(productId: String) {
+        withContext(Dispatchers.IO) {
+            try {
+                val response = ecomApiService.removeCartItem(productId)
+                if (response.error == false) {
+                    productDao.deleteCartItem(productId)
+                } else Log.d("message", response.message.toString())
+            } catch (e: IOException) {
+                Log.d("exception", "fsdfsdf")
+            }
+        }
+    }
+
+
+    override suspend fun reduceProductQuantity(productId: String) {
+        withContext(Dispatchers.IO) {
+            try {
+                //we have to make a api call to update the server first, after it is updated successfully we can update the local database!
+                val response = ecomApiService.updateQuantity(productId)
+                if (response.error == false) {
+                    productDao.reduceQuantity(productId)
+                } else Log.d("message", response.message.toString())
+            } catch (e: IOException) {
+                Log.d("exception", "fdsafsa")
+            }
+        }
+    }
+
+
+    // FavItem related
+    override val favProduct: LiveData<List<Product>> =
+        Transformations.map(productDao.getFavProducts()) { it.asDomainModel() }
+
+    override suspend fun refreshFavProducts() {
+        withContext(Dispatchers.IO) {
+            try {
+                var favProducts = ecomApiService.fetchFavoriteItems()
+                productDao.insertProducts(favProducts.product.asDatabaseModel())
+            } catch (e: IOException) {
+                if (e is NetworkConnectionInterceptor.NoConnectionException) {
+                }
+            }
+        }
+    }
+
+
     override fun checkIfFav(productId: Int): Boolean {
         var flag = false
         favProduct.value?.forEach {
@@ -115,35 +204,6 @@ class ProductRepositoryImpl @Inject constructor(
         return flag
     }
 
-
-    override suspend fun refreshCartProducts() {
-        //get back to this one **
-        withContext(Dispatchers.IO) {
-            try {
-                val cartproducts = ecomApiService.fetchCartItems()
-                cartProductDao.insertCartProducts(cartproducts.product)
-
-            } catch (e: IOException) {
-                if (e is NetworkConnectionInterceptor.NoConnectionException) {
-                }
-            }
-        }
-    }
-
-    override suspend fun updateCartProductQuantity(productId: String) {
-        withContext(Dispatchers.IO) {
-            try {
-                //we have to make a api call to update the server first, after it is updated successfully we can update the local database!
-                val response = ecomApiService.updateQuantity(productId)
-                if (response.error == false) {
-                    cartProductDao.updateQuantity(productId)
-                } else Log.d("message", response.message.toString())
-
-            } catch (e: IOException) {
-                Log.d("exception", "fdsafsa")
-            }
-        }
-    }
 
     override suspend fun addToFavorite(productId: String): PostFavoriteItemResponse {
         withContext(Dispatchers.IO) {
@@ -175,20 +235,6 @@ class ProductRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun removeCartProduct(productId: String) {
-        withContext(Dispatchers.IO) {
-            try {
-                val response = ecomApiService.removeCartItem(productId)
-                if (response.error == false) {
-                    cartProductDao.delete(productId)
-                } else Log.d("message", response.message.toString())
-            } catch (e: IOException) {
-                Log.d("exception", "fsdfsdf")
-            }
-        }
-    }
-
-
     override suspend fun fetchProductInfo(productId: String): Product {
         val productInfo: Product
         return withContext(Dispatchers.IO) {
@@ -210,32 +256,30 @@ class ProductRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun fetchCartItems(): List<CartProduct> {
-        val result = ecomApiService.fetchCartItems()
-        return if (result.product.isNullOrEmpty()) emptyList()
-        else result.product!!
-    }
-
-    override suspend fun fetchNoOfCartItems(): Int {
-        return if (cartProducts.value.isNullOrEmpty()) 0 else {
-            var quantity: Int = 0
-            cartProducts.value!!.forEach {
-                quantity += it.quantity
-            }
-            quantity
-        }
-
-    }
-
-
-    override suspend fun addToCart(productId: String): PostCartItemResponse {
-        val result = ecomApiService.postCartItem(productId)
-        refreshCartProducts()
-        Log.d("cart", result.message.toString())
-        return result
-    }
-
-    override fun searchProduct(query: String?): LiveData<List<Product>> {
-        return Transformations.map(productDao.getSearchResult(query)) { it.asDomainModel() }
-    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

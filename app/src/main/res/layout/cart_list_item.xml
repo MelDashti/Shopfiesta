@@ -34,7 +34,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
-                android:transitionName="@{product.id}"
+                android:transitionName="@{product.productId}"
                 app:imageUrl="@{product.imgSrcUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"

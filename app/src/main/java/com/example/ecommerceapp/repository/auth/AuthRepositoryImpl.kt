@@ -4,12 +4,12 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.example.ecommerceapp.api.auth.RegisterApiService
 import com.example.ecommerceapp.api.auth.responses.AuthResult
-import com.example.ecommerceapp.persistence.CartProductDao
+import com.example.ecommerceapp.persistence.ProductDao
 import com.example.ecommerceapp.util.PreferenceKeys
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val cartProductDao: CartProductDao,
+    private val productDao: ProductDao,
     private val registerApiService: RegisterApiService,
     private val sharedPreferences: SharedPreferences
 ) :
@@ -49,7 +49,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun logout() {
-        cartProductDao.clear()
+        productDao.clearUserRelatedProductInfo()
         sharedPreferences.edit().clear().apply()
 
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.Room.databaseBuilder
+import com.example.ecommerceapp.api.main.responses.CartItem
 import com.example.ecommerceapp.api.main.responses.CartProduct
 import com.example.ecommerceapp.api.main.responses.NetworkProduct
 import com.example.ecommerceapp.domain.Product
@@ -22,30 +23,9 @@ data class DatabaseProduct constructor(
 )
 
 @Dao
-interface CartProductDao {
-    @Query("select * from cart_table")
-    fun getProducts(): LiveData<List<CartProduct>>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCartProducts(products: List<CartProduct>?)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCartProduct(product: CartProduct)
-
-    @Query("delete from cart_table where id = :productId")
-    fun delete(productId: String)
-
-    @Query("update cart_table set quantity = quantity - 1 where id = :productId")
-    fun updateQuantity(productId: String)
-
-    @Query("delete from cart_table ")
-    fun clear()
-
-}
-
-@Dao
 interface ProductDao {
 
+    //home page products
     @Query("select*from product_table where name like '%' || :value || '%' ")
     fun getSearchResult(value: String?): LiveData<List<DatabaseProduct>>
 
@@ -61,7 +41,30 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertProduct(product: DatabaseProduct)
 
-    // for favorite products
+
+    // cart products
+
+    @Query("select cart_item_table.quantity,product_table.name,product_table.price,product_table.productId,product_table.imgSrcUrl,product_table.category,product_table.description from product_table inner join cart_item_table on product_table.productId = cart_item_table.productId")
+    fun getCartItems(): LiveData<List<CartProduct>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCartItems(cartItems: List<CartItem>?)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCartItem(cartItem: CartItem)
+
+    @Query("update cart_item_table set quantity = quantity + 1 where productId = :productId")
+    fun incQuantity(productId: String)
+
+    @Query("update cart_item_table set quantity = quantity - 1 where productId = :productId")
+    fun reduceQuantity(productId: String)
+
+    @Query("delete from cart_item_table where productId = :productId")
+    fun deleteCartItem(productId: String)
+
+
+
+    // favorite products
     @Query("select * from product_table where favorite=1")
     fun getFavProducts(): LiveData<List<DatabaseProduct>>
 
@@ -75,16 +78,21 @@ interface ProductDao {
     @Query("update product_table set favorite = 0 where productId = :productId")
     fun removeFavProduct(productId: String)
 
+    @Query("delete from cart_item_table")
+    fun clearUserRelatedProductInfo() {
+        TODO("Not yet implemented")
+    }
+
+
 }
 
 @Database(
-    entities = [DatabaseProduct::class, CartProduct::class],
-    version = 11,
+    entities = [DatabaseProduct::class, CartProduct::class, CartItem::class],
+    version = 16,
     exportSchema = true
 )
 abstract class ProductDatabase : RoomDatabase() {
     abstract val productDao: ProductDao
-    abstract val cartProductDao: CartProductDao
 
     companion object {
         @Volatile

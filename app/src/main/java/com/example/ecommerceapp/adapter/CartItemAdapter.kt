@@ -14,18 +14,10 @@ class CartItemAdapter(val clickListener: CartItemListener, val viewModel: CartFr
 
     companion object DiffCallback : DiffUtil.ItemCallback<CartProduct>() {
         override fun areItemsTheSame(oldItem: CartProduct, newItem: CartProduct): Boolean {
-            //  the id is a string not an integer ughhhhhhhh
-            return oldItem.id.toInt() == newItem.id.toInt()
+            return oldItem.productId.toInt() == newItem.productId.toInt()
         }
 
         override fun areContentsTheSame(oldItem: CartProduct, newItem: CartProduct): Boolean {
-
-//            return oldItem.description.equals(newItem.description) &&
-//                    oldItem.price.toInt() == newItem.price.toInt() &&
-//                    oldItem.imgSrcUrl.equals(newItem.imgSrcUrl) &&
-//                    oldItem.category.equals(newItem.category) &&
-//                    oldItem.name.equals(newItem.name)
-
             return oldItem == newItem
 
         }
@@ -41,7 +33,7 @@ class CartItemAdapter(val clickListener: CartItemListener, val viewModel: CartFr
         holder.bind(getItem(position), position)
     }
 
-    fun insertItem(productId: String) {
+    fun incQuantity(productId: String) {
         viewModel.insertItem(productId)
     }
 
@@ -49,8 +41,8 @@ class CartItemAdapter(val clickListener: CartItemListener, val viewModel: CartFr
         viewModel.removeCartItem(productId)
     }
 
-    fun updateQuantity(productId: String) {
-        viewModel.updateProductQuantity(productId)
+    fun reduceQuantity(productId: String) {
+        viewModel.reduceProductQuantity(productId)
     }
 
     inner class CartItemViewHolder(val bind: CartListItemBinding) :
@@ -62,18 +54,16 @@ class CartItemAdapter(val clickListener: CartItemListener, val viewModel: CartFr
             bind.clickListener = clickListener
             bind.increase.setOnClickListener {
                 val r = bind.integerNumber.text.toString().toInt()
-                bind.integerNumber.text = (r + 1).toString()
-                insertItem(product.id)
+                incQuantity(product.productId)
             }
 
             bind.decrease.setOnClickListener {
                 val r = bind.integerNumber.text.toString().toInt()
                 if (r == 1) {
-                    removeItem(position, product.id)
+                    removeItem(position, product.productId)
                 }
                 if (r > 1) {
-                    bind.integerNumber.text = (r - 1).toString()
-                    updateQuantity(product.id)
+                    reduceQuantity(product.productId)
                 }
             }
 
@@ -85,5 +75,5 @@ class CartItemAdapter(val clickListener: CartItemListener, val viewModel: CartFr
 }
 
 class CartItemListener(val ClickListener: (productId: String) -> Unit) {
-    fun onClick(product: CartProduct) = ClickListener(product.id)
+    fun onClick(product: CartProduct) = ClickListener(product.productId)
 }

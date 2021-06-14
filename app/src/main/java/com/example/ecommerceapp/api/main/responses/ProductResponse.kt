@@ -1,6 +1,7 @@
 package com.example.ecommerceapp.api.main.responses
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
@@ -30,7 +31,26 @@ class ProductResponse {
 //    }
 
 
-@Entity(tableName = "cart_table")
+@Entity(
+    tableName = "cart_item_table",
+    foreignKeys = [
+        ForeignKey(
+            entity = CartItem::class,
+            parentColumns = ["productId"],
+            childColumns = ["productId"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.NO_ACTION
+        )]
+)
+data class CartItem constructor(
+    @Json(name = "product_id")
+    @PrimaryKey
+    val productId: String,
+    @Json(name = "quantity")
+    val quantity: Int
+)
+
+@Entity
 data class CartProduct(
     @Json(name = "quantity")
     val quantity: Int,
@@ -40,7 +60,7 @@ data class CartProduct(
     val price: Double,
     @Json(name = "product_id")
     @PrimaryKey
-    val id: String,
+    val productId: String,
     @Json(name = "img_src_url")
     val imgSrcUrl: String,
     @Json(name = "category")

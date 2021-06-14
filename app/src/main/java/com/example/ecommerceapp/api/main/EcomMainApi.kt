@@ -16,8 +16,8 @@ interface EcomApiService {
     @GET("getfavoriteitems.php")
     suspend fun fetchFavoriteItems(): FavoritesResponse
 
-    @GET("getcartitems.php")
-    suspend fun fetchCartItems(): GetCartItemResponse
+    @GET("getcartitemss.php")
+    suspend fun fetchCartItems(): GetCartItemResponse2
 
     @FormUrlEncoded
     @POST("postfavoriteitem.php")

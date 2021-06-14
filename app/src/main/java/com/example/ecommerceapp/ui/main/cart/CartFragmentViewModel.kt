@@ -43,9 +43,9 @@ class CartFragmentViewModel @Inject constructor(
     }
 
 
-    fun updateProductQuantity(productId: String) {
+    fun reduceProductQuantity(productId: String) {
         viewModelScope.launch {
-            productRepository.updateCartProductQuantity(productId)
+            productRepository.reduceProductQuantity(productId)
         }
     }
 

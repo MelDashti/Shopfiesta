@@ -1,6 +1,5 @@
 package com.example.ecommerceapp.ui.main.productinfo
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,10 +8,8 @@ import com.example.ecommerceapp.api.main.responses.PostCartItemResponse
 import com.example.ecommerceapp.domain.Product
 import com.example.ecommerceapp.repository.auth.AuthRepository
 import com.example.ecommerceapp.repository.main.ProductRepository
-import com.example.ecommerceapp.util.NetworkConnectionInterceptor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,6 +19,7 @@ class ProductInfoViewModel @Inject constructor(
 ) :
     ViewModel() {
 
+    var cartProducts = productRepository.cartProducts
 
     private val _noOfCartItems = MutableLiveData<Int>()
     val noOfCartItems: LiveData<Int>
@@ -49,8 +47,6 @@ class ProductInfoViewModel @Inject constructor(
         _favoriteButtonFilled.value = true
         product.value = Product()
         fetchNoOfCartItems()
-
-
     }
 
     fun onClickCart() {
@@ -70,15 +66,14 @@ class ProductInfoViewModel @Inject constructor(
     }
 
     private fun fetchNoOfCartItems() {
-        viewModelScope.launch {
-            try {
-                _noOfCartItems.value = productRepository.fetchNoOfCartItems()
-            } catch (e: IOException) {
-                if (e is NetworkConnectionInterceptor.NoConnectionException)
-                    Log.d("Nooo", "No internet  connection")
+        _noOfCartItems.value = if (cartProducts.value.isNullOrEmpty()) 0 else {
+            var quantity: Int = 0
+            cartProducts.value!!.forEach {
+                quantity += it.quantity
             }
+            quantity
         }
-    }
+        }
 
     fun addToCart() {
         if (authRepository.checkIfAuthenticated()) {

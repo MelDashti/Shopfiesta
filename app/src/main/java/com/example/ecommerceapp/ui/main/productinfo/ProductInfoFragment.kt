@@ -36,44 +36,37 @@ class ProductInfoFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        viewModel.onClickCartButton.observe(viewLifecycleOwner,  {
+        viewModel.onClickCartButton.observe(viewLifecycleOwner, {
             if (it) {
                 if (!viewModel.checkIfAuthenticated())
                     showLoginSnackBar()
                 else findNavController().navigate(R.id.action_productInfoFragment_to_cartFragment)
             }
         })
-        viewModel.onClickAddedToCart.observe(viewLifecycleOwner,  {
+        viewModel.onClickAddedToCart.observe(viewLifecycleOwner, {
             if (!it)
                 showLoginSnackBar()
         })
 
-        viewModel.networkResponse.observe(viewLifecycleOwner,  {
+        viewModel.networkResponse.observe(viewLifecycleOwner, {
             if (!it.error!!) {
-
             }
             Snackbar.make(requireView(), it.message.toString(), Snackbar.LENGTH_SHORT).show()
         })
 
-        viewModel.noOfCartItems.observe(viewLifecycleOwner,  {
+        viewModel.noOfCartItems.observe(viewLifecycleOwner, {
             binding.cartButton.badgeValue = it
         })
-
         binding.favoriteButton.isChecked = viewModel.checkIfFavorite(productId)
-
         binding.favoriteButton.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked)
-            viewModel.addToFavorite(productId)
+                viewModel.addToFavorite(productId)
             else
                 viewModel.removeFavorite(productId)
         }
 
-
-
         return binding.root
     }
-
-
 
     fun showLoginSnackBar() {
         Snackbar.make(requireView(), "You are not logged in", Snackbar.LENGTH_LONG)
@@ -81,6 +74,5 @@ class ProductInfoFragment : Fragment() {
                 findNavController().navigate(R.id.action_productInfoFragment_to_navigation)
             }.show()
     }
-
 
 }
