@@ -108,12 +108,15 @@ class ProductRepositoryImpl @Inject constructor(
     //    override val cartProducts: LiveData<List<CartProduct>> = cartProductDao.getProducts()
     override val cartProducts: LiveData<List<CartProduct>> = productDao.getCartItems()
 
+    override val noCartItem: LiveData<Int> = productDao.getNoOfCartItems()
+
     override suspend fun refreshCartProducts() {
         //get back to this one **
         withContext(Dispatchers.IO) {
             try {
                 val cartproducts = ecomApiService.fetchCartItems()
-                productDao.insertCartItems(cartproducts.product)
+                if (!cartproducts.product.isNullOrEmpty())
+                    productDao.insertCartItems(cartproducts.product)
 
             } catch (e: IOException) {
                 if (e is NetworkConnectionInterceptor.NoConnectionException) {
@@ -131,20 +134,18 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
+
+
+
     override suspend fun addToCart(productId: String): PostCartItemResponse {
         return withContext(Dispatchers.IO) {
+            Log.d("hass2", product.value!!.size.toString())
             var temp = 0
             val result = ecomApiService.postCartItem(productId)
-            cartProducts.value!!.forEach {
-                if (it.productId == productId) {
-                    temp = 1
-                }
-            }
-            if (temp == 1) {
+            val quantity = productDao.getQuantity(productId)
+            if (quantity >= 1) {
                 productDao.incQuantity(productId)
-                Log.d("hee", "1")
             } else {
-                Log.d("hee", "0")
                 productDao.insertCartItem(
                     CartItem(
                         productId,
@@ -203,15 +204,11 @@ class ProductRepositoryImpl @Inject constructor(
     }
 
 
-    override fun checkIfFav(productId: Int): Boolean {
-        var flag = false
-        favProduct.value?.forEach {
-            Log.d("fav", it.id)
-            Log.d("fav", productId.toString())
-            if (it.id.toInt() == productId)
-                flag = true
+    override suspend fun checkIfFav(productId: String): Boolean {
+        return withContext(Dispatchers.IO){
+        val s= productDao.checkIfFav(productId)
+        s==1
         }
-        return flag
     }
 
 

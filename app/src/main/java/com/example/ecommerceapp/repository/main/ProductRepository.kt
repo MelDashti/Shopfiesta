@@ -21,8 +21,9 @@ interface ProductRepository {
     suspend fun refreshCartProducts()
     suspend fun refreshFavProducts()
     suspend fun reduceProductQuantity(productId: String)
-     fun checkIfFav(productId: Int) : Boolean
+    suspend fun checkIfFav(productId: String): Boolean
 
     val favProduct: LiveData<List<Product>>
     suspend fun increaseProductQuantity(productId: String): PostCartItemResponse
+    val noCartItem: LiveData<Int>
 }

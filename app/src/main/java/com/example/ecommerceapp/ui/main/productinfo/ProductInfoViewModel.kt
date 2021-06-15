@@ -19,14 +19,10 @@ class ProductInfoViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    var cartProducts = productRepository.cartProducts
+     var noOfCartItems = productRepository.noCartItem
 
-    private val _noOfCartItems = MutableLiveData<Int>()
-    val noOfCartItems: LiveData<Int>
-        get() = _noOfCartItems
 
     val product = MutableLiveData<Product?>()
-
     private val _onClickCartButton = MutableLiveData<Boolean>()
     val onClickCartButton: LiveData<Boolean>
         get() = _onClickCartButton
@@ -39,15 +35,22 @@ class ProductInfoViewModel @Inject constructor(
     val onClickAddedToCart: LiveData<Boolean>
         get() = _onClickAddedToCart
 
-    private val _favoriteButtonFilled = MutableLiveData<Boolean>()
-    val favoriteButtonFilled: LiveData<Boolean>
-        get() = _favoriteButtonFilled
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean>
+        get() = _isFavorite
 
     init {
-        _favoriteButtonFilled.value = true
+
+        refreshCartProducts()
         product.value = Product()
-        fetchNoOfCartItems()
     }
+
+    private fun refreshCartProducts() {
+        viewModelScope.launch {
+            productRepository.refreshCartProducts()
+        }
+    }
+
 
     fun onClickCart() {
         _onClickCartButton.value = true
@@ -61,19 +64,10 @@ class ProductInfoViewModel @Inject constructor(
     fun fetchProductInfo(string: String) {
         viewModelScope.launch {
             product.value = productRepository.fetchProductInfo(string)
-//            productRepository.checkIfProductIsFavorite(string)
         }
     }
 
-    private fun fetchNoOfCartItems() {
-        _noOfCartItems.value = if (cartProducts.value.isNullOrEmpty()) 0 else {
-            var quantity: Int = 0
-            cartProducts.value!!.forEach {
-                quantity += it.quantity
-            }
-            quantity
-        }
-        }
+
 
     fun addToCart() {
         if (authRepository.checkIfAuthenticated()) {
@@ -82,7 +76,6 @@ class ProductInfoViewModel @Inject constructor(
                 _networkResponse.value = result
             }
             _onClickAddedToCart.value = true
-            _noOfCartItems.value = _noOfCartItems.value!! + 1
         } else {
             _onClickAddedToCart.value = false
         }
@@ -93,7 +86,6 @@ class ProductInfoViewModel @Inject constructor(
             viewModelScope.launch {
                 productRepository.addToFavorite(productId)
             }
-
         } else {
             _onClickAddedToCart.value = false
         }
@@ -105,8 +97,10 @@ class ProductInfoViewModel @Inject constructor(
         }
     }
 
-    fun checkIfFavorite(productId: String): Boolean {
-        return productRepository.checkIfFav(productId.toInt())
+    fun checkIfFavorite(productId: String) {
+        viewModelScope.launch {
+            _isFavorite.value = productRepository.checkIfFav(productId)
+        }
     }
 }
 

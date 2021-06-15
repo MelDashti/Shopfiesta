@@ -1,9 +1,12 @@
 package com.example.ecommerceapp.ui.main.home
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,8 +22,11 @@ import com.example.ecommerceapp.domain.Category
 import com.example.ecommerceapp.domain.Group
 import com.example.ecommerceapp.util.FilterType
 import com.example.ecommerceapp.util.PreferenceKeys
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -68,7 +74,14 @@ class HomeFragment : Fragment() {
 
 
         groupAdapter.submitList(
-            listOf(Group(title = "Category", filterType = FilterType.CATEGORY), Group(title = "Recently Viewed", filterType = FilterType.RECENTLY_VIEWED), Group(title = "Popular", filterType = FilterType.POPULAR), Group(title = "Trending", filterType = FilterType.TRENDING), Group(title = "Great", filterType = FilterType.GREAT)))
+            listOf(
+                Group(title = "Category", filterType = FilterType.CATEGORY),
+                Group(title = "Recently Viewed", filterType = FilterType.RECENTLY_VIEWED),
+                Group(title = "Popular", filterType = FilterType.POPULAR),
+                Group(title = "Trending", filterType = FilterType.TRENDING),
+                Group(title = "Great", filterType = FilterType.GREAT)
+            )
+        )
 
         binding.groupRecyclerView.adapter = groupAdapter
 
@@ -87,6 +100,21 @@ class HomeFragment : Fragment() {
                 it
             )
         }
+
+        binding.fab.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+            @SuppressLint("UnsafeOptInUsageError")
+            override fun onGlobalLayout() {
+                    val badgeDrawable = BadgeDrawable.create(requireContext())
+                viewModel.noOfCartItems.observe(viewLifecycleOwner,{
+                    badgeDrawable.number = it
+                })
+                badgeDrawable.backgroundColor= Color.Gray.hashCode()
+                badgeDrawable.horizontalOffset = 40
+                badgeDrawable.verticalOffset = 30
+                BadgeUtils.attachBadgeDrawable(badgeDrawable, binding.fab, null)
+                binding.fab.getViewTreeObserver().removeOnGlobalLayoutListener(this)
+            }
+        })
 
         // set your custom toolbar as support action bar
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbarRef.toolbar)

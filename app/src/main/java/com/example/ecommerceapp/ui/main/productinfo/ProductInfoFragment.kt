@@ -54,10 +54,15 @@ class ProductInfoFragment : Fragment() {
             Snackbar.make(requireView(), it.message.toString(), Snackbar.LENGTH_SHORT).show()
         })
 
+
         viewModel.noOfCartItems.observe(viewLifecycleOwner, {
             binding.cartButton.badgeValue = it
         })
-        binding.favoriteButton.isChecked = viewModel.checkIfFavorite(productId)
+        viewModel.checkIfFavorite(productId)
+        viewModel.isFavorite.observe(viewLifecycleOwner, {
+            binding.favoriteButton.isChecked = it
+        })
+
         binding.favoriteButton.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked)
                 viewModel.addToFavorite(productId)

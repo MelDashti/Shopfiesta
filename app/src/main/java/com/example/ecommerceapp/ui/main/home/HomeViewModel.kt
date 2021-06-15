@@ -19,7 +19,12 @@ class HomeViewModel @Inject constructor(
 ) :
     ViewModel() {
 
+     var noOfCartItems = productRepository.noCartItem
+//    val noOfCartItems: LiveData<Int>
+//        get() = _noOfCartItems
+
     init {
+//        fetchNoOfCartItems()
         refreshEcomProducts()
     }
     val listResult = productRepository.product
@@ -40,6 +45,13 @@ class HomeViewModel @Inject constructor(
         _navigateToUserProfile.value = false
     }
 
+    fun fetchNoOfCartItems(){
+        viewModelScope.launch {
+//            _noOfCartItems.value = productRepository.getNoOfCartProducts()
+        }
+    }
+
+
     fun applyFiltering(filter: FilterType): List<Product> {
         return productRepository.applyFiltering(filter)
     }
@@ -48,6 +60,7 @@ class HomeViewModel @Inject constructor(
     private fun refreshEcomProducts() {
         viewModelScope.launch {
             productRepository.refreshProducts()
+
         }
     }
 

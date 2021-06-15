@@ -53,6 +53,9 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCartItem(cartItem: CartItem)
 
+    @Query("select quantity from cart_item_table where productId= :productId")
+    fun getQuantity(productId: String): Int
+
     @Query("update cart_item_table set quantity = quantity + 1 where productId = :productId")
     fun incQuantity(productId: String)
 
@@ -82,6 +85,11 @@ interface ProductDao {
     @Query("delete from cart_item_table")
     fun clearCartItems()
 
+    @Query("select SUM(quantity) from cart_item_table")
+    fun getNoOfCartItems(): LiveData<Int>
+
+    @Query("select 1 from fav_item_table where productId = :productId")
+    fun checkIfFav(productId: String): Int
 
 }
 

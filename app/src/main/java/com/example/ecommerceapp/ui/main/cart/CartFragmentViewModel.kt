@@ -25,7 +25,6 @@ class CartFragmentViewModel @Inject constructor(
         token.value = authRepository.checkIfAuthenticated()
         netWorkStatus.value = true
 //        fetchCartItem()
-
     }
 
 
