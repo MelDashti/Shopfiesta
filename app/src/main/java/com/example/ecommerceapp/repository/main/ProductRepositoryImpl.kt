@@ -8,6 +8,7 @@ import com.example.ecommerceapp.api.main.EcomApiService
 import com.example.ecommerceapp.api.main.asDatabaseModel
 import com.example.ecommerceapp.api.main.responses.*
 import com.example.ecommerceapp.domain.Product
+import com.example.ecommerceapp.persistence.NotificationItem
 import com.example.ecommerceapp.persistence.ProductDao
 import com.example.ecommerceapp.persistence.asDomainModel
 import com.example.ecommerceapp.util.FilterType
@@ -23,6 +24,9 @@ class ProductRepositoryImpl @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) :
     ProductRepository {
+
+    override val notifications: LiveData<List<NotificationItem>> = productDao.getNotifications()
+
     //ProductDatabase returns a live data so that our database is up to date. Now when we fetch this live data from room database
     // we wanna convert it to domain objects. Now we could have directly used asDomainObject extension function on a list of database products
     // but because it is contained in a live data object we can't.By using transformation maps we convert the DatabaseProduct Live data into Domain Model Live data.
@@ -125,6 +129,12 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun clearNotifications() {
+        withContext(Dispatchers.IO) {
+            productDao.clearNotifications()
+        }
+    }
+
 
     override suspend fun increaseProductQuantity(productId: String): PostCartItemResponse {
         return withContext(Dispatchers.IO) {
@@ -133,8 +143,6 @@ class ProductRepositoryImpl @Inject constructor(
             result
         }
     }
-
-
 
 
     override suspend fun addToCart(productId: String): PostCartItemResponse {
@@ -205,9 +213,9 @@ class ProductRepositoryImpl @Inject constructor(
 
 
     override suspend fun checkIfFav(productId: String): Boolean {
-        return withContext(Dispatchers.IO){
-        val s= productDao.checkIfFav(productId)
-        s==1
+        return withContext(Dispatchers.IO) {
+            val s = productDao.checkIfFav(productId)
+            s == 1
         }
     }
 

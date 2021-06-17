@@ -5,6 +5,7 @@ import com.example.ecommerceapp.api.main.responses.CartProduct
 import com.example.ecommerceapp.api.main.responses.PostCartItemResponse
 import com.example.ecommerceapp.api.main.responses.PostFavoriteItemResponse
 import com.example.ecommerceapp.domain.Product
+import com.example.ecommerceapp.persistence.NotificationItem
 import com.example.ecommerceapp.util.FilterType
 
 interface ProductRepository {
@@ -25,5 +26,8 @@ interface ProductRepository {
 
     val favProduct: LiveData<List<Product>>
     suspend fun increaseProductQuantity(productId: String): PostCartItemResponse
+    suspend fun clearNotifications()
+
     val noCartItem: LiveData<Int>
+    val notifications: LiveData<List<NotificationItem>>
 }

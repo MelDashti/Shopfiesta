@@ -11,6 +11,15 @@ import com.example.ecommerceapp.api.main.responses.NetworkProduct
 import com.example.ecommerceapp.domain.Product
 
 
+@Entity(tableName = "notification_table")
+data class NotificationItem constructor(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
+    val title: String,
+    val body: String,
+    val date: String
+)
+
 @Entity(tableName = "product_table")
 data class DatabaseProduct constructor(
     @PrimaryKey
@@ -24,6 +33,14 @@ data class DatabaseProduct constructor(
 
 @Dao
 interface ProductDao {
+
+    // notification
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertNotification(notificationItem: NotificationItem)
+
+    @Query("select * from notification_table")
+    fun getNotifications(): LiveData<List<NotificationItem>>
+
 
     //home page products
     @Query("select*from product_table where name like '%' || :value || '%' ")
@@ -91,11 +108,14 @@ interface ProductDao {
     @Query("select 1 from fav_item_table where productId = :productId")
     fun checkIfFav(productId: String): Int
 
+    @Query("delete from notification_table")
+    fun clearNotifications()
+
 }
 
 @Database(
-    entities = [DatabaseProduct::class, CartProduct::class, CartItem::class, FavItem::class],
-    version = 17,
+    entities = [DatabaseProduct::class, CartProduct::class, CartItem::class, FavItem::class, NotificationItem::class],
+    version = 18,
     exportSchema = true
 )
 abstract class ProductDatabase : RoomDatabase() {

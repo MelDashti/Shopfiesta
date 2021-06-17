@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.google.gms.google-services'
 }
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -58,6 +59,7 @@ dependencies {
     //hilt
 
     implementation "com.google.dagger:hilt-android:2.36"
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
     kapt "com.google.dagger:hilt-android-compiler:2.36"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0-alpha02"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"

@@ -39,6 +39,7 @@ object NetworkModule {
         return AuthInterceptor(sharedPreferences)
     }
 
+
     @Singleton
     @Provides()
     fun provideNetworkInterceptor(@ApplicationContext context: Context): NetworkConnectionInterceptor {

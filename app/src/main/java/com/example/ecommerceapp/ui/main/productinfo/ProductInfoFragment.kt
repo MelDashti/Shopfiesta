@@ -56,7 +56,9 @@ class ProductInfoFragment : Fragment() {
 
 
         viewModel.noOfCartItems.observe(viewLifecycleOwner, {
-            binding.cartButton.badgeValue = it
+            if (it == null) binding.cartButton.badgeValue = 0
+            else
+                binding.cartButton.badgeValue = it
         })
         viewModel.checkIfFavorite(productId)
         viewModel.isFavorite.observe(viewLifecycleOwner, {

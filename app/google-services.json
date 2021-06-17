@@ -1,42 +1,33 @@
 {
   "project_info": {
-    "project_number": "655827850825",
-    "firebase_url": "https://ecommerceapp-a849d.firebaseio.com",
-    "project_id": "ecommerceapp-a849d",
-    "storage_bucket": "ecommerceapp-a849d.appspot.com"
+    "project_number": "1025474549142",
+    "project_id": "shopfiesta-feefb",
+    "storage_bucket": "shopfiesta-feefb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:655827850825:android:dc2e7925d191a503159198",
+        "mobilesdk_app_id": "1:1025474549142:android:69822e5ce5cb865b1fb9b7",
         "android_client_info": {
           "package_name": "com.example.ecommerceapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "655827850825-mcrh6p3274g76712frv3m3kek6rqa1t1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.ecommerceapp",
-            "certificate_hash": "3a1c8360b7c7d4ce25cc14ecf2df438d802e68c1"
-          }
-        },
-        {
-          "client_id": "655827850825-ifcpu1a0a5b0gsha4c5kgukb8nn8eh0r.apps.googleusercontent.com",
+          "client_id": "1025474549142-4413h55ejjrtrthnuv2sna7655l0oma9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAKwVcVHDoWHcjkjrdc03iP219s0rwi1Us"
+          "current_key": "AIzaSyDhyT9-Qszt2mMP_k6hr4sRpLlImwO-crU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "655827850825-ifcpu1a0a5b0gsha4c5kgukb8nn8eh0r.apps.googleusercontent.com",
+              "client_id": "1025474549142-4413h55ejjrtrthnuv2sna7655l0oma9.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

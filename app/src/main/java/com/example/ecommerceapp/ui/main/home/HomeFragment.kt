@@ -104,11 +104,14 @@ class HomeFragment : Fragment() {
         binding.fab.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             @SuppressLint("UnsafeOptInUsageError")
             override fun onGlobalLayout() {
-                    val badgeDrawable = BadgeDrawable.create(requireContext())
-                viewModel.noOfCartItems.observe(viewLifecycleOwner,{
-                    badgeDrawable.number = it
+                val badgeDrawable = BadgeDrawable.create(requireContext())
+                viewModel.noOfCartItems.observe(viewLifecycleOwner, {
+                    if (it == null)
+                        badgeDrawable.number = 0
+                    else
+                        badgeDrawable.number = it
                 })
-                badgeDrawable.backgroundColor= Color.Gray.hashCode()
+                badgeDrawable.backgroundColor = Color.Gray.hashCode()
                 badgeDrawable.horizontalOffset = 40
                 badgeDrawable.verticalOffset = 30
                 BadgeUtils.attachBadgeDrawable(badgeDrawable, binding.fab, null)

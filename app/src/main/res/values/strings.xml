@@ -27,5 +27,8 @@
     <string name="email_address_hint">Email Address</string>
     <string name="name_hint">Name</string>
     <string name="notification">Notifications</string>
+    <string name="shopfiesta_notification_channel_id">fcm_default_channel</string>
+    <string name="shopfiesta_notification_channel_name">Shopfiesta</string>
+    <string name="notification_channel_description">discounts and offers</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

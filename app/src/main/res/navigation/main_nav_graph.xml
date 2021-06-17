@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_homeFragment_to_favoriteFragment"
             app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationPageFragment"
+            app:destination="@id/notificationPageFragment" />
     </fragment>
     <fragment
         android:id="@+id/productInfoFragment"
@@ -167,4 +170,8 @@
             android:id="@+id/action_favoriteFragment_to_productInfoFragment"
             app:destination="@id/productInfoFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/notificationPageFragment"
+        android:name="com.example.ecommerceapp.notification.NotificationPageFragment"
+        android:label="NotificationPageFragment" />
 </navigation>
