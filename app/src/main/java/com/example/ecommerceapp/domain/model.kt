@@ -1,6 +1,8 @@
 package com.example.ecommerceapp.domain
 
 import androidx.room.PrimaryKey
+import com.example.ecommerceapp.adapter.CategoryItemAdapter
+import com.example.ecommerceapp.adapter.ProductAdapter
 import com.example.ecommerceapp.util.FilterType
 
 //data class User(
@@ -31,6 +33,6 @@ data class Group(
     val id: Long = 0L,
     val filterType: FilterType,
     val title: String,
-//    val productList: List<Product>,
-//    val categoryList: List<Category>
+    val productAdapter: ProductAdapter,
+    val categoryAdapter: CategoryItemAdapter? = null
 )

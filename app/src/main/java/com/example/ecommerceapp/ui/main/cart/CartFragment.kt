@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.ecommerceapp.R
@@ -15,6 +16,7 @@ import com.example.ecommerceapp.adapter.CartItemAdapter
 import com.example.ecommerceapp.adapter.CartItemListener
 import com.example.ecommerceapp.api.main.responses.CartProduct
 import com.example.ecommerceapp.databinding.FragmentCartBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
@@ -47,6 +49,14 @@ class CartFragment : Fragment() {
 
 //        viewModel.fetchCartItem()
 
+
+        viewModel.token.observe(viewLifecycleOwner, Observer {
+            if (it == false) {
+                Snackbar.make(requireView(), "You are not logged in", Snackbar.LENGTH_LONG)
+                    .show()
+            }
+        })
+
         viewModel.cartProducts.observe(viewLifecycleOwner, {
             calculateTotalAmount(it)
             adapter.submitList(it)
@@ -63,6 +73,7 @@ class CartFragment : Fragment() {
         return binding.root
 
     }
+
 
     private fun showAlertDialog(it: View?) {
         val builder = AlertDialog.Builder(context, R.style.AlertDialogTheme)

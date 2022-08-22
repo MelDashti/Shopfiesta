@@ -39,29 +39,42 @@ class ProductRepositoryImpl @Inject constructor(
         val list2 = mutableListOf<Product>()
         if (filterType == FilterType.ACCESSORIES)
             list1.forEach {
-                if (it.category == "electronics")
+                if (it.category == "Accessories")
                     list2 += it
             }
         if (filterType == FilterType.LAPTOPS)
             list1.forEach {
-                if (it.price < 800.0)
+                if (it.category == "Laptops")
                     list2 += it
             }
         if (filterType == FilterType.PHONES)
             list1.forEach {
-                if (it.price > 700)
+                if (it.category == "Phones")
                     list2 += it
             }
-        if (filterType == FilterType.RECENTLY_VIEWED)
+        if (filterType == FilterType.GAMING)
             list1.forEach {
-                if (it.price < 700.0)
+                if (it.category == "Gaming")
                     list2 += it
             }
-        if (filterType == FilterType.POPULAR)
+        if (filterType == FilterType.TRENDING)
             list1.forEach {
-                if (it.price >= 700.0)
+                    list2 += it
+                list2.shuffle()
+            }
+        if (filterType == FilterType.FESTIVESALE)
+            list1.forEach {
+                if (it.price < 500.0 || it.price > 800)
+                    list2 += it
+                list2.shuffle()
+
+            }
+        if (filterType == FilterType.PHONESANDACCESSORIES)
+            list1.forEach {
+                if (it.category == "Accessories" || it.category == "Phones")
                     list2 += it
             }
+
         return list2
     }
 

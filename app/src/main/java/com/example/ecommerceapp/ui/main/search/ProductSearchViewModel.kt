@@ -15,7 +15,7 @@ class ProductSearchViewModel @Inject constructor(private val productRepository: 
     lateinit var filterType: FilterType
     private val _query = MutableLiveData<String>()
 
-
+    //
     private val _startSearch = MutableLiveData<Boolean>()
     val startSearch: LiveData<Boolean> = _startSearch
     val searchResultList: LiveData<List<Product>> = Transformations.switchMap(_query, ::filterIt)

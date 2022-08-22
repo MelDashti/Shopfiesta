@@ -52,9 +52,10 @@ class HomeFragment : Fragment() {
 
         //popular list recycler view initialization
 
-
-        val popularListAdapter = initializeProductAdapter()
-        val recentlyViewedAdapter = initializeProductAdapter()
+        val trendingListAdapter = initializeProductAdapter()
+        val phonesAndAccessoriesListAdapter = initializeProductAdapter()
+        val gamingListAdapter = initializeProductAdapter()
+        val festiveSaleAdapter = initializeProductAdapter()
 
         // Category recycler view initialization
         val categoryListAdapter = CategoryItemAdapter(CategoryListener {
@@ -65,21 +66,44 @@ class HomeFragment : Fragment() {
 
         //instead of this tiresome process this can be done directly in the xml file using binding adapters
         viewModel.listResult.observe(viewLifecycleOwner, {
-            popularListAdapter.submitList(viewModel.applyFiltering(FilterType.POPULAR))
-            recentlyViewedAdapter.submitList(viewModel.applyFiltering(FilterType.RECENTLY_VIEWED))
+            trendingListAdapter.submitList(viewModel.applyFiltering(FilterType.TRENDING))
+            phonesAndAccessoriesListAdapter.submitList(viewModel.applyFiltering(FilterType.PHONESANDACCESSORIES))
+            gamingListAdapter.submitList(viewModel.applyFiltering(FilterType.GAMING))
+            festiveSaleAdapter.submitList(viewModel.applyFiltering(FilterType.FESTIVESALE))
         })
 
         val groupAdapter =
-            initializeGroupAdapter(popularListAdapter, recentlyViewedAdapter, categoryListAdapter)
+            initializeGroupAdapter(
+            )
 
 
         groupAdapter.submitList(
             listOf(
-                Group(title = "Category", filterType = FilterType.CATEGORY),
-                Group(title = "Recently Viewed", filterType = FilterType.RECENTLY_VIEWED),
-                Group(title = "Popular", filterType = FilterType.POPULAR),
-                Group(title = "Trending", filterType = FilterType.TRENDING),
-                Group(title = "Great", filterType = FilterType.GREAT)
+                Group(
+                    title = "Category",
+                    filterType = FilterType.CATEGORY,
+                    productAdapter = trendingListAdapter, categoryAdapter = categoryListAdapter
+                ),
+                Group(
+                    title = "Trending",
+                    filterType = FilterType.TRENDING,
+                    productAdapter = trendingListAdapter,
+                ),
+                Group(
+                    title = "Gaming",
+                    filterType = FilterType.GAMING,
+                    productAdapter = gamingListAdapter
+                ),
+                Group(
+                    title = "FestiveSale",
+                    filterType = FilterType.FESTIVESALE,
+                    productAdapter = festiveSaleAdapter
+                ),
+                Group(
+                    title = "Phones and Accessories",
+                    filterType = FilterType.PHONESANDACCESSORIES,
+                    productAdapter = phonesAndAccessoriesListAdapter
+                )
             )
         )
 
@@ -158,17 +182,16 @@ class HomeFragment : Fragment() {
 
 
     private fun initializeGroupAdapter(
-        popularListAdapter: ProductAdapter,
-        recentlyViewedAdapter: ProductAdapter,
-        categoryListAdapter: CategoryItemAdapter
     ): GroupAdapter {
-        return GroupAdapter(GroupItemListener {
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToListFragment(
-                    it
+        return GroupAdapter(
+            GroupItemListener {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToListFragment(
+                        it
+                    )
                 )
-            )
-        }, popularListAdapter, recentlyViewedAdapter, categoryListAdapter)
+            }
+        )
     }
 
 

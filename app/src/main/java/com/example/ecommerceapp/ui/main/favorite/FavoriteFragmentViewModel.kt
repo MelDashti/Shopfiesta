@@ -16,6 +16,7 @@ class FavoriteFragmentViewModel @Inject constructor(
 ) :
     ViewModel() {
 
+
     var list = productRepository.favProduct
     var token = MutableLiveData<Boolean>()
 
@@ -34,7 +35,5 @@ class FavoriteFragmentViewModel @Inject constructor(
         viewModelScope.launch {
             productRepository.removeFavProduct(productId)
         }
-
-
     }
 }

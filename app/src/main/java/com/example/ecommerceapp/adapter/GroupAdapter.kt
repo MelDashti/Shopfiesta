@@ -15,9 +15,6 @@ import com.example.ecommerceapp.util.FilterType
 
 class GroupAdapter(
     val clickListener: GroupItemListener,
-    val popularListAdapter: ProductAdapter,
-    val recentlyViewedAdapter: ProductAdapter,
-    val categoryListAdapter: CategoryItemAdapter
 ) :
     ListAdapter<Group, GroupAdapter.GroupItemViewHolder>(GroupDiffUtilCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupItemViewHolder {
@@ -27,9 +24,7 @@ class GroupAdapter(
     override fun onBindViewHolder(holder: GroupItemViewHolder, position: Int) {
         holder.bind(
             getItem(position),
-            popularListAdapter,
-            recentlyViewedAdapter,
-            categoryListAdapter, clickListener
+            clickListener
         )
     }
 
@@ -47,9 +42,6 @@ class GroupAdapter(
     class GroupItemViewHolder(val bind: GroupListItemBinding) : RecyclerView.ViewHolder(bind.root) {
         fun bind(
             group: Group,
-            popularListAdapter: ProductAdapter,
-            recentlyViewedAdapter: ProductAdapter,
-            categoryListAdapter: CategoryItemAdapter,
             clickListener: GroupItemListener
         ) {
             bind.group = group
@@ -57,10 +49,11 @@ class GroupAdapter(
             bind.groupItemRecyclerView.adapter = when (group.title) {
                 "Category" -> {
                     bind.constraintLayout.isVisible = false
-                    categoryListAdapter
+                    group.categoryAdapter
                 }
-                "Recently Viewed" -> recentlyViewedAdapter
-                else -> popularListAdapter
+                else -> {
+                    group.productAdapter
+                }
             }
 
             bind.groupItemRecyclerView.scheduleLayoutAnimation()
@@ -93,15 +86,3 @@ class GroupItemListener(
     fun onClick(group: Group) = ClickListener(group.filterType)
 }
 
-
-//    private fun setPopularList(): ProductAdapter {
-//            val productAdapter = ProductAdapter{ProductListener{
-//
-//            } } }
-//
-//    private fun setRecentlyViewedList(): ProductAdapter {
-//
-//    }
-//
-//    private fun setCategoryList(): CategoryItemAdapter {
-//    }

@@ -8,6 +8,7 @@ import com.example.ecommerceapp.domain.Product
 import com.example.ecommerceapp.persistence.NotificationItem
 import com.example.ecommerceapp.util.FilterType
 
+
 interface ProductRepository {
     val product: LiveData<List<Product>>
     suspend fun fetchProductInfo(productId: String): Product
