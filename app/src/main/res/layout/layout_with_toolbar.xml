@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:fontFamily="monospace"
-                android:text="Shopify"
+                android:text="Shopfiesta"
                 android:textColor="@color/primaryTextColor"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"

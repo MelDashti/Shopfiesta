@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
 import com.example.ecommerceapp.util.PreferenceKeys
 import com.google.android.gms.tasks.OnCompleteListener
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.Theme_ECommerceApp)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         val navController = findNavController(R.id.navHostFragment)
         val graph = navController.navInflater.inflate(R.navigation.main_nav_graph)
         val sharedPreferences =
@@ -36,12 +38,9 @@ class MainActivity : AppCompatActivity() {
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.w("fadsfa", "Fetching FCM registration token failed", task.exception)
+                Log.w("error", "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
             }
-            val token = task.result
-            Log.d("fadsfa", token.toString())
-
         })
 
 

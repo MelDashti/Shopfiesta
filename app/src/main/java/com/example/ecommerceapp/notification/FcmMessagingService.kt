@@ -3,7 +3,6 @@ package com.example.ecommerceapp.notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
-import android.util.Log
 import androidx.core.content.ContextCompat
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.persistence.NotificationItem
@@ -25,7 +24,6 @@ import javax.inject.Inject
 class FcmMessagingService : FirebaseMessagingService() {
     @Inject
     lateinit var productDao: ProductDao
-
     override fun onCreate() {
         super.onCreate()
     }
@@ -35,8 +33,6 @@ class FcmMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d("dfaaaa", "fdaa")
-
         val dateFormatter = SimpleDateFormat("dd/MM")
         val dateString = dateFormatter.format(remoteMessage?.sentTime)
         remoteMessage?.notification?.let {
@@ -49,8 +45,6 @@ class FcmMessagingService : FirebaseMessagingService() {
                     )
                 )
             }
-
-
             sendNotification(it.title!!, it.body!!)
         }
     }

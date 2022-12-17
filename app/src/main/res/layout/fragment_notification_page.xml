@@ -12,6 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageButton
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
@@ -23,7 +24,8 @@
             android:focusable="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_arrow_back_24px__1_" />
+            app:srcCompat="@drawable/ic_arrow_back_24px__1_"
+            android:contentDescription="@string/bottom_sheet_behavior" />
 
         <TextView
             android:id="@+id/header_text"

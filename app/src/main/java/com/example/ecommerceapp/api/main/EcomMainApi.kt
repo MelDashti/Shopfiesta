@@ -16,7 +16,7 @@ interface EcomApiService {
     @GET("getfavoriteitems.php")
     suspend fun fetchFavoriteItems(): FavoritesResponse
 
-    @GET("getcartitemss.php")
+    @GET("getcartitems.php")
     suspend fun fetchCartItems(): GetCartItemResponse2
 
     @FormUrlEncoded
@@ -38,7 +38,6 @@ interface EcomApiService {
     @FormUrlEncoded
     @POST("removefavitem.php")
     suspend fun removeFavItem(@Field("product_id") productID: String): GenericResponse
-
 }
 
 fun List<NetworkProduct>?.asDatabaseModel(): List<DatabaseProduct> {
